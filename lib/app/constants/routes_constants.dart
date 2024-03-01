@@ -3,7 +3,8 @@ class RoutesPath {
   static const login = "/login";
   static const home = "/home";
   static const signUp = "/signUp";
-  static const start = "/start";
+  static const getStarted = "/start";
+  static const setUserData = "/setUserData";
 }
 
 class RoutesName {
@@ -11,5 +12,6 @@ class RoutesName {
   static const login = "login";
   static const home = "home";
   static const signUp = "signUp";
-  static const start = "start";
+  static const getStarted = "start";
+  static const setUserData = "setUserData";
 }

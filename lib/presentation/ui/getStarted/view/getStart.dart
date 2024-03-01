@@ -1,21 +1,58 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
-import 'package:gradproject/presentation/ui/login_page/screens/auth/sign_up.dart';
-import 'package:gradproject/presentation/ui/login_page/screens/auth/login.dart';
+import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/presentation/ui/getStarted/view_model/getStart_model.dart';
+import 'package:gradproject/presentation/ui/signUp/view/signUp.dart';
+import 'package:provider/provider.dart';
 
-class StartPage extends StatelessWidget {
-  const StartPage({Key? key}) : super(key: key);
+class GetStarted extends StatelessWidget {
+  const GetStarted({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: backgroundColor,
-        ),
-        home: const Scaffold(
-          body: Body(),
-        ));
+    return ChangeNotifierProvider<GetStartedViewModel>(
+      create: (context) => GetStartedViewModel(),
+      builder: (context, child) {
+        return const GetStartedContent();
+      },
+    );
+  }
+}
+
+class GetStartedContent extends StatefulWidget {
+  const GetStartedContent({super.key});
+
+  @override
+  State<GetStartedContent> createState() => _GetStartedContentState();
+}
+
+class _GetStartedContentState extends State<GetStartedContent> {
+  late final GetStartedViewModel _GetStartedViewModel;
+
+  void _bind(BuildContext context) {
+    _GetStartedViewModel =
+        Provider.of<GetStartedViewModel>(context, listen: false);
+    _GetStartedViewModel.start();
+  }
+
+  AppBar get appBar {
+    return AppBar(title: const Text("GetStarted"));
+  }
+
+  @override
+  void initState() {
+    _bind(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar,
+      body: const Body(),
+    );
   }
 }
 
@@ -71,13 +108,13 @@ class _Body extends State<Body> {
             height: 54, // Adjust height as needed
             child: ElevatedButton(
               onPressed: () {
+                context.pushReplacementNamed(RoutesName.signUp);
                 // Add onPressed action here
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          SignUpScreen()), // Navigate to SignupPage
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => SignUpScreenContent()),
+                // );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: buttonColor,
@@ -91,7 +128,7 @@ class _Body extends State<Body> {
               ),
               child: const Text(
                 "Get Started",
-                style: TextStyle(color: text),
+                style: TextStyle(color: textColor),
               ),
             ),
           ),
@@ -102,20 +139,21 @@ class _Body extends State<Body> {
               const Text(
                 "Already have an account? ",
                 style: TextStyle(
-                    color: text,
+                    color: textColor,
                     fontFamily: 'Lato',
                     fontSize: 20,
                     fontWeight: FontWeight.normal),
               ),
               TextButton(
                 onPressed: () {
+                  context.pushReplacementNamed(RoutesName.login);
                   // Add onPressed action for "Log in" here
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            LoginScreen()), // Navigate to login page
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) =>
+                  //           LoginScreen()), // Navigate to login page
+                  // );
                 },
                 child: const Text(
                   " Log in",

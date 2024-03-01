@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/presentation/ui/getStarted/view/getStart.dart';
 import 'package:gradproject/presentation/ui/home_page/view/home.dart';
 import 'package:gradproject/presentation/ui/login_page/view/login.dart';
-import 'package:gradproject/presentation/ui/signup/view/signup.dart';
+import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart';
+import 'package:gradproject/presentation/ui/signUp/view/signUp.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
-import 'package:gradproject/presentation/ui/login_page/screens/startpage.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -37,9 +38,14 @@ class AppRouter {
         builder: (context, state) => const SignUpPage(),
       ),
       GoRoute(
-        name: RoutesName.start,
-        path: RoutesPath.start,
-        builder: (context, state) => const StartPage(),
+        name: RoutesName.getStarted,
+        path: RoutesPath.getStarted,
+        builder: (context, state) => const GetStarted(),
+      ),
+      GoRoute(
+        name: RoutesName.setUserData,
+        path: RoutesPath.setUserData,
+        builder: (context, state) => const SetUserData(),
       ),
     ],
     errorPageBuilder: (context, state) {

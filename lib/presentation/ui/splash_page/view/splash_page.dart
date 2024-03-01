@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
 
   final AppCache _appPreferences = DI.getItInstance<AppCache>();
   void _startDelay() {
-    _timer = Timer(const Duration(seconds: 10), goNext);
+    _timer = Timer(const Duration(seconds: 3), goNext);
   }
 
   void goNext() async {
@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
       context.pushReplacementNamed(RoutesName.home);
     } else {
       // context.pushReplacementNamed(RoutesName.login);
-      context.pushReplacementNamed(RoutesName.start);
+      context.pushReplacementNamed(RoutesName.getStarted);
     }
   }
 

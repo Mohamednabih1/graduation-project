@@ -1,16 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:gradproject/presentation/ui/setUserData/view_model/set_user_data_model.dart';
+import 'package:provider/provider.dart';
+import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:gradproject/app/constants/constants.dart';
-import 'package:gradproject/presentation/ui/login_page/screens/auth/sign_up.dart';
 
-class UserDataPage extends StatefulWidget {
-  const UserDataPage({Key? key}) : super(key: key);
+class SetUserData extends StatelessWidget {
+  const SetUserData({super.key});
 
   @override
-  State<UserDataPage> createState() => _UserDataPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<SetUserDataViewModel>(
+      create: (context) => SetUserDataViewModel(),
+      builder: (context, child) {
+        return const SetUserDataViewModelContent();
+      },
+    );
+  }
 }
 
-class _UserDataPageState extends State<UserDataPage> {
+class SetUserDataViewModelContent extends StatefulWidget {
+  const SetUserDataViewModelContent({super.key});
+
+  @override
+  State<SetUserDataViewModelContent> createState() =>
+      _SetUserDataViewModelContentState();
+}
+
+class _SetUserDataViewModelContentState
+    extends State<SetUserDataViewModelContent> {
+  late final SetUserDataViewModel setUserDataViewModel;
+
+  void _bind(BuildContext context) {
+    setUserDataViewModel =
+        Provider.of<SetUserDataViewModel>(context, listen: false);
+    setUserDataViewModel.start();
+  }
+
+  AppBar get appBar {
+    return AppBar(title: const Text("set user data"));
+  }
+
+  @override
+  void initState() {
+    _bind(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar,
+      body: const SetUserDataContent(),
+    );
+  }
+}
+
+class SetUserDataContent extends StatefulWidget {
+  const SetUserDataContent({Key? key}) : super(key: key);
+
+  @override
+  State<SetUserDataContent> createState() => _SetUserDataContentState();
+}
+
+class _SetUserDataContentState extends State<SetUserDataContent> {
   int _currentValueAge = 25;
   int _weight = 70;
   int _height = 175;
@@ -24,12 +77,11 @@ class _UserDataPageState extends State<UserDataPage> {
           alignment: Alignment.center,
           child: Column(
             children: [
-              // ignore: prefer_const_constructors
-              Text(
+              const Text(
                 'Tell us about your self',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 25,
-                  color: text,
+                  color: textColor,
                   fontFamily: 'Katibeh',
                   fontWeight: FontWeight.w900,
                 ),
@@ -53,34 +105,32 @@ class _UserDataPageState extends State<UserDataPage> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: text,
+                            color: textColor,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),
                       Center(
-                        child: Container(
-                          child: NumberPicker(
-                            itemWidth: 70,
-                            itemHeight: 50,
-                            textStyle: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w400),
-                            selectedTextStyle: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
-                              color: buttonColor,
-                            ),
-                            itemCount: 5,
-                            axis: Axis.horizontal,
-                            minValue: 1,
-                            maxValue: 99,
-                            value: _currentValueAge,
-                            onChanged: (V) {
-                              setState(() {
-                                _currentValueAge = V;
-                              });
-                            },
+                        child: NumberPicker(
+                          itemWidth: 70,
+                          itemHeight: 50,
+                          textStyle: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                          selectedTextStyle: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                            color: buttonColor,
                           ),
+                          itemCount: 5,
+                          axis: Axis.horizontal,
+                          minValue: 1,
+                          maxValue: 99,
+                          value: _currentValueAge,
+                          onChanged: (V) {
+                            setState(() {
+                              _currentValueAge = V;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -94,11 +144,9 @@ class _UserDataPageState extends State<UserDataPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Text(
-                      "your Wieght in Kg  $_weight",
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                  Text(
+                    "your Weight in Kg  $_weight",
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 15),
                   Stack(
@@ -109,34 +157,32 @@ class _UserDataPageState extends State<UserDataPage> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: text,
+                            color: textColor,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),
                       Center(
-                        child: Container(
-                          child: NumberPicker(
-                            itemWidth: 70,
-                            itemHeight: 50,
-                            textStyle: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w400),
-                            selectedTextStyle: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
-                              color: buttonColor,
-                            ),
-                            itemCount: 5,
-                            axis: Axis.horizontal,
-                            minValue: 30,
-                            maxValue: 180,
-                            value: _weight,
-                            onChanged: (W) {
-                              setState(() {
-                                _weight = W;
-                              });
-                            },
+                        child: NumberPicker(
+                          itemWidth: 70,
+                          itemHeight: 50,
+                          textStyle: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                          selectedTextStyle: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                            color: buttonColor,
                           ),
+                          itemCount: 5,
+                          axis: Axis.horizontal,
+                          minValue: 30,
+                          maxValue: 180,
+                          value: _weight,
+                          onChanged: (W) {
+                            setState(() {
+                              _weight = W;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -150,11 +196,9 @@ class _UserDataPageState extends State<UserDataPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Text(
-                      "your hieght in cm $_height",
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                  Text(
+                    "your height in cm $_height",
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 15),
                   Stack(
@@ -165,34 +209,32 @@ class _UserDataPageState extends State<UserDataPage> {
                           width: 60,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: text,
+                            color: textColor,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),
                       Center(
-                        child: Container(
-                          child: NumberPicker(
-                            itemWidth: 70,
-                            itemHeight: 50,
-                            textStyle: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w400),
-                            selectedTextStyle: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
-                              color: buttonColor,
-                            ),
-                            itemCount: 5,
-                            axis: Axis.horizontal,
-                            minValue: 120,
-                            maxValue: 290,
-                            value: _height,
-                            onChanged: (H) {
-                              setState(() {
-                                _height = H;
-                              });
-                            },
+                        child: NumberPicker(
+                          itemWidth: 70,
+                          itemHeight: 50,
+                          textStyle: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                          selectedTextStyle: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: buttonColor,
                           ),
+                          itemCount: 5,
+                          axis: Axis.horizontal,
+                          minValue: 120,
+                          maxValue: 290,
+                          value: _height,
+                          onChanged: (H) {
+                            setState(() {
+                              _height = H;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -211,26 +253,24 @@ class _UserDataPageState extends State<UserDataPage> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SignUpScreen()), // Navigate to SignupPage
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => SignUpScreenContent()),
+                        // );
                       },
-                      // ignore: sort_child_properties_last
-                      child: const Text(
-                        'Back',
-                        style: TextStyle(
-                            color: text,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         backgroundColor: backBtnColor,
+                      ),
+                      child: const Text(
+                        'Back',
+                        style: TextStyle(
+                            color: textColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -243,18 +283,18 @@ class _UserDataPageState extends State<UserDataPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Handle back button press
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const UserDataPage()), // Navigate to SignupPage
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const UserDataPage(),
+                        //   ),
+                        // );
                       },
                       // ignore: sort_child_properties_last
                       child: const Text(
                         'Continue',
                         style: TextStyle(
-                            color: text,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
