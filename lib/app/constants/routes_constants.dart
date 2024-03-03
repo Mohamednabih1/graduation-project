@@ -5,6 +5,7 @@ class RoutesPath {
   static const signUp = "/signUp";
   static const getStarted = "/start";
   static const setUserData = "/setUserData";
+  static const profile = "/profile";
 }
 
 class RoutesName {
@@ -14,4 +15,5 @@ class RoutesName {
   static const signUp = "signUp";
   static const getStarted = "start";
   static const setUserData = "setUserData";
+  static const profile = "profile";
 }
