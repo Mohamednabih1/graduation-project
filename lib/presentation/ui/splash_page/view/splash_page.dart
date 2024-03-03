@@ -19,19 +19,24 @@ class _SplashPageState extends State<SplashPage> {
 
   final AppCache _appPreferences = DI.getItInstance<AppCache>();
   void _startDelay() {
-    _timer = Timer(const Duration(seconds: 3), goNext);
+    _timer = Timer(
+      const Duration(seconds: 3),
+      goNext,
+    );
   }
 
   void goNext() async {
     bool isUserLoggedIn = _appPreferences.getIsUserLoggedIn();
     securePrint("isUserLoggedIn: $isUserLoggedIn");
 
-    if (isUserLoggedIn) {
-      context.pushReplacementNamed(RoutesName.home);
-    } else {
-      // context.pushReplacementNamed(RoutesName.login);
-      context.pushReplacementNamed(RoutesName.getStarted);
-    }
+    context.pushReplacementNamed(RoutesName.profile);
+
+    // if (isUserLoggedIn) {
+    //   context.pushReplacementNamed(RoutesName.home);
+    // } else {
+    //   // context.pushReplacementNamed(RoutesName.login);
+    //   context.pushReplacementNamed(RoutesName.getStarted);
+    // }
   }
 
   @override
