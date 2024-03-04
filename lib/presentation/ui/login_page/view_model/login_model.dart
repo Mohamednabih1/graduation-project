@@ -25,32 +25,30 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
 
   Future<void> login(BuildContext context) async {
     // context.pushReplacementNamed(RoutesName.home);
-
+    securePrint("hello");
     if (isValidInput()) {
       securePrint("[login] username : $username ");
       securePrint("[login] password : $password ");
+      context.pushReplacementNamed(RoutesName.home);
 
-      (await DI
-              .getItInstance<LoginUseCase>()
-              .execute(LoginRequest(username.trim(), password.trim())))
-          .fold(
-        (left) {
-          securePrint("left response: $left");
-          dismissDialog(context);
-          ErrorState(
-                  stateRendererType: StateRendererType.popupErrorState,
-                  message: left.message)
-              .showPopup(context);
-        },
-        (right) async {
-          _appPreferences.setIsUserLoggedIn(true);
-          dismissDialog(context);
-          context.pushReplacementNamed(RoutesName.home);
-          // DI.initMainViewModel();
-          // _appPreferences.setIsUserLoggedIn(true);
-          // // navigate to home screen
-        },
-      );
+      // (await DI
+      //         .getItInstance<LoginUseCase>()
+      //         .execute(LoginRequest(username.trim(), password.trim())))
+      //     .fold(
+      //   (left) {
+      //     securePrint("left response: $left");
+      //     dismissDialog(context);
+      //     ErrorState(
+      //             stateRendererType: StateRendererType.popupErrorState,
+      //             message: left.message)
+      //         .showPopup(context);
+      //   },
+      //   (right) async {
+      //     _appPreferences.setIsUserLoggedIn(true);
+      //     dismissDialog(context);
+      //     context.pushReplacementNamed(RoutesName.home);
+      //   },
+      // );
     }
   }
 

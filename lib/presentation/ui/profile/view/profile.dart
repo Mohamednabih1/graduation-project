@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/common/resources/font_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/profile/view_model/profile_model.dart';
@@ -33,9 +34,9 @@ class _ProfileContentState extends State<ProfileContent> {
     profileViewModel.start();
   }
 
-  AppBar get appBar {
-    return AppBar(title: const Text("Profile"));
-  }
+  // AppBar get appBar {
+  //   return AppBar(title: const Text("Profile"));
+  // }
 
   @override
   void initState() {
@@ -264,28 +265,7 @@ class _ProfileContentState extends State<ProfileContent> {
   Widget get getBody {
     return Column(
       children: [
-        Container(
-          height: 70,
-          // color: Colors.white,
-          child: Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 15),
-                child: const Icon(
-                  Icons.accessible_rounded,
-                  size: 45,
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 5),
-                child: const Text(
-                  "Profile",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
-                ),
-              ),
-            ],
-          ),
-        ),
+        const Header(name: "profile"),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 20),
           child: CircleAvatar(
@@ -309,7 +289,6 @@ class _ProfileContentState extends State<ProfileContent> {
     double screenHeight = screenSize.height;
     return SafeArea(
       child: Scaffold(
-        // appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             children: [

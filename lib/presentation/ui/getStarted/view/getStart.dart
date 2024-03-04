@@ -49,9 +49,9 @@ class _GetStartedContentState extends State<GetStartedContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar,
-      body: const Body(),
+    return const Scaffold(
+      // appBar: appBar,
+      body: Body(),
     );
   }
 }

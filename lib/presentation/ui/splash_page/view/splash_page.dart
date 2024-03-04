@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
   final AppCache _appPreferences = DI.getItInstance<AppCache>();
   void _startDelay() {
     _timer = Timer(
-      const Duration(seconds: 3),
+      const Duration(seconds: 8),
       goNext,
     );
   }
@@ -29,14 +30,16 @@ class _SplashPageState extends State<SplashPage> {
     bool isUserLoggedIn = _appPreferences.getIsUserLoggedIn();
     securePrint("isUserLoggedIn: $isUserLoggedIn");
 
-    context.pushReplacementNamed(RoutesName.profile);
+    // context.pushReplacementNamed(RoutesName.profile);
 
-    // if (isUserLoggedIn) {
-    //   context.pushReplacementNamed(RoutesName.home);
-    // } else {
-    //   // context.pushReplacementNamed(RoutesName.login);
-    //   context.pushReplacementNamed(RoutesName.getStarted);
-    // }
+    if (isUserLoggedIn) {
+      context.pushReplacementNamed(RoutesName.home);
+    } else {
+      context.pushReplacementNamed(RoutesName.getStarted);
+      // context.pushReplacementNamed(RoutesName.home);
+
+      // context.pushReplacementNamed(RoutesName.getStarted);
+    }
   }
 
   @override
@@ -51,52 +54,95 @@ class _SplashPageState extends State<SplashPage> {
     _timer?.cancel();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: SplashScreenTest());
-  }
-}
-
-class SplashScreenTest extends StatefulWidget {
-  const SplashScreenTest({super.key});
-
-  @override
-  _SplashScreenTestState createState() => _SplashScreenTestState();
-}
-
-class _SplashScreenTestState extends State<SplashScreenTest> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue, // Change to your desired background color
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget getBody(screenWidth, screenHeight) {
+    return Stack(
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Image.asset(
-              'assets/images/Start.jpg',
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(height: 20),
-            DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 20.0,
+            // SizedBox(
+            //   height: screenHeight * 0.3,
+            //   child: Image.asset('assets/images/logoSmall.png'),
+            // ),
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.2),
+              height: screenHeight * 0.5,
+              width: double.infinity,
+              child: Image.asset(
+                'assets/gif/loading.gif',
+                width: double.infinity,
               ),
-              child: AnimatedTextKit(
-                animatedTexts: [
-                  WavyAnimatedText('orsa works'),
+            ),
+            SizedBox(
+              height: screenHeight * 0.2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Text(
+                    'Be',
+                    style: TextStyle(fontSize: 25.0),
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.34,
+                    height: screenHeight * 0.1,
+                    child: DefaultTextStyle(
+                      style: const TextStyle(
+                        fontSize: 25.0,
+                        // fontFamily: 'Horizon',
+                        color: Colors.black,
+                      ),
+                      child: AnimatedTextKit(
+                        repeatForever: true,
+                        animatedTexts: [
+                          RotateAnimatedText('AWESOME'),
+                          RotateAnimatedText('PowerFull'),
+                          RotateAnimatedText('DIFFERENT'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    'with orsa',
+                    style: TextStyle(fontSize: 25.0),
+                  ),
                 ],
-                isRepeatingAnimation: true,
-                onTap: () {},
               ),
             ),
           ],
         ),
-      ),
+        Container(
+            margin: EdgeInsets.only(
+              top: screenHeight * 0.05,
+            ),
+            alignment: Alignment.topRight,
+            child: TextButton(
+                onPressed: () {
+                  goNext();
+                },
+                child: const Text(
+                  "Skip Intro",
+                  style: TextStyle(
+                    // fontFamily: 'Horizon',
+                    color: Colors.black,
+                  ),
+                )))
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return Scaffold(
+      body: getBody(screenWidth, screenHeight),
+      backgroundColor: Colors.white,
     );
   }
 }
+
 //cool app bar
 // AppBar get _getAppBar {
 //   return AppBar(

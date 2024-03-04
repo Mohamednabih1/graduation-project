@@ -30,14 +30,15 @@ class LoginContent extends StatefulWidget {
 
 class _LoginContentState extends State<LoginContent> {
   late final LoginViewModel _loginViewModel;
-  final TextEditingController _userNameController = TextEditingController();
+  // final TextEditingController _userNameController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   void _bind(BuildContext context) {
     _loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
     _loginViewModel.start();
-    _userNameController.addListener(
-        () => _loginViewModel.setUserName(_userNameController.text));
+    _emailController
+        .addListener(() => _loginViewModel.setUserName(_emailController.text));
     _passwordController.addListener(
         () => _loginViewModel.setPassword(_passwordController.text));
   }
@@ -48,104 +49,27 @@ class _LoginContentState extends State<LoginContent> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoginScreen();
-    // Scaffold(
-    //   // appBar: _getAppBar,
-    //   body: _getBody,
-    // );
-  }
-
-  AppBar get _getAppBar {
-    return AppBar(
-      title: const Text('Login Page'),
-    );
-  }
-
-  Widget get _getBody {
-    return Container(
-      decoration: AppColors.backGroundGradientColorsDecoration,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Login',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Username',
-                  icon: Icon(Icons.person),
-                ),
-                onChanged: (value) => _loginViewModel.setUserName(value),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                  icon: Icon(Icons.lock),
-                ),
-                obscureText: true,
-                onChanged: (value) => _loginViewModel.setPassword(value),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _loginViewModel.login(context),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  context.pushNamed(
-                    RoutesName.signUp,
-                  );
-                },
-                child: const Text('Create an account'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
+  Widget get body {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 78),
           alignment: Alignment.center,
           child: Column(
             children: [
-              // ignore: prefer_const_constructors
-              Text(
+              const Text(
                 'Login',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 35,
                   color: textColor,
                   fontFamily: 'Katibeh',
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              // ignore: prefer_const_constructors
-              SizedBox(
+              const SizedBox(
                 height: 125,
               ),
-              // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.only(left: 20, right: 20),
@@ -155,11 +79,9 @@ class LoginScreen extends StatelessWidget {
                   icon: Icons.email,
                 ),
               ),
-              // ignore: prefer_const_constructors
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.only(left: 20, right: 20),
@@ -170,11 +92,9 @@ class LoginScreen extends StatelessWidget {
                   isObscure: true,
                 ),
               ),
-              // ignore: prefer_const_constructors
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
               Container(
                 width: MediaQuery.of(context).size.width - 85,
                 height: 57,
@@ -188,8 +108,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // ignore: avoid_print
-                    print('Login User');
+                    _loginViewModel.login(context);
                   },
                   child: const Center(
                     child: Text(
@@ -236,5 +155,14 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return body;
+    // Scaffold(
+    //   // appBar: _getAppBar,
+    //   body: _getBody,
+    // );
   }
 }
