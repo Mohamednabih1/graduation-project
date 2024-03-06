@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/app/di.dart';
+import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
 import 'package:gradproject/presentation/ui/getStarted/view_model/getStart_model.dart';
-import 'package:gradproject/presentation/ui/signUp/view/signUp.dart';
 import 'package:provider/provider.dart';
 
 class GetStarted extends StatelessWidget {
@@ -30,11 +31,17 @@ class GetStartedContent extends StatefulWidget {
 
 class _GetStartedContentState extends State<GetStartedContent> {
   late final GetStartedViewModel _GetStartedViewModel;
+  final AppCache _appPreferences = DI.getItInstance<AppCache>();
+
+  void setIsOpenedOnce() {
+    _appPreferences.setIsOpenedOnce(true);
+  }
 
   void _bind(BuildContext context) {
     _GetStartedViewModel =
         Provider.of<GetStartedViewModel>(context, listen: false);
     _GetStartedViewModel.start();
+    setIsOpenedOnce();
   }
 
   AppBar get appBar {
@@ -50,7 +57,6 @@ class _GetStartedContentState extends State<GetStartedContent> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      // appBar: appBar,
       body: Body(),
     );
   }
@@ -72,49 +78,45 @@ class _Body extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const SizedBox(
-            height: 85,
-          ),
-          CarouselSlider(
-            items: images
-                .map((e) => ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.asset(
-                            e,
-                            width: 318,
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                    ))
-                .toList(),
-            options: CarouselOptions(
-              autoPlay: true,
-              enableInfiniteScroll: false,
-              enlargeCenterPage: true,
-              height: 508,
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.04),
+            child: CarouselSlider(
+              items: images
+                  .map((e) => ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.asset(
+                              e,
+                              width: 318,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
+              options: CarouselOptions(
+                autoPlay: true,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                height: 508,
+              ),
             ),
           ),
-          const SizedBox(height: 49),
-          // Get Started Button
-          SizedBox(
-            width: 237, // Adjust width as needed
-            height: 54, // Adjust height as needed
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.05),
+            width: 237,
+            height: screenHeight * 0.07,
             child: ElevatedButton(
               onPressed: () {
-                context.pushReplacementNamed(RoutesName.signUp);
-                // Add onPressed action here
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => SignUpScreenContent()),
-                // );
+                context.pushNamed(RoutesName.signUp);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: buttonColor,
@@ -132,39 +134,34 @@ class _Body extends State<Body> {
               ),
             ),
           ),
-          const SizedBox(height: 23), // Add some space
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Already have an account? ",
-                style: TextStyle(
-                    color: textColor,
-                    fontFamily: 'Lato',
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.pushReplacementNamed(RoutesName.login);
-                  // Add onPressed action for "Log in" here
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           LoginScreen()), // Navigate to login page
-                  // );
-                },
-                child: const Text(
-                  " Log in",
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Already have an account? ",
                   style: TextStyle(
-                      color: loginText,
+                      color: textColor,
                       fontFamily: 'Lato',
                       fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.normal),
                 ),
-              ),
-            ],
+                TextButton(
+                  onPressed: () {
+                    context.pushReplacementNamed(RoutesName.login);
+                  },
+                  child: const Text(
+                    " Log in",
+                    style: TextStyle(
+                        color: loginText,
+                        fontFamily: 'Lato',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970721470332",
+    "project_id": "orsa-602cb",
+    "storage_bucket": "orsa-602cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970721470332:android:1ebf98ff06a1b2572f66f9",
+        "android_client_info": {
+          "package_name": "com.example.gradproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqrhXV1xMz2qUnJ7Xvtk4OHMzseBgvFoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

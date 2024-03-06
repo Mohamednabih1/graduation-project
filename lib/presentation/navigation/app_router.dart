@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/presentation/ui/exercise/view/exercise_view.dart';
 import 'package:gradproject/presentation/ui/getStarted/view/getStart.dart';
 import 'package:gradproject/presentation/ui/home_page/view/home.dart';
 import 'package:gradproject/presentation/ui/login_page/view/login.dart';
@@ -52,6 +53,11 @@ class AppRouter {
         name: RoutesName.profile,
         path: RoutesPath.profile,
         builder: (context, state) => const Profile(),
+      ),
+      GoRoute(
+        name: RoutesName.exercise,
+        path: RoutesPath.exercise,
+        builder: (context, state) => const ExerciseView(),
       ),
     ],
     errorPageBuilder: (context, state) {

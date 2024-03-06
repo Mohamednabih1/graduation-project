@@ -29,14 +29,17 @@ class _SplashPageState extends State<SplashPage> {
   void goNext() async {
     bool isUserLoggedIn = _appPreferences.getIsUserLoggedIn();
     securePrint("isUserLoggedIn: $isUserLoggedIn");
-
+    bool isOpenedOnce = _appPreferences.getIsOpenedOnce();
     // context.pushReplacementNamed(RoutesName.profile);
 
     if (isUserLoggedIn) {
       context.pushReplacementNamed(RoutesName.home);
     } else {
-      context.pushReplacementNamed(RoutesName.getStarted);
-      // context.pushReplacementNamed(RoutesName.home);
+      if (isOpenedOnce) {
+        context.pushReplacementNamed(RoutesName.login);
+      } else {
+        context.pushReplacementNamed(RoutesName.getStarted);
+      }
 
       // context.pushReplacementNamed(RoutesName.getStarted);
     }

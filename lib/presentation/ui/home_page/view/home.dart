@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/app/global_functions.dart';
+import 'package:gradproject/domain/classes/header/header_function.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/common/resources/image_manager.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
+import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -86,7 +91,7 @@ class _HomeContentState extends State<HomeContent> {
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: const Color.fromARGB(255, 32, 119, 144),
+      selectedItemColor: const Color(0xFF207790),
       onTap: onItemTapped,
     );
   }
@@ -142,18 +147,37 @@ class _HomeContentState extends State<HomeContent> {
   Widget get getHomeBody {
     List<Widget> myList = [];
     for (var i = 0; i < 5; i++) {
-      myList.add(ImageCard(
-        imageName: 'Image $i',
-        imageUrl: 'assets/images/Start.jpg',
+      myList.add(InkWell(
+        onTap: () {
+          context.pushNamed(RoutesName.exercise);
+        },
+        child: ImageCard(
+          imageName: 'Image $i',
+          imageUrl: 'assets/images/Start.jpg',
+        ),
       ));
     }
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-              margin: const EdgeInsets.only(top: 30),
-              child: const Header(name: "Home")),
+          Header(
+            name: "Home",
+            myIconsList: [
+              HeaderIconsFunctions(
+                icon: const Icon(Icons.access_alarm_outlined),
+                iconFunction: () {
+                  securePrint("messageToPrint");
+                },
+              ),
+              HeaderIconsFunctions(
+                icon: const Icon(Icons.account_box_rounded),
+                iconFunction: () {
+                  securePrint("orsa");
+                },
+              ),
+            ],
+          ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
@@ -203,7 +227,7 @@ class _HomeContentState extends State<HomeContent> {
     if (selectedIndex == 0) {
       return getHomeBody;
     } else if (selectedIndex == 1) {
-      return const Text("report");
+      return const Report();
     } else {
       return const Profile();
     }

@@ -1,8 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
-import 'package:gradproject/app/constants/routes_constants.dart';
-import 'package:gradproject/presentation/styles/colors.dart';
 import 'package:gradproject/presentation/ui/common/text_input_field.dart';
 import 'package:gradproject/presentation/ui/login_page/view_model/login_model.dart';
 import 'package:provider/provider.dart';
@@ -49,26 +48,26 @@ class _LoginContentState extends State<LoginContent> {
     super.initState();
   }
 
-  Widget get body {
+  Widget body(screenWidth, screenHeight) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 78),
+          margin: EdgeInsets.only(top: screenHeight * 0.1),
           alignment: Alignment.center,
           child: Column(
             children: [
-              const Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 35,
-                  color: textColor,
-                  fontFamily: 'Katibeh',
-                  fontWeight: FontWeight.w900,
+              Container(
+                margin: EdgeInsets.only(bottom: screenHeight * 0.2),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: textColor,
+                    fontFamily: 'Katibeh',
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 125,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -121,12 +120,14 @@ class _LoginContentState extends State<LoginContent> {
                   ),
                 ),
               ),
-              const SizedBox(height: 158),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/continue.png'),
-                ],
+              Container(
+                margin: EdgeInsets.only(top: screenHeight * 0.1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/continue.png'),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 21,
@@ -159,7 +160,10 @@ class _LoginContentState extends State<LoginContent> {
 
   @override
   Widget build(BuildContext context) {
-    return body;
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return body(screenWidth, screenHeight);
     // Scaffold(
     //   // appBar: _getAppBar,
     //   body: _getBody,

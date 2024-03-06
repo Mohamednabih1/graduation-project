@@ -3,7 +3,6 @@ import 'package:gradproject/app/constants/network_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
-import 'package:gradproject/domain/usecase/login_usecase.dart';
 
 class TokenInterceptor extends Interceptor {
   @override
