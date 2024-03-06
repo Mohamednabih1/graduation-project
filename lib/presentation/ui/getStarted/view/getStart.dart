@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/presentation/ui/getStarted/view_model/getStart_model.dart';
-import 'package:gradproject/presentation/ui/signUp/view/signUp.dart';
 import 'package:provider/provider.dart';
 
 class GetStarted extends StatelessWidget {
