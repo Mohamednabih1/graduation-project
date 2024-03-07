@@ -1,11 +1,15 @@
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppCacheKeys {
   static const appLanguage = "appLanguage";
+  static const darkMode = "darkMode";
   static const isUserLoggedIn = "isUserLoggedIn";
   static const userName = "username";
   static const password = "password";
   static const userID = "userID";
+  static const isOpenedOnce = "isOpenedOnce";
 }
 
 class AppCache {
@@ -27,7 +31,16 @@ class AppCache {
   Future<void> setUserId(int userID) async =>
       await _sharedPreferences.setInt(AppCacheKeys.userID, userID);
 
+  Future<void> setDarkMode(bool darkMode) async =>
+      await _sharedPreferences.setBool(AppCacheKeys.darkMode, darkMode);
+
+  Future<void> setIsOpenedOnce(bool isOpenedOnce) async =>
+      await _sharedPreferences.setBool(AppCacheKeys.isOpenedOnce, isOpenedOnce);
+
   int get getUserId => _sharedPreferences.getInt(AppCacheKeys.userID) ?? -1;
+
+  bool get getDarkMode =>
+      _sharedPreferences.getBool(AppCacheKeys.darkMode) ?? false;
 
   void setUserData({
     required String username,
@@ -46,6 +59,7 @@ class AppCache {
 
   void setIsUserLoggedIn(bool value) =>
       _sharedPreferences.setBool(AppCacheKeys.isUserLoggedIn, value);
+
   bool getIsUserLoggedIn() =>
       _sharedPreferences.getBool(AppCacheKeys.isUserLoggedIn) ?? false;
 
@@ -57,6 +71,9 @@ class AppCache {
 
   String getPasswordPreference() =>
       _sharedPreferences.getString(AppCacheKeys.password) ?? "";
+
+  bool getIsOpenedOnce() =>
+      _sharedPreferences.getBool(AppCacheKeys.isOpenedOnce) ?? false;
 
   void logOutUser() {
     _sharedPreferences.remove(AppCacheKeys.userName);

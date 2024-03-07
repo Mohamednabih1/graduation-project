@@ -278,14 +278,7 @@ class SignUpScreenContent extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Handle back button press
-                        context.pushReplacementNamed(RoutesPath.setUserData);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const SetUserData(),
-                        //   ),
-                        // );
+                        context.pushNamed(RoutesPath.setUserData);
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

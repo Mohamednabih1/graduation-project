@@ -1,14 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
-import 'package:gradproject/data/network/requests.dart';
-import 'package:gradproject/domain/usecase/login_usecase.dart';
-import 'package:gradproject/presentation/ui/common/state_renderer/state_renderer.dart';
-import 'package:gradproject/presentation/ui/common/state_renderer/state_renderer_impl.dart';
+import 'package:gradproject/domain/managers/fireBase/fireBase.dart';
 import 'package:gradproject/presentation/ui/common/base/base_view_model.dart';
+import 'package:gradproject/presentation/ui/common/toast/toast_manager.dart';
 
 class LoginViewModel extends BaseViewModel with ChangeNotifier {
   final AppCache _appPreferences = DI.getItInstance<AppCache>();
@@ -24,13 +23,20 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
   }
 
   Future<void> login(BuildContext context) async {
-    // context.pushReplacementNamed(RoutesName.home);
     securePrint("hello");
     if (isValidInput()) {
       securePrint("[login] username : $username ");
       securePrint("[login] password : $password ");
-      context.pushReplacementNamed(RoutesName.home);
-
+      FireBaseManger fireBaseManger = DI.getItInstance<FireBaseManger>();
+      User? user = await fireBaseManger.loginUsingEmailPassword(
+          email: username, password: password, ctx: context);
+      if (user != null) {
+        // ignore: use_build_context_synchronously
+        _appPreferences.setIsUserLoggedIn(true);
+        context.pushReplacementNamed(RoutesName.home);
+      } else {
+        ToastManager.showTextToast("wrong username or password");
+      }
       // (await DI
       //         .getItInstance<LoginUseCase>()
       //         .execute(LoginRequest(username.trim(), password.trim())))
@@ -44,7 +50,6 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
       //         .showPopup(context);
       //   },
       //   (right) async {
-      //     _appPreferences.setIsUserLoggedIn(true);
       //     dismissDialog(context);
       //     context.pushReplacementNamed(RoutesName.home);
       //   },

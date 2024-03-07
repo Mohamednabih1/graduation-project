@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/app/di.dart';
+import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import 'package:gradproject/domain/classes/header/header_function.dart';
+
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/common/resources/font_manager.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +34,7 @@ class ProfileContent extends StatefulWidget {
 
 class _ProfileContentState extends State<ProfileContent> {
   late final ProfileViewModel profileViewModel;
+  final AppCache _appPreferences = DI.getItInstance<AppCache>();
 
   void _bind(BuildContext context) {
     profileViewModel = Provider.of<ProfileViewModel>(context, listen: false);
@@ -175,9 +182,7 @@ class _ProfileContentState extends State<ProfileContent> {
         alignment: Alignment.centerLeft,
         child: const Text(
           "basic info",
-          style: TextStyle(
-            fontWeight: FontWeightConstants.light,
-          ),
+          style: TextStyle(fontWeight: FontWeightConstants.light),
         ),
       ),
       MyProfileCard(
@@ -262,23 +267,52 @@ class _ProfileContentState extends State<ProfileContent> {
     );
   }
 
-  Widget get getBody {
-    return Column(
-      children: [
-        const Header(name: "profile"),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          child: CircleAvatar(
-              backgroundColor: Colors.grey,
-              minRadius: 20,
-              child: Image.asset(
-                'assets/images/apple.png',
-                // scale: 0.2,
-                height: 200,
-                width: 200,
-              )),
+  Widget getBody(screenWidth, screenHeight) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              name: "Profile",
+              myIconsList: [
+                HeaderIconsFunctions(
+                  icon: const Icon(Icons.logout),
+                  iconFunction: () {
+                    _appPreferences.setIsUserLoggedIn(false);
+                    context.pushReplacementNamed(RoutesName.splash);
+                  },
+                )
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              child: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  minRadius: 20,
+                  child: Image.asset(
+                    'assets/images/apple.png',
+                    // scale: 0.2,
+                    height: 200,
+                    width: 200,
+                  )),
+            ),
+            ...infoBody(screenWidth, screenHeight),
+            TextButton(
+              onPressed: () {
+                showSheet(screenWidth, screenHeight);
+              },
+              child: Text(
+                "click me",
+                style: TextStyle(
+                  fontSize: (screenWidth * 0.03),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -287,26 +321,8 @@ class _ProfileContentState extends State<ProfileContent> {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              getBody,
-              ...infoBody(screenWidth, screenHeight),
-              TextButton(
-                onPressed: () {
-                  showSheet(screenWidth, screenHeight);
-                },
-                child: Text(
-                  "click me",
-                  style: TextStyle(fontSize: (screenWidth * 0.03)),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return Scaffold(
+      body: getBody(screenWidth, screenHeight),
     );
   }
 }
@@ -326,23 +342,20 @@ class MyProfileCard extends StatelessWidget {
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: InkWell(
-          onTap: () {
-            if (fun != null) {
-              fun!(screenWidth, screenHeight);
-            }
-          },
-          child: ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios_sharp),
-            title: Text(text),
-            subtitle: Text(subText),
-          ),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: InkWell(
+        onTap: () {
+          if (fun != null) {
+            fun!(screenWidth, screenHeight);
+          }
+        },
+        child: ListTile(
+          trailing: const Icon(Icons.arrow_forward_ios_sharp),
+          title: Text(text),
+          subtitle: Text(subText),
         ),
       ),
     );
