@@ -56,6 +56,9 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
   charts_flutter: ^0.12.0
+  model_viewer_plus: ^1.5.1
+  firebase_storage: ^11.6.0
+  cloud_firestore: ^4.14.0
 
 dev_dependencies:
   flutter_test:
@@ -81,9 +84,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/Start.jpg
-    - assets/images/profile.png
     - assets/images/
+    - assets/3dModels/
     - assets/gif/
   #   - images/a_dot_ham.jpeg
 

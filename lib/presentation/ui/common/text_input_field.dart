@@ -27,12 +27,12 @@ class TextInputField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(
-                color: bordercolor,
+                color: borderColor,
               )),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(
-                color: bordercolor,
+                color: borderColor,
               ))),
       obscureText: isObscure,
     );

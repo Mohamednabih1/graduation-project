@@ -7,7 +7,7 @@ class RoutesPath {
   static const setUserData = "/setUserData";
   static const profile = "/profile";
   static const exercise = "/exercise";
-  static const report = "/report";
+  static const exerciseDetails = "/exerciseDetails";
 }
 
 class RoutesName {
@@ -19,5 +19,5 @@ class RoutesName {
   static const setUserData = "setUserData";
   static const profile = "profile";
   static const exercise = "exercise";
-  static const report = "/report";
+  static const exerciseDetails = "exerciseDetails";
 }

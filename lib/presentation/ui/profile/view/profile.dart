@@ -153,21 +153,21 @@ class _ProfileContentState extends State<ProfileContent> {
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'name',
-        subText: 'John Doe orsa',
+        subText: profileViewModel.username,
         // fun: showSheet,
       ),
       MyProfileCard(
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'Email',
-        subText: 'orsa@essam.com',
+        subText: profileViewModel.email,
         fun: showSheet,
       ),
       MyProfileCard(
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'Phone',
-        subText: '123-456-7890',
+        subText: profileViewModel.phoneNum,
         fun: showSheet,
       ),
       MyProfileCard(
@@ -189,48 +189,35 @@ class _ProfileContentState extends State<ProfileContent> {
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'Gender',
-        subText: 'Male',
+        subText: profileViewModel.gender,
+        fun: showSheet,
+      ),
+      MyProfileCard(
+        screenWidth: screenWidth,
+        screenHeight: screenHeight,
+        text: 'Age',
+        subText: profileViewModel.age,
         fun: showSheet,
       ),
       MyProfileCard(
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'Current Weight',
-        subText: '70 kg',
-        fun: showSheet,
-      ),
-      MyProfileCard(
-        screenWidth: screenWidth,
-        screenHeight: screenHeight,
-        text: 'Target Weight',
-        subText: '65 kg',
-        fun: showSheet,
-      ),
-      MyProfileCard(
-        screenWidth: screenWidth,
-        screenHeight: screenHeight,
-        text: 'Current Weight',
-        subText: '70 kg',
-        fun: showSheet,
-      ),
-      MyProfileCard(
-        screenWidth: screenWidth,
-        screenHeight: screenHeight,
-        text: 'Target Weight',
-        subText: '89 kd',
+        subText: profileViewModel.weight,
         fun: showSheet,
       ),
       MyProfileCard(
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         text: 'Height',
-        subText: '17 cm',
+        subText: "${profileViewModel.height} cm",
         fun: showSheet,
       ),
     ];
   }
 
   showSheet(screenWidth, screenHeight) {
+    return;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(screenWidth * 0.06),
@@ -292,24 +279,13 @@ class _ProfileContentState extends State<ProfileContent> {
                   backgroundColor: Colors.grey,
                   minRadius: 20,
                   child: Image.asset(
-                    'assets/images/apple.png',
-                    // scale: 0.2,
-                    height: 200,
-                    width: 200,
+                    profileViewModel.gender == "male"
+                        ? 'assets/images/man.png'
+                        : 'assets/images/woman.png',
+                    scale: 0.2,
                   )),
             ),
             ...infoBody(screenWidth, screenHeight),
-            TextButton(
-              onPressed: () {
-                showSheet(screenWidth, screenHeight);
-              },
-              child: Text(
-                "click me",
-                style: TextStyle(
-                  fontSize: (screenWidth * 0.03),
-                ),
-              ),
-            ),
           ],
         ),
       ),
