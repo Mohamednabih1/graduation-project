@@ -90,7 +90,7 @@ class ReportPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Report Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [],
@@ -131,8 +131,8 @@ class SimpleBarChart extends StatelessWidget {
       OrdinalSales('Wednesday', 100),
       OrdinalSales('Thursday', 75),
       OrdinalSales('Friday', 50),
-      // OrdinalSales('Saturday', 33),
-      // OrdinalSales('Sunday', 80),
+      OrdinalSales('Saturday', 33),
+      OrdinalSales('Sunday', 80),
     ];
 
     return [

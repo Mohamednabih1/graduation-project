@@ -10,6 +10,8 @@ import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart'
 import 'package:gradproject/presentation/ui/signUp/view/signUp.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
 
+import '../ui/report/view/report.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
@@ -58,6 +60,11 @@ class AppRouter {
         name: RoutesName.exercise,
         path: RoutesPath.exercise,
         builder: (context, state) => const ExerciseView(),
+      ),
+      GoRoute(
+        name: RoutesName.report,
+        path: RoutesPath.report,
+        builder: (context, state) => const Report(),
       ),
     ],
     errorPageBuilder: (context, state) {
