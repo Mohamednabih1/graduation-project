@@ -120,6 +120,23 @@ class _LoginContentState extends State<LoginContent> {
                   ),
                 ),
               ),
+              InkWell(
+                onTap: () {
+                  _loginViewModel.goToSignUp(context);
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(24, 0, 0, 0),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      )),
+                  padding: const EdgeInsets.all(5),
+                  margin: EdgeInsets.only(top: screenHeight * 0.01),
+                  child: const Text(
+                    "don't have account sign up",
+                  ),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(top: screenHeight * 0.1),
                 child: Row(

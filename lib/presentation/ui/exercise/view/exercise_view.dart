@@ -1,24 +1,34 @@
 // ignore_for_file: unused_import
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/constants/constants.dart';
+import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/app/global_functions.dart';
+import 'package:gradproject/domain/classes/trainings/training.dart';
+import 'package:gradproject/presentation/ui/common/function.dart';
 import 'package:gradproject/presentation/ui/exercise/view_model/exercise_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ExerciseView extends StatelessWidget {
-  const ExerciseView({super.key});
-
+  const ExerciseView({
+    required this.training,
+    super.key,
+  });
+  final Training training;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ExerciseViewModel>(
       create: (context) => ExerciseViewModel(),
       builder: (context, child) {
-        return const ExerciseContent();
+        return ExerciseContent(training: training);
       },
     );
   }
 }
 
 class ExerciseContent extends StatefulWidget {
-  const ExerciseContent({super.key});
+  const ExerciseContent({required this.training, super.key});
+  final Training training;
 
   @override
   State<ExerciseContent> createState() => _ExerciseContentState();
@@ -32,515 +42,90 @@ class _ExerciseContentState extends State<ExerciseContent> {
     _exerciseViewModel.start();
   }
 
-  // AppBar get appBar {
-  //   return AppBar(
-  //     title: const Text("Workout"),
-  //     actions: [
-  //       Container(
-  //         margin: const EdgeInsets.only(right: 10),
-  //         child: IconButton(
-  //           icon: const Icon(
-  //             Icons.logout,
-  //             color: Colors.black,
-  //           ),
-  //           onPressed: () {
-  //             _exerciseViewModel.logOut(context);
-  //           },
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
-
   @override
   void initState() {
     _bind(context);
     super.initState();
   }
 
-  Widget get getBody {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          /*
-            here will be the picture
-            */
-          SizedBox(
-              child: Image.asset(
-            'assets/images/OIP.jpeg',
-          )),
-          const SizedBox(height: 10),
-          const Text(
-            "  Description ......",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      backgroundColor: Colors.green,
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Please select an option :',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // Button(1)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }));
-            },
-            child: ListTile(
-              leading: Image.asset(
-                'assets/images/OIP.jpeg',
+  List<Widget> getExerciseListTile(double screenWidth, double screenHeight) {
+    return widget.training.exercises
+        .map((trainingExercise) => InkWell(
+              onTap: () {
+                context.pushNamed(
+                  RoutesName.exerciseDetails,
+                  extra: trainingExercise,
+                );
+              },
+              child: ListTile(
+                style: ListTileStyle.list,
+                leading: Image.asset(
+                  'assets/images/OIP.jpeg',
+                ),
+                title: Text(trainingExercise.exerciseName),
+                subtitle: Text(
+                  truncateString(trainingExercise.description, 33),
+                  style: const TextStyle(fontSize: 14),
+                ),
+                trailing: const Icon(Icons.play_arrow, size: 30),
               ),
-              title: const Text("title"),
-              subtitle: const Text("subTitle"),
-            ),
-          ),
-          const SizedBox(height: 10),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      backgroundColor: Colors.green,
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Please select an option :',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // Button(1)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                            // Button(2)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }));
-            },
-            child: ListTile(
-              leading: Image.asset(
-                'assets/images/OIP.jpeg',
+            ))
+        .toList();
+  }
+
+  Widget getBody(double screenWidth, double screenHeight) {
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                child: Image.asset(
+                  height: screenHeight * 0.35,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  'assets/images/OIP.jpeg',
+                ),
               ),
-              title: const Text("title"),
-              subtitle: const Text("subTitle"),
-            ),
-          ),
-          const SizedBox(height: 10),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      backgroundColor: Colors.green,
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Please select an option :',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // Button(1)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                            // Button(2)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }));
-            },
-            child: ListTile(
-              leading: Image.asset(
-                'assets/images/OIP.jpeg',
+              const SizedBox(height: 10),
+              Text(
+                widget.training.category,
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              title: const Text("title"),
-              subtitle: const Text("subTitle"),
-            ),
+              ...getExerciseListTile(screenWidth, screenHeight),
+            ],
           ),
-          const SizedBox(
-            height: 10,
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            top: screenHeight * 0.03,
+            left: screenWidth * 0.01,
           ),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      backgroundColor: Colors.green,
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Please select an option :',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // Button(1)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                            // Button(2)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }));
-            },
-            child: ListTile(
-              leading: Image.asset(
-                'assets/images/OIP.jpeg',
-              ),
-              title: const Text("title"),
-              subtitle: const Text("subTitle"),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      backgroundColor: Colors.green,
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Please select an option :',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // Button(1)
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle back button press
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExerciseView()),
-                                );
-                              },
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Continue',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }));
-            },
-            child: ListTile(
-              leading: Image.asset(
-                'assets/images/OIP.jpeg',
-              ),
-              title: const Text("title"),
-              subtitle: const Text("subTitle"),
-            ),
-          ),
-        ],
-      ),
+          child: IconButton(
+              onPressed: () {
+                context.pop();
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
+        ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
     return Scaffold(
       // appBar: appBar,
-      body: getBody,
+      body: getBody(screenWidth, screenHeight),
     );
   }
 }
