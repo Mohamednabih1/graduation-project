@@ -256,22 +256,25 @@ class _ProfileContentState extends State<ProfileContent> {
 
   Widget getBody(screenWidth, screenHeight) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Header(
-              name: "Profile",
-              myIconsList: [
-                HeaderIconsFunctions(
-                  icon: const Icon(Icons.logout),
-                  iconFunction: () {
-                    _appPreferences.setIsUserLoggedIn(false);
-                    context.pushReplacementNamed(RoutesName.splash);
-                  },
-                )
-              ],
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.05),
+              child: Header(
+                name: "Profile",
+                myIconsList: [
+                  HeaderIconsFunctions(
+                    icon: const Icon(Icons.logout),
+                    iconFunction: () {
+                      _appPreferences.setIsUserLoggedIn(false);
+                      context.pushReplacementNamed(RoutesName.splash);
+                    },
+                  )
+                ],
+              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 20),

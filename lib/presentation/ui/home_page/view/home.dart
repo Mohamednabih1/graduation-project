@@ -147,25 +147,28 @@ class _HomeContentState extends State<HomeContent> {
       ));
     }
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Header(
-            name: "Home",
-            myIconsList: [
-              HeaderIconsFunctions(
-                icon: const Icon(Icons.access_alarm_outlined),
-                iconFunction: () {
-                  securePrint("messageToPrint");
-                },
-              ),
-              HeaderIconsFunctions(
-                icon: const Icon(Icons.account_box_rounded),
-                iconFunction: () {
-                  securePrint("orsa");
-                },
-              ),
-            ],
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.05),
+            child: Header(
+              name: "Home",
+              myIconsList: [
+                HeaderIconsFunctions(
+                  icon: const Icon(Icons.access_alarm_outlined),
+                  iconFunction: () {
+                    securePrint("messageToPrint");
+                  },
+                ),
+                HeaderIconsFunctions(
+                  icon: const Icon(Icons.account_box_rounded),
+                  iconFunction: () {
+                    securePrint("orsa");
+                  },
+                ),
+              ],
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),

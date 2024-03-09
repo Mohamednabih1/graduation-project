@@ -108,7 +108,7 @@ class _SplashPageState extends State<SplashPage> {
                     ),
                   ),
                   const Text(
-                    'with orsa',
+                    'with Salamtk',
                     style: TextStyle(fontSize: 25.0),
                   ),
                 ],

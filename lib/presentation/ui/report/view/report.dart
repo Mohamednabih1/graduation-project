@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
+import 'package:gradproject/presentation/ui/report/view/colors.dart';
+import 'package:gradproject/presentation/ui/report/view/indicatior.dart';
 import 'package:gradproject/presentation/ui/report/view_model/report_model.dart';
 import 'package:provider/provider.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+
+import 'package:fl_chart/fl_chart.dart';
+import 'dart:math' as math;
 
 class Report extends StatelessWidget {
   const Report({super.key});
@@ -44,29 +48,39 @@ class _ReportContentState extends State<ReportContent> {
   }
 
   Widget getBody(screenWidth, screenHeight) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return Scaffold(
+        body: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: SingleChildScrollView(
         child: Column(
-          children: const [
-            Header(name: "Report"),
-            Text("report body"),
-            Text(
-              'Statistics Report',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                margin: EdgeInsets.only(top: screenHeight * 0.05),
+                child: const Header(name: "Profile")),
+            const Text(
+              "User reports",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-            SizedBox(height: 20),
-            Text("sad"),
-            // SizedBox(
-            //   height: screenHeight * 0.2,
-            //   width: double.infinity,
-            //   child: SimpleBarChart.withSampleData(),
-            // ),
-            CatagoriesOld(),
+            const PieChartSample2(),
+            const Divider(thickness: 2, color: Colors.black),
+            BarChartSample7(),
+            const Divider(thickness: 2, color: Colors.black),
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.05),
+              height: screenHeight * 0.35,
+              child: const _LineChart(
+                isShowingMainData: true,
+              ),
+            ),
           ],
         ),
       ),
-    );
+    ));
   }
 
   @override
@@ -74,490 +88,736 @@ class _ReportContentState extends State<ReportContent> {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return const Scaffold(
-      body: CatagoriesOld(),
-      // getBody(
-      //   screenWidth,
-      //   screenHeight,
-      // ),
-    );
+    return getBody(screenWidth, screenHeight);
   }
 }
 
-class ReportPage extends StatelessWidget {
-  const ReportPage({super.key});
+enum LegendShape { circle, rectangle }
+
+class _LineChart extends StatelessWidget {
+  const _LineChart({required this.isShowingMainData});
+
+  final bool isShowingMainData;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Report Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [Catagories()],
-        ),
-      ),
+    return LineChart(
+      isShowingMainData ? sampleData1 : sampleData2,
+      swapAnimationDuration: const Duration(milliseconds: 250),
     );
   }
+
+  LineChartData get sampleData1 => LineChartData(
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 14,
+        maxY: 4,
+        minY: 0,
+      );
+
+  LineChartData get sampleData2 => LineChartData(
+        lineTouchData: lineTouchData2,
+        gridData: gridData,
+        titlesData: titlesData2,
+        borderData: borderData,
+        lineBarsData: lineBarsData2,
+        minX: 0,
+        maxX: 14,
+        maxY: 6,
+        minY: 0,
+      );
+
+  LineTouchData get lineTouchData1 => LineTouchData(
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+        ),
+      );
+
+  FlTitlesData get titlesData1 => FlTitlesData(
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
+
+  List<LineChartBarData> get lineBarsData1 => [
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+        lineChartBarData1_3,
+      ];
+
+  LineTouchData get lineTouchData2 => LineTouchData(
+        enabled: false,
+      );
+
+  FlTitlesData get titlesData2 => FlTitlesData(
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
+
+  List<LineChartBarData> get lineBarsData2 => [
+        lineChartBarData2_1,
+        lineChartBarData2_2,
+        lineChartBarData2_3,
+      ];
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 1:
+        text = '1m';
+        break;
+      case 2:
+        text = '2m';
+        break;
+      case 3:
+        text = '3m';
+        break;
+      case 4:
+        text = '5m';
+        break;
+      case 5:
+        text = '6m';
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text, style: style, textAlign: TextAlign.center);
+  }
+
+  SideTitles leftTitles() => SideTitles(
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 40,
+      );
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('SEPT', style: style);
+        break;
+      case 7:
+        text = const Text('OCT', style: style);
+        break;
+      case 12:
+        text = const Text('DEC', style: style);
+        break;
+      default:
+        text = const Text('');
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10,
+      child: text,
+    );
+  }
+
+  SideTitles get bottomTitles => SideTitles(
+        showTitles: true,
+        reservedSize: 32,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
+
+  FlGridData get gridData => FlGridData(show: false);
+
+  FlBorderData get borderData => FlBorderData(
+        show: true,
+        border: Border(
+          bottom:
+              BorderSide(color: AppColors.primary.withOpacity(0.2), width: 4),
+          left: const BorderSide(color: Colors.transparent),
+          right: const BorderSide(color: Colors.transparent),
+          top: const BorderSide(color: Colors.transparent),
+        ),
+      );
+
+  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
+        isCurved: true,
+        color: AppColors.contentColorGreen,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 1.5),
+          FlSpot(5, 1.4),
+          FlSpot(7, 3.4),
+          FlSpot(10, 2),
+          FlSpot(12, 2.2),
+          FlSpot(13, 1.8),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
+        isCurved: true,
+        color: AppColors.contentColorPink,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: false,
+          color: AppColors.contentColorPink.withOpacity(0),
+        ),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 2.8),
+          FlSpot(7, 1.2),
+          FlSpot(10, 2.8),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData1_3 => LineChartBarData(
+        isCurved: true,
+        color: AppColors.contentColorCyan,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+        spots: const [
+          FlSpot(1, 2.8),
+          FlSpot(3, 1.9),
+          FlSpot(6, 3),
+          FlSpot(10, 1.3),
+          FlSpot(13, 2.5),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData2_1 => LineChartBarData(
+        isCurved: true,
+        curveSmoothness: 0,
+        color: AppColors.contentColorGreen.withOpacity(0.5),
+        barWidth: 4,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 4),
+          FlSpot(5, 1.8),
+          FlSpot(7, 5),
+          FlSpot(10, 2),
+          FlSpot(12, 2.2),
+          FlSpot(13, 1.8),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData2_2 => LineChartBarData(
+        isCurved: true,
+        color: AppColors.contentColorPink.withOpacity(0.5),
+        barWidth: 4,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: AppColors.contentColorPink.withOpacity(0.2),
+        ),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 2.8),
+          FlSpot(7, 1.2),
+          FlSpot(10, 2.8),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData2_3 => LineChartBarData(
+        isCurved: true,
+        curveSmoothness: 0,
+        color: AppColors.contentColorCyan.withOpacity(0.5),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: true),
+        belowBarData: BarAreaData(show: false),
+        spots: const [
+          FlSpot(1, 3.8),
+          FlSpot(3, 1.9),
+          FlSpot(6, 5),
+          FlSpot(10, 3.3),
+          FlSpot(13, 4.5),
+        ],
+      );
 }
 
-class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate;
+class LineChartSample1 extends StatefulWidget {
+  const LineChartSample1({super.key});
 
-  const SimpleBarChart(this.seriesList, {super.key, required this.animate});
+  @override
+  State<StatefulWidget> createState() => LineChartSample1State();
+}
 
-  factory SimpleBarChart.withSampleData() {
-    return SimpleBarChart(
-      _createSampleData(),
-      animate: true,
-    );
+class LineChartSample1State extends State<LineChartSample1> {
+  late bool isShowingMainData;
+
+  @override
+  void initState() {
+    super.initState();
+    isShowingMainData = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: charts.PieChart(
-        seriesList,
-        animate: animate,
-      ),
-    );
-  }
-
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final data = [
-      OrdinalSales('Monday', 90),
-      OrdinalSales('Tuesday', 25),
-      OrdinalSales('Wednesday', 100),
-      OrdinalSales('Thursday', 75),
-      OrdinalSales('Friday', 50),
-      // OrdinalSales('Saturday', 33),
-      // OrdinalSales('Sunday', 80),
-    ];
-
-    return [
-      charts.Series<OrdinalSales, String>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (OrdinalSales sales, _) => sales.day,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
-  }
-}
-
-class OrdinalSales {
-  final String day;
-  final int sales;
-
-  OrdinalSales(this.day, this.sales);
-}
-
-class Catagories extends StatelessWidget {
-  const Catagories({super.key});
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Column(children: [
-      Container(
-        alignment: Alignment.center,
-        // padding: EdgeInsets.all(10),
-        //     width: double.infinity,
-        // color: Colors.black.withOpacity(0.5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Icon(Icons.arrow_back, color: Colors.black),
-            Icon(Icons.menu_sharp, color: Colors.black),
-          ],
-        ),
-      ),
-      Image.asset('assets/images/Picture3.jpg'),
-      const Text('Yoga Body Stretching'),
-      Container(
-        margin: const EdgeInsets.only(left: 30, top: 20),
-        width: 50,
-        height: 50,
-        child: Row(
-          children: [
-            Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF93469F)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Beginner',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
+    return AspectRatio(
+      aspectRatio: 1.23,
+      child: Stack(
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const SizedBox(
+                height: 37,
+              ),
+              const Text(
+                'Monthly Sales',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
                 ),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF93469F),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    '10 minutes',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF93469F)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    '10 workout',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              width: 3.01,
-              height: 0.5,
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromRGBO(0, 0, 0, 0.4),
-                    width: 0.5,
-                  ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 37,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16, left: 6),
+                  child: _LineChart(isShowingMainData: isShowingMainData),
                 ),
               ),
-            ),
-
-            /* Frame 186 */
-            SizedBox(
-              width: 331,
-              height: 17,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Workout Activity',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontFamily: 'Atkinson Hyperlegible',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.01,
-                    ),
-                  ),
-                  const SizedBox(width: 20), // Adjust the spacing as needed
-                  const Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF93469F),
-                      fontFamily: 'Atkinson Hyperlegible',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.01,
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 200,
-                      height: 130,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/Picture1.png'),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 136,
-                    top: 23,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        SizedBox(
-                          width: 80,
-                          height: 25,
-                          child: Text(
-                            'Warrior 1',
-                            style: TextStyle(
-                              //      fontFamily: 'Atkinson Hyperlegible',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 74,
-                          height: 17,
-                          child: Text(
-                            '30 seconds',
-                            style: TextStyle(
-                              fontFamily: 'Atkinson Hyperlegible',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ])));
-  }
-}
-
-class CatagoriesOld extends StatelessWidget {
-  const CatagoriesOld({super.key});
-  @override
-  Widget build(context) {
-    return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(top: 50),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Icon(Icons.arrow_back, color: Colors.black),
-                  Text(
-                    'Workout Levels',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  Icon(Icons.menu_open, color: Colors.black),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF93469F)),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Beginner',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF93469F),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Intermediate',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF93469F)),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Advanced',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                width: 270,
-                height: 135,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Image.asset('assets/images/Picture1.jpg'),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Squat Movement Exercise',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.save,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                width: 270,
-                height: 135,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Image.asset('assets/images/Picture2.jpg'),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Full Body Stretching',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.save,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                width: 270,
-                height: 135,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Image.asset('assets/images/Picture3.jpg'),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Yoga Movement Exercise',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.save,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                width: 270,
-                height: 135,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Image.asset('assets/images/Picture4.jpg'),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Abdominal Exercise',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.save,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              const SizedBox(
+                height: 10,
               ),
             ],
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
+            ),
+            onPressed: () {
+              setState(() {
+                isShowingMainData = !isShowingMainData;
+              });
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class PieChartSample2 extends StatefulWidget {
+  const PieChartSample2({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PieChart2State();
+}
+
+class PieChart2State extends State {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.3,
+      child: Row(
+        children: [
+          const SizedBox(
+            height: 18,
+          ),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: showingSections(),
+                ),
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Indicator(
+                color: AppColors.contentColorBlue,
+                text: 'First',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorYellow,
+                text: 'Second',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorPurple,
+                text: 'Third',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorGreen,
+                text: 'Fourth',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 18,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(4, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: AppColors.contentColorBlue,
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: AppColors.contentColorYellow,
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: AppColors.contentColorPurple,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 3:
+          return PieChartSectionData(
+            color: AppColors.contentColorGreen,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        default:
+          throw Error();
+      }
+    });
+  }
+}
+
+class BarChartSample7 extends StatefulWidget {
+  BarChartSample7({super.key});
+
+  final shadowColor = const Color(0xFFCCCCCC);
+  final dataList = [
+    const _BarData(AppColors.contentColorYellow, 18, 18),
+    const _BarData(AppColors.contentColorGreen, 17, 8),
+    const _BarData(AppColors.contentColorOrange, 10, 15),
+    const _BarData(AppColors.contentColorPink, 2.5, 5),
+    const _BarData(AppColors.contentColorBlue, 2, 2.5),
+    const _BarData(AppColors.contentColorRed, 2, 2),
+  ];
+
+  @override
+  State<BarChartSample7> createState() => _BarChartSample7State();
+}
+
+class _BarChartSample7State extends State<BarChartSample7> {
+  BarChartGroupData generateBarGroup(
+    int x,
+    Color color,
+    double value,
+    double shadowValue,
+  ) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: value,
+          color: color,
+          width: 6,
+        ),
+        BarChartRodData(
+          toY: shadowValue,
+          color: widget.shadowColor,
+          width: 6,
+        ),
+      ],
+      showingTooltipIndicators: touchedGroupIndex == x ? [0] : [],
+    );
+  }
+
+  int touchedGroupIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: AspectRatio(
+        aspectRatio: 1.4,
+        child: BarChart(
+          BarChartData(
+            alignment: BarChartAlignment.spaceBetween,
+            borderData: FlBorderData(
+              show: true,
+              border: Border.symmetric(
+                horizontal: BorderSide(
+                  color: AppColors.borderColor.withOpacity(0.2),
+                ),
+              ),
+            ),
+            titlesData: FlTitlesData(
+              show: true,
+              leftTitles: AxisTitles(
+                drawBehindEverything: true,
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 30,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                      value.toInt().toString(),
+                      textAlign: TextAlign.left,
+                    );
+                  },
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 36,
+                  getTitlesWidget: (value, meta) {
+                    final index = value.toInt();
+                    return SideTitleWidget(
+                      axisSide: meta.axisSide,
+                      child: _IconWidget(
+                        color: widget.dataList[index].color,
+                        isSelected: touchedGroupIndex == index,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              rightTitles: AxisTitles(),
+              topTitles: AxisTitles(),
+            ),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              getDrawingHorizontalLine: (value) => FlLine(
+                color: AppColors.borderColor.withOpacity(0.2),
+                strokeWidth: 1,
+              ),
+            ),
+            barGroups: widget.dataList.asMap().entries.map((e) {
+              final index = e.key;
+              final data = e.value;
+              return generateBarGroup(
+                index,
+                data.color,
+                data.value,
+                data.shadowValue,
+              );
+            }).toList(),
+            maxY: 20,
+            barTouchData: BarTouchData(
+              enabled: true,
+              handleBuiltInTouches: false,
+              touchTooltipData: BarTouchTooltipData(
+                tooltipBgColor: Colors.transparent,
+                tooltipMargin: 0,
+                getTooltipItem: (
+                  BarChartGroupData group,
+                  int groupIndex,
+                  BarChartRodData rod,
+                  int rodIndex,
+                ) {
+                  return BarTooltipItem(
+                    rod.toY.toString(),
+                    TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: rod.color,
+                      fontSize: 18,
+                      shadows: const [
+                        Shadow(
+                          color: Colors.black26,
+                          blurRadius: 12,
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+              touchCallback: (event, response) {
+                if (event.isInterestedForInteractions &&
+                    response != null &&
+                    response.spot != null) {
+                  setState(() {
+                    touchedGroupIndex = response.spot!.touchedBarGroupIndex;
+                  });
+                } else {
+                  setState(() {
+                    touchedGroupIndex = -1;
+                  });
+                }
+              },
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _BarData {
+  const _BarData(this.color, this.value, this.shadowValue);
+  final Color color;
+  final double value;
+  final double shadowValue;
+}
+
+class _IconWidget extends ImplicitlyAnimatedWidget {
+  const _IconWidget({
+    required this.color,
+    required this.isSelected,
+  }) : super(duration: const Duration(milliseconds: 300));
+  final Color color;
+  final bool isSelected;
+
+  @override
+  ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
+      _IconWidgetState();
+}
+
+class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
+  Tween<double>? _rotationTween;
+
+  @override
+  Widget build(BuildContext context) {
+    final rotation = math.pi * 4 * _rotationTween!.evaluate(animation);
+    final scale = 1 + _rotationTween!.evaluate(animation) * 0.5;
+    return Transform(
+      transform: Matrix4.rotationZ(rotation).scaled(scale, scale),
+      origin: const Offset(14, 14),
+      child: Icon(
+        widget.isSelected ? Icons.face_retouching_natural : Icons.face,
+        color: widget.color,
+        size: 28,
+      ),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _rotationTween = visitor(
+      _rotationTween,
+      widget.isSelected ? 1.0 : 0.0,
+      (dynamic value) => Tween<double>(
+        begin: value as double,
+        end: widget.isSelected ? 1.0 : 0.0,
+      ),
+    ) as Tween<double>?;
   }
 }
