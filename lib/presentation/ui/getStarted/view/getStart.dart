@@ -71,9 +71,9 @@ class Body extends StatefulWidget {
 
 class _Body extends State<Body> {
   List<String> images = [
-    'assets/images/Start.jpg',
-    'assets/images/Start.jpg',
-    'assets/images/Start.jpg',
+    'assets/images/gStart1.jpg',
+    'assets/images/gStart2.jpg',
+    'assets/images/gStart3.jpg',
   ];
 
   @override
@@ -119,7 +119,7 @@ class _Body extends State<Body> {
                 context.pushNamed(RoutesName.signUp);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: buttonColor,
+                backgroundColor: backGroundPhoto,
                 textStyle: const TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 22,
@@ -130,7 +130,7 @@ class _Body extends State<Body> {
               ),
               child: const Text(
                 "Get Started",
-                style: TextStyle(color: textColor),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -154,7 +154,7 @@ class _Body extends State<Body> {
                   child: const Text(
                     " Log in",
                     style: TextStyle(
-                        color: loginText,
+                        color: backGroundPhoto,
                         fontFamily: 'Lato',
                         fontSize: 20,
                         fontWeight: FontWeight.bold),

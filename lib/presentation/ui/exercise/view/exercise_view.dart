@@ -60,7 +60,7 @@ class _ExerciseContentState extends State<ExerciseContent> {
               child: ListTile(
                 style: ListTileStyle.list,
                 leading: Image.asset(
-                  'assets/images/OIP.jpeg',
+                  'assets/images/modelArm1.png',
                 ),
                 title: Text(trainingExercise.exerciseName),
                 subtitle: Text(
@@ -84,7 +84,7 @@ class _ExerciseContentState extends State<ExerciseContent> {
                   height: screenHeight * 0.35,
                   fit: BoxFit.fill,
                   width: double.infinity,
-                  'assets/images/OIP.jpeg',
+                  'assets/images/armPain1.png',
                 ),
               ),
               const SizedBox(height: 10),
