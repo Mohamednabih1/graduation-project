@@ -12,6 +12,7 @@ import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart';
 import 'package:gradproject/presentation/ui/sign_up/view/sign_up.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
+import '../ui/drHpage/view/dr_h_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -20,7 +21,7 @@ class AppRouter {
   late final router = GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: RoutesPath.splash,
+    initialLocation: RoutesPath.home,
     routes: [
       GoRoute(
         name: RoutesName.splash,
@@ -37,6 +38,11 @@ class AppRouter {
         path: RoutesPath.home,
         builder: (context, state) => const Home(),
       ),
+       GoRoute(
+        name: RoutesName.doctorhome,
+        path: RoutesPath.doctorhome,
+        builder: (context, state) => const DrHomePage(),
+       ),
       GoRoute(
         name: RoutesName.signUp,
         path: RoutesPath.signUp,
