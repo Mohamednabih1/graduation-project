@@ -8,6 +8,7 @@ import 'package:gradproject/presentation/ui/getStarted/view/getStart.dart';
 import 'package:gradproject/presentation/ui/home_page/view/home.dart';
 import 'package:gradproject/presentation/ui/login_page/view/login.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
+import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart';
 import 'package:gradproject/presentation/ui/sign_up/view/sign_up.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
@@ -55,6 +56,11 @@ class AppRouter {
         name: RoutesName.profile,
         path: RoutesPath.profile,
         builder: (context, state) => const Profile(),
+      ),
+      GoRoute(
+        name: RoutesName.rtc,
+        path: RoutesPath.rtc,
+        builder: (context, state) => const RTC(),
       ),
       GoRoute(
           name: RoutesName.exercise,

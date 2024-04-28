@@ -15,6 +15,7 @@ class HomeViewModel extends BaseViewModel with ChangeNotifier {
   late final String weight;
   late final String phoneNum;
   late final String age;
+  late final bool isUserPatient;
 
   void logOut(BuildContext ctx) {
     _sharedPreferences.setIsUserLoggedIn(false);
@@ -39,5 +40,6 @@ class HomeViewModel extends BaseViewModel with ChangeNotifier {
     weight = _sharedPreferences.getUserWeight();
     phoneNum = _sharedPreferences.getUserPhoneNum();
     age = _sharedPreferences.getUserAge();
+    isUserPatient = _sharedPreferences.getIsUserPatient();
   }
 }

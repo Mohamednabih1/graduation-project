@@ -9,6 +9,7 @@ class UserData {
   final String weight;
   final String phoneNum;
   final String age;
+  final String role;
 
   UserData({
     required this.username,
@@ -19,6 +20,7 @@ class UserData {
     required this.weight,
     required this.phoneNum,
     required this.age,
+    required this.role,
   });
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {
@@ -31,6 +33,7 @@ class UserData {
       weight: snapshot['weight'] as String,
       phoneNum: snapshot['phoneNum'] as String,
       age: snapshot['age'] as String,
+      role: snapshot['role'] as String,
     );
   }
 }

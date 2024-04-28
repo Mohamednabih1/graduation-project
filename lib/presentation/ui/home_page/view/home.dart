@@ -6,6 +6,7 @@ import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/header/header_function.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
+import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
@@ -422,7 +423,11 @@ class _HomeContentState extends State<HomeContent> {
 
   Widget getBody(screenWidth, screenHeight) {
     if (selectedIndex == 0) {
-      return getHomeBody(screenWidth, screenHeight);
+      if (_homeViewModel.isUserPatient) {
+        return getHomeBody(screenWidth, screenHeight);
+      } else {
+        return const RTC();
+      }
     } else if (selectedIndex == 1) {
       return const Report();
     } else {

@@ -29,13 +29,21 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void goNext() async {
+    // context.pushReplacementNamed(RoutesName.rtc);
+    // return;
     bool isUserLoggedIn = _appPreferences.getIsUserLoggedIn();
     securePrint("isUserLoggedIn: $isUserLoggedIn");
     bool isOpenedOnce = _appPreferences.getIsOpenedOnce();
+    bool isUserPatient = _appPreferences.getIsUserPatient();
     // context.pushReplacementNamed(RoutesName.profile);
 
     if (isUserLoggedIn) {
-      context.pushReplacementNamed(RoutesName.home);
+      bool isUserPatient = _appPreferences.getIsUserLoggedIn();
+      if (isUserPatient) {
+        context.pushReplacementNamed(RoutesName.home);
+      } else {
+        context.pushReplacementNamed(RoutesName.rtc);
+      }
     } else {
       if (isOpenedOnce) {
         context.pushReplacementNamed(RoutesName.login);

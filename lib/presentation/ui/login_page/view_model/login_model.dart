@@ -46,19 +46,23 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
         UserData? loginUserData = findByEmail(users, email);
         if (loginUserData != null) {
           _appPreferences.setUserData(
-              userID: 1,
-              username: loginUserData.username,
-              password: loginUserData.password,
-              email: loginUserData.email,
-              phoneNum: loginUserData.phoneNum,
-              age: loginUserData.age,
-              weight: loginUserData.weight,
-              gender: loginUserData.gender,
-              height: loginUserData.height);
+            userID: 1,
+            username: loginUserData.username,
+            password: loginUserData.password,
+            email: loginUserData.email,
+            phoneNum: loginUserData.phoneNum,
+            age: loginUserData.age,
+            weight: loginUserData.weight,
+            gender: loginUserData.gender,
+            height: loginUserData.height,
+            role: loginUserData.role,
+          );
+          if (loginUserData.role == "patient") {
+            context.pushReplacementNamed(RoutesName.home);
+          } else {
+            context.pushReplacementNamed(RoutesName.rtc);
+          }
         }
-
-        // ignore: use_build_context_synchronously
-        context.pushReplacementNamed(RoutesName.home);
       } else {
         ToastManager.showTextToast("wrong username or password");
       }

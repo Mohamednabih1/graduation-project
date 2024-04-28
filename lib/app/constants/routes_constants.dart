@@ -8,6 +8,7 @@ class RoutesPath {
   static const profile = "/profile";
   static const exercise = "/exercise";
   static const exerciseDetails = "/exerciseDetails";
+  static const rtc = "/rtc";
 }
 
 class RoutesName {
@@ -20,4 +21,5 @@ class RoutesName {
   static const profile = "profile";
   static const exercise = "exercise";
   static const exerciseDetails = "exerciseDetails";
+  static const rtc = "rtc";
 }

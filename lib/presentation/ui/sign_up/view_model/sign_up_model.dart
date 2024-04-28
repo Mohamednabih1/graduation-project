@@ -74,11 +74,11 @@ class SignUpViewModel extends ChangeNotifier {
   Future<void> addUserData(FireBaseManger fireBaseManger) async {
     securePrint("[signUp] username : $username ");
     securePrint("[signUp] password : $password ");
-    securePrint("[signUp] password : $email ");
-    securePrint("[signUp] password : $phoneNum ");
-    securePrint("[signUp] password : $age ");
-    securePrint("[signUp] password : $weight ");
-    securePrint("[signUp] password : $height ");
+    securePrint("[signUp] email : $email ");
+    securePrint("[signUp] phoneNum : $phoneNum ");
+    securePrint("[signUp] age : $age ");
+    securePrint("[signUp] weight : $weight ");
+    securePrint("[signUp] height : $height ");
 
     fireBaseManger.addUserData(
       username: username,

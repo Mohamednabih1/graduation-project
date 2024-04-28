@@ -3,21 +3,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppCacheKeys {
   static const darkMode = "darkMode";
   static const isUserLoggedIn = "isUserLoggedIn";
-
   static const userID = "userID";
   static const userName = "username";
-
   static const userEmail = "userEmail";
   static const password = "password";
-
   static const userHeight = "userHeight";
   static const userWeight = "userWeight";
   static const userAge = "userAge";
   static const userGender = "userGender";
-
   static const userPhoneNum = "userPhoneNum";
-
   static const isOpenedOnce = "isOpenedOnce";
+  static const isUserPatient = "isUserPatient";
 }
 
 class AppCache {
@@ -57,9 +53,12 @@ class AppCache {
   void setUserPassword(String value) =>
       _sharedPreferences.setString(AppCacheKeys.password, value);
 
+  void setIsUserPatient(bool value) =>
+      _sharedPreferences.setBool(AppCacheKeys.isUserPatient, value);
+
   void setUserGender(String value) =>
       _sharedPreferences.setString(AppCacheKeys.userGender, value);
-
+// end of set
   int get getUserId => _sharedPreferences.getInt(AppCacheKeys.userID) ?? -1;
 
   bool get getDarkMode =>
@@ -95,6 +94,9 @@ class AppCache {
   String getUserGender() =>
       _sharedPreferences.getString(AppCacheKeys.userGender) ?? "";
 
+  bool getIsUserPatient() =>
+      _sharedPreferences.getBool(AppCacheKeys.isUserPatient) ?? false;
+
   setUserData({
     required int userID,
     required String username,
@@ -105,6 +107,7 @@ class AppCache {
     required String weight,
     required String height,
     required String gender,
+    required String role,
   }) {
     setUserId(userID);
     setUserName(username);
@@ -115,6 +118,11 @@ class AppCache {
     setUserWeight(weight);
     setUserHeight(height);
     setUserGender(gender);
+    if (role == "patient") {
+      setIsUserPatient(true);
+    } else {
+      setIsUserPatient(false);
+    }
   }
 
   void logOutUser() {
