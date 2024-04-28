@@ -149,50 +149,44 @@ class _HomeContentState extends State<HomeContent> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.05),
-            child: Header(
-              name: "Home",
-              myIconsList: [
-                HeaderIconsFunctions(
-                  icon: const Icon(Icons.access_alarm_outlined),
-                  iconFunction: () {
-                    securePrint("messageToPrint");
-                  },
-                ),
-                HeaderIconsFunctions(
-                  icon: const Icon(Icons.account_box_rounded),
-                  iconFunction: () {
-                    securePrint("orsa");
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            width: double.infinity,
-            child: Text(
-              "Morning,${_homeViewModel.username}",
-              style: const TextStyle(
-                fontSize: 25,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.05),
+              child: Header(
+                name: "Morning, ${_homeViewModel.username}",
+                myIconsList: [
+                  HeaderIconsFunctions(
+                    icon: const Icon(Icons.access_alarm_outlined),
+                    iconFunction: () {
+                      securePrint("messageToPrint");
+                    },
+                  ),
+                  HeaderIconsFunctions(
+                    icon: const Icon(Icons.account_box_rounded),
+                    iconFunction: () {
+                      securePrint("orsa");
+                    },
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(
-            height: screenHeight * 0.3,
-            width: double.infinity,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                  autoPlay: false,
-                  aspectRatio: 1.0,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: false),
-              items: getImageSliderImages(),
+            SizedBox(
+              height: screenHeight * 0.3,
+              width: double.infinity,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 1.0,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: true,
+                    autoPlayInterval: const Duration(seconds: 6),
+                    ),
+                items: getImageSliderImages(),
+              ),
             ),
-          ),
-          // 123
+/*
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -392,30 +386,10 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
           ),
-          // 123
-          // Row(
-          //   children: [
-          //     Container(
-          //       alignment: Alignment.centerLeft,
-          //       child: const Text("Workout levels",
-          //           style: TextStyle(fontSize: 23)),
-          //     ),
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 1.0),
-          //       child: TextButton(
-          //         onPressed: () {},
-          //         child: const Text(
-          //           "See All",
-          //           style: TextStyle(
-          //             fontSize: 18,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // ...myList,
-        ]),
+*/
+           
+          ],
+        ),
       ),
     );
   }
