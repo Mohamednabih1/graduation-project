@@ -7,5 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DI.initAppModule();
   await DI.getItInstance<FireBaseManger>().fireBaseInit();
-  runApp(MyApp());
+  runApp(
+    MyApp(),
+  );
 }

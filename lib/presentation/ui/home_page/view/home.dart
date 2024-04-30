@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
+import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
+import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
 import 'package:gradproject/domain/classes/header/header_function.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
+import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
-import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
@@ -62,31 +64,50 @@ class _HomeContentState extends State<HomeContent> {
       });
     }
 
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bar_chart_outlined),
-          label: 'Report',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-      currentIndex: selectedIndex,
-      selectedItemColor: const Color(0xFF207790),
-      onTap: onItemTapped,
-    );
+    if (true) {
+      //_appPreferences.getIsUserPatient()
+      return BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: selectedIndex,
+        selectedItemColor: const Color(0xFF207790),
+        onTap: onItemTapped,
+      );
+    } else {
+      return BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart_outlined),
+            label: 'Report',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: selectedIndex,
+        selectedItemColor: const Color(0xFF207790),
+        onTap: onItemTapped,
+      );
+    }
   }
 
   List<Widget> getImageSliderImages() {
     return trainings
         .map((item) => ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               child: InkWell(
                 onTap: () {
                   securePrint(item.exercises);
@@ -133,6 +154,53 @@ class _HomeContentState extends State<HomeContent> {
         .toList();
   }
 
+  Widget getExerciseDifficulty() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFF93469F)),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Text(
+          'Beginner',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        decoration: BoxDecoration(
+          color: const Color(0xFF93469F),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Text(
+          'Intermediate',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFF93469F)),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Text(
+          'Advanced',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    ]);
+  }
+
   // image_slider.
   Widget getHomeBody(screenWidth, screenHeight) {
     List<Widget> myList = [];
@@ -147,13 +215,13 @@ class _HomeContentState extends State<HomeContent> {
         ),
       ));
     }
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: Container(
               margin: EdgeInsets.only(top: screenHeight * 0.05),
               child: Header(
                 name: "Morning, ${_homeViewModel.username}",
@@ -173,98 +241,166 @@ class _HomeContentState extends State<HomeContent> {
                 ],
               ),
             ),
-            SizedBox(
-              height: screenHeight * 0.3,
-              width: double.infinity,
-              child: CarouselSlider(
-                options: CarouselOptions(
-                    autoPlay: true,
-                    aspectRatio: 1.0,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: const Duration(seconds: 6),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.01),
+            height: screenHeight * 0.4,
+            width: double.infinity,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: false,
+                aspectRatio: 1.0,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                // autoPlayInterval: const Duration(seconds: 6),
+              ),
+              items: getImageSliderImages(),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              ///////
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Center(
+                      child: Column(
+                        children: const [
+                          Text(
+                            'Leg',
+                            style: TextStyle(
+                                fontSize: 32, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'No equipment',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
                     ),
-                items: getImageSliderImages(),
+                    content: const Text(
+                        'keep leg healthy and strong help you recover faster'),
+                    actions: [
+                      IconButton(
+                        onPressed: () {},
+                        iconSize: 60,
+                        icon: const Icon(
+                          Icons.arrow_circle_right_rounded,
+                          color: Color.fromRGBO(8, 42, 58, 0.9),
+                        ),
+                      ),
+                    ],
+                    actionsAlignment: MainAxisAlignment.center,
+                  );
+                },
+              );
+
+              //////
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromRGBO(8, 42, 58, 0.9),
+              ),
+              //3ayz a3m border radius
+
+              height: 387,
+              width: 330,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // 3ayzha tbd2 mn awl al container
+                  const Text(
+                    'The Next Exercise',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 220,
+                    width: 220,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        // put the image here
+                        image: AssetImage('assets/images/Picture1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  // 3ayz tbd2 mn awl al container
+                  const Text(
+                    'Duration',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
               ),
             ),
-/*
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(Icons.arrow_back, color: Colors.black),
-              Text(
-                'Workout Levels',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              Icon(Icons.menu_open, color: Colors.black),
-            ],
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF93469F)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Beginner',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF93469F),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Intermediate',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF93469F)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Advanced',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ]),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            width: 270,
-            height: 135,
+            margin: EdgeInsets.symmetric(
+                vertical: 10, horizontal: screenWidth * 0.1),
+            height: screenHeight * 0.4,
+            width: double.infinity,
+            color: Colors.blue,
+            child: Center(child: Text("data")),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: screenHeight * 0.05,
+              left: screenWidth * 0.05,
+              right: screenHeight * 0.03,
+              bottom: screenHeight * 0.02,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                // Text(
+                //   "See all",
+                //   style: TextStyle(
+                //     fontSize: 17,
+                //   ),
+                // )
+              ],
+            ),
+          ),
+          // Container(
+          //     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+          //     child: getExerciseDifficulty()),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.2,
             child: Stack(
-              alignment: Alignment.bottomLeft,
+              // alignment: Alignment.bottomCenter,
               children: [
                 Image.asset('assets/images/Picture1.jpg'),
                 Container(
                   padding: const EdgeInsets.all(10),
                   width: double.infinity,
-                  color: Colors.black.withOpacity(0.5),
+                  // color: Colors.black.withOpacity(0.5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -272,14 +408,14 @@ class _HomeContentState extends State<HomeContent> {
                         'Squat Movement Exercise',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(
-                        Icons.save,
-                        color: Colors.white,
-                      ),
+                      // Icon(
+                      //   Icons.save,
+                      //   color: Colors.white,
+                      // ),
                     ],
                   ),
                 ),
@@ -288,8 +424,8 @@ class _HomeContentState extends State<HomeContent> {
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
-            width: 270,
-            height: 135,
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.2,
             child: Stack(
               alignment: Alignment.bottomLeft,
               children: [
@@ -321,8 +457,8 @@ class _HomeContentState extends State<HomeContent> {
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
-            width: screenWidth * 0.8,
-            height: 135,
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.2,
             child: Stack(
               alignment: Alignment.bottomLeft,
               children: [
@@ -356,8 +492,8 @@ class _HomeContentState extends State<HomeContent> {
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
-            width: 270,
-            height: 135,
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.2,
             child: Stack(
               alignment: Alignment.bottomLeft,
               children: [
@@ -387,25 +523,27 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
           ),
-*/
-           
-          ],
-        ),
+        ],
       ),
     );
   }
 
   Widget getBody(screenWidth, screenHeight) {
-    if (selectedIndex == 0) {
-      if (_homeViewModel.isUserPatient) {
+    if (false) {
+      //_appPreferences.getIsUserPatient()
+      if (selectedIndex == 0) {
         return getHomeBody(screenWidth, screenHeight);
+      } else if (selectedIndex == 1) {
+        return const Report();
       } else {
-        return const RTC();
+        return const Profile();
       }
-    } else if (selectedIndex == 1) {
-      return const Report();
     } else {
-      return const Profile();
+      if (selectedIndex == 0) {
+        return const DrHomePage();
+      } else {
+        return const Profile();
+      }
     }
   }
 

@@ -12,7 +12,7 @@ import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart';
 import 'package:gradproject/presentation/ui/sign_up/view/sign_up.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
-import '../ui/drHpage/view/dr_h_page.dart';
+import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -38,11 +38,11 @@ class AppRouter {
         path: RoutesPath.home,
         builder: (context, state) => const Home(),
       ),
-       GoRoute(
-        name: RoutesName.doctorhome,
-        path: RoutesPath.doctorhome,
+      GoRoute(
+        name: RoutesName.doctorHome,
+        path: RoutesPath.doctorHome,
         builder: (context, state) => const DrHomePage(),
-       ),
+      ),
       GoRoute(
         name: RoutesName.signUp,
         path: RoutesPath.signUp,

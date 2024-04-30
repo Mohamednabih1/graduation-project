@@ -280,7 +280,8 @@ class _ProfileContentState extends State<ProfileContent> {
               margin: const EdgeInsets.symmetric(vertical: 20),
               child: CircleAvatar(
                   backgroundColor: Colors.grey,
-                  minRadius: 20,
+                  minRadius: 100,
+                  maxRadius: 100,
                   child: Image.asset(
                     profileViewModel.gender == "male"
                         ? 'assets/images/man.png'
