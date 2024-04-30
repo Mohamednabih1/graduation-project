@@ -178,12 +178,12 @@ class _HomeContentState extends State<HomeContent> {
               width: double.infinity,
               child: CarouselSlider(
                 options: CarouselOptions(
-                    autoPlay: true,
-                    aspectRatio: 1.0,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: const Duration(seconds: 6),
-                    ),
+                  autoPlay: true,
+                  aspectRatio: 1.0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlayInterval: const Duration(seconds: 6),
+                ),
                 items: getImageSliderImages(),
               ),
             ),
@@ -388,7 +388,105 @@ class _HomeContentState extends State<HomeContent> {
             ),
           ),
 */
-           
+            const SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                ///////
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Leg',
+                              style: TextStyle(
+                                  fontSize: 32, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'No equipment',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                      ),
+                      content: const Text(
+                          'keep leg healthy and strong help you recover faster'),
+                      actions: [
+                        IconButton(
+                          onPressed: () {},
+                          iconSize: 60,
+                          icon: const Icon(
+                            Icons.arrow_circle_right_rounded,
+                            color: Color.fromRGBO(8, 42, 58, 0.9),
+                          ),
+                        ),
+                      ],
+                      actionsAlignment: MainAxisAlignment.center,
+                    );
+                  },
+                );
+
+                //////
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromRGBO(8, 42, 58, 0.9),
+                ),
+                //3ayz a3m border radius
+
+                height: 387,
+                width: 330,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    // 3ayzha tbd2 mn awl al container
+                    const Text(
+                      'The Next Exercise',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 220,
+                      width: 220,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          // put the image here
+                          image: AssetImage(''),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    // 3ayz tbd2 mn awl al container
+                    const Text(
+                      'Duration',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -397,11 +495,11 @@ class _HomeContentState extends State<HomeContent> {
 
   Widget getBody(screenWidth, screenHeight) {
     if (selectedIndex == 0) {
-      if (_homeViewModel.isUserPatient) {
-        return getHomeBody(screenWidth, screenHeight);
-      } else {
-        return const RTC();
-      }
+//      if (_homeViewModel.isUserPatient) {
+      return getHomeBody(screenWidth, screenHeight);
+//      } else {
+//        return const RTC();
+//      }
     } else if (selectedIndex == 1) {
       return const Report();
     } else {
