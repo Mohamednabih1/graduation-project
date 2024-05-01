@@ -63,11 +63,18 @@ class AppRouter {
         path: RoutesPath.profile,
         builder: (context, state) => const Profile(),
       ),
+      // GoRoute(
+      //   name: RoutesName.rtc,
+      //   path: RoutesPath.rtc,
+      //   builder: (context, state) => const RTC(),
+      // ),
       GoRoute(
-        name: RoutesName.rtc,
-        path: RoutesPath.rtc,
-        builder: (context, state) => const RTC(),
-      ),
+          name: RoutesName.rtc,
+          path: RoutesPath.rtc,
+          builder: (context, state) {
+            String userId = state.extra as String;
+            return RTC(userId: userId);
+          }),
       GoRoute(
           name: RoutesName.exercise,
           path: RoutesPath.exercise,

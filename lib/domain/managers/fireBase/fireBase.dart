@@ -32,7 +32,7 @@ abstract class FireBaseManger {
     required String gender,
   });
 
-  Future getAllUserData();
+  Future<List<UserData>> getAllUserData();
 }
 
 class FireBaseMangerImpl implements FireBaseManger {

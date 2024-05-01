@@ -57,6 +57,7 @@ class _HomeContentState extends State<HomeContent> {
     super.dispose();
   }
 
+  bool orsaIsDoctor = true;
   BottomNavigationBar bottomNav() {
     void onItemTapped(int index) {
       setState(() {
@@ -64,7 +65,7 @@ class _HomeContentState extends State<HomeContent> {
       });
     }
 
-    if (true) {
+    if (orsaIsDoctor) {
       //_appPreferences.getIsUserPatient()
       return BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -257,110 +258,6 @@ class _HomeContentState extends State<HomeContent> {
               items: getImageSliderImages(),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              ///////
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Center(
-                      child: Column(
-                        children: const [
-                          Text(
-                            'Leg',
-                            style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'No equipment',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w400),
-                          ),
-                        ],
-                      ),
-                    ),
-                    content: const Text(
-                        'keep leg healthy and strong help you recover faster'),
-                    actions: [
-                      IconButton(
-                        onPressed: () {},
-                        iconSize: 60,
-                        icon: const Icon(
-                          Icons.arrow_circle_right_rounded,
-                          color: Color.fromRGBO(8, 42, 58, 0.9),
-                        ),
-                      ),
-                    ],
-                    actionsAlignment: MainAxisAlignment.center,
-                  );
-                },
-              );
-
-              //////
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromRGBO(8, 42, 58, 0.9),
-              ),
-              //3ayz a3m border radius
-
-              height: 387,
-              width: 330,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  // 3ayzha tbd2 mn awl al container
-                  const Text(
-                    'The Next Exercise',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 220,
-                    width: 220,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        // put the image here
-                        image: AssetImage('assets/images/Picture1.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  // 3ayz tbd2 mn awl al container
-                  const Text(
-                    'Duration',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-                vertical: 10, horizontal: screenWidth * 0.1),
-            height: screenHeight * 0.4,
-            width: double.infinity,
-            color: Colors.blue,
-            child: Center(child: Text("data")),
-          ),
           Container(
             margin: EdgeInsets.only(
               top: screenHeight * 0.05,
@@ -377,18 +274,19 @@ class _HomeContentState extends State<HomeContent> {
                     fontSize: 20,
                   ),
                 ),
-                // Text(
-                //   "See all",
-                //   style: TextStyle(
-                //     fontSize: 17,
-                //   ),
-                // )
+                Text(
+                  "See all",
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                )
               ],
             ),
           ),
-          // Container(
-          //     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-          //     child: getExerciseDifficulty()),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+            child: getExerciseDifficulty(),
+          ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: screenWidth * 0.85,
@@ -529,18 +427,18 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget getBody(screenWidth, screenHeight) {
-    if (false) {
+    if (orsaIsDoctor) {
       //_appPreferences.getIsUserPatient()
       if (selectedIndex == 0) {
-        return getHomeBody(screenWidth, screenHeight);
-      } else if (selectedIndex == 1) {
-        return const Report();
+        return const DrHomePage();
       } else {
         return const Profile();
       }
     } else {
       if (selectedIndex == 0) {
-        return const DrHomePage();
+        return getHomeBody(screenWidth, screenHeight);
+      } else if (selectedIndex == 1) {
+        return const Report();
       } else {
         return const Profile();
       }

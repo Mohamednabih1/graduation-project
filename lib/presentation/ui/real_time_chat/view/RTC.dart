@@ -3,12 +3,12 @@ import 'package:gradproject/presentation/ui/real_time_chat/view_model/RTC_model.
 import 'package:provider/provider.dart';
 
 class RTC extends StatelessWidget {
-  const RTC({super.key});
-
+  const RTC({super.key, required this.userId});
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RTCViewModel>(
-      create: (context) => RTCViewModel(),
+      create: (context) => RTCViewModel(userId),
       builder: (context, child) {
         return const RTCContent();
       },
@@ -47,7 +47,7 @@ class _RTCContentState extends State<RTCContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Doctor-Patient Chat'),
+        title: const Text('Mohamed Nabih'),
       ),
       body: Column(
         children: <Widget>[
@@ -79,16 +79,16 @@ class _RTCContentState extends State<RTCContent> {
                     msgCtr.text = "";
                   },
                 ),
-                IconButton(
-                  icon: const Icon(Icons.ac_unit_outlined),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.read_more),
-                  onPressed: () {
-                    rTCViewModel.createNewChat();
-                  },
-                ),
+                // IconButton(
+                //   icon: const Icon(Icons.ac_unit_outlined),
+                //   onPressed: () {},
+                // ),
+                // IconButton(
+                //   icon: const Icon(Icons.read_more),
+                //   onPressed: () {
+                //     rTCViewModel.createNewChat();
+                //   },
+                // ),
               ],
             ),
           ),

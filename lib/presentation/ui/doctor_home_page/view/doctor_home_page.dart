@@ -4,6 +4,7 @@ import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import 'package:gradproject/domain/classes/user.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view_model/doctor_view_model.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,32 @@ class _DoctorHomeState extends State<DoctorHome> {
     super.initState();
   }
 
+  List<Widget> getUsers(List<UserData>? users) {
+    List<Widget> myUsers = [];
+    if (users == null) {
+      return myUsers;
+    }
+    for (var user in users) {
+      myUsers.add(UserCard(
+        drHPageViewModel: drHPageViewModel,
+        profilePicture: user.gender == "male"
+            ? 'assets/images/man.png'
+            : 'assets/images/woman.png',
+        username: user.username,
+        age: int.parse(user.age),
+        gender: user.gender,
+        weight: double.infinity,
+        height: 120.0,
+        onTap: () {
+          securePrint(user);
+          context.pushNamed(RoutesName.rtc, extra: user.id);
+        },
+      ));
+    }
+
+    return myUsers;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -58,70 +85,101 @@ class _DoctorHomeState extends State<DoctorHome> {
               margin: EdgeInsets.only(top: screenHeight * 0.05),
               child: const Header(
                 name: "home",
-                // myIconsList: [
-                //   HeaderIconsFunctions(
-                //     icon: const Icon(Icons.logout),
-                //     iconFunction: () {
-                //       appPreferences.setIsUserLoggedIn(false);
-                //       context.pushReplacementNamed(RoutesName.splash);
-                //     },
-                //   )
-                // ],
               ),
             ),
-            UserCard(
-              drHPageViewModel: drHPageViewModel,
-              profilePicture: 'assets/images/man.png',
-              username: 'John Doe',
-              age: 25,
-              gender: 'Male',
-              weight: 75.5,
-              height: 120.0,
-              onTap: () {
-                // Handle onTap for this user card
-                securePrint('Tapped on John Doe');
-                context.pushNamed(RoutesName.rtc);
+            FutureBuilder<List<UserData>>(
+              future: drHPageViewModel.users,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<UserData>> snapshot) {
+                List<Widget> children;
+                if (snapshot.hasData) {
+                  children = getUsers(snapshot.data);
+                } else if (snapshot.hasError) {
+                  children = <Widget>[
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ];
+                } else {
+                  children = const <Widget>[
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: CircularProgressIndicator(),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text('Awaiting result...'),
+                    ),
+                  ];
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: children,
+                );
               },
             ),
-            UserCard(
-              drHPageViewModel: drHPageViewModel,
-              profilePicture: 'assets/images/man.png',
-              username: 'Marwan Sry',
-              age: 22,
-              gender: 'Male',
-              weight: 75.5,
-              height: 120.0,
-              onTap: () {
-                // Handle onTap for this user card
-                securePrint('Tapped on John Doe');
-              },
-            ),
-            UserCard(
-              drHPageViewModel: drHPageViewModel,
-              profilePicture: 'assets/images/woman.png',
-              username: 'Robe Doe',
-              age: 25,
-              gender: 'Female',
-              weight: 75.5,
-              height: 120.0,
-              onTap: () {
-                // Handle onTap for this user card
-                securePrint('Tapped on John Doe');
-              },
-            ),
-            UserCard(
-              drHPageViewModel: drHPageViewModel,
-              profilePicture: 'assets/images/woman.png',
-              username: 'mira melva',
-              age: 30,
-              gender: 'Female',
-              weight: 60.0,
-              height: 120.0,
-              onTap: () {
-                // Handle onTap for this user card
-                securePrint('Tapped on mohamed beh al ');
-              },
-            ),
+            // ...getUsers()
+            // UserCard(
+            //   drHPageViewModel: drHPageViewModel,
+            //   profilePicture: 'assets/images/man.png',
+            //   username: 'John Doe',
+            //   age: 25,
+            //   gender: 'Male',
+            //   weight: 75.5,
+            //   height: 120.0,
+            //   onTap: () {
+            //     // Handle onTap for this user card
+            //     securePrint('Tapped on John Doe');
+            //     context.pushNamed(RoutesName.rtc);
+            //   },
+            // ),
+            // UserCard(
+            //   drHPageViewModel: drHPageViewModel,
+            //   // userID: ,
+            //   profilePicture: 'assets/images/man.png',
+            //   username: 'Marwan Sry',
+            //   age: 22,
+            //   gender: 'Male',
+            //   weight: 75.5,
+            //   height: 120.0,
+            //   onTap: () {
+            //     // Handle onTap for this user card
+            //     securePrint('Tapped on John Doe');
+            //   },
+            // ),
+            // UserCard(
+            //   drHPageViewModel: drHPageViewModel,
+            //   profilePicture: 'assets/images/woman.png',
+            //   username: 'Robe Doe',
+            //   age: 25,
+            //   gender: 'Female',
+            //   weight: 75.5,
+            //   height: 120.0,
+            //   onTap: () {
+            //     // Handle onTap for this user card
+            //     securePrint('Tapped on John Doe');
+            //   },
+            // ),
+            // UserCard(
+            //   drHPageViewModel: drHPageViewModel,
+            //   profilePicture: 'assets/images/woman.png',
+            //   username: 'mira melva',
+            //   age: 30,
+            //   gender: 'Female',
+            //   weight: 60.0,
+            //   height: 120.0,
+            //   onTap: () {
+            //     // Handle onTap for this user card
+            //     securePrint('Tapped on mohamed beh al ');
+            //   },
+            // ),
           ],
         ),
       ),
@@ -170,9 +228,7 @@ class UserCard extends StatelessWidget {
                       minRadius: 100,
                       maxRadius: 100,
                       child: Image.asset(
-                        drHPageViewModel.gender == "male"
-                            ? 'assets/images/man.png'
-                            : 'assets/images/woman.png',
+                        profilePicture,
                         scale: 0.2,
                       )),
                 ),

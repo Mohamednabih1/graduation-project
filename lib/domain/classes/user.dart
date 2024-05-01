@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserData {
   final String username;
+  final String id;
   final String email;
   final String password;
   final String gender;
@@ -13,6 +14,7 @@ class UserData {
 
   UserData({
     required this.username,
+    required this.id,
     required this.email,
     required this.password,
     required this.gender,
@@ -26,6 +28,8 @@ class UserData {
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
       username: snapshot['username'] as String,
+      // id: snapshot['id'] as String,
+      id: snapshot.id,
       email: snapshot['email'] as String,
       password: snapshot['password'] as String,
       gender: snapshot['gender'] as String,

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
+import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
 import 'package:gradproject/presentation/ui/common/base/base_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 
 class RTCViewModel extends BaseViewModel with ChangeNotifier {
+  final String receiverId;
+  RTCViewModel(this.receiverId);
+
   //example of functions
   // void logOut(BuildContext ctx) {
   //   DI.getItInstance<AppCache>().setIsUserLoggedIn(false);
   //   ctx.pushReplacementNamed(RoutesName.splash);
   // }
+  final AppCache appPreferences = DI.getItInstance<AppCache>();
+
   List<MessageWidget> msgList = [
     const MessageWidget(
         isSent: true, message: 'Hello, how can I help you?', sender: 'Doctor'),
@@ -28,6 +35,8 @@ class RTCViewModel extends BaseViewModel with ChangeNotifier {
   ];
 
   void sendMessage(messageText) {
+    int userId = appPreferences.getUserId;
+    securePrint('$userId' 'orsaIDz' '$receiverId');
     CollectionReference subCollection = FirebaseFirestore.instance
         .collection('chatRoom')
         .doc("48o3UU050YMHxMh9mt2j")
@@ -36,8 +45,8 @@ class RTCViewModel extends BaseViewModel with ChangeNotifier {
     if (messageText.isNotEmpty) {
       subCollection.add({
         'msg': messageText,
-        'senderId': '1',
-        'receiverId': '2',
+        'senderId': userId,
+        'receiverId': receiverId,
         'timeSent': DateTime.now(),
       });
     }
@@ -67,18 +76,18 @@ class RTCViewModel extends BaseViewModel with ChangeNotifier {
   }
 
   void createNewChat() {
-    int userId = 1;
-    int senderId = 4;
+    int userId = appPreferences.getUserId;
+    int senderToId = 4;
     String msg = "orsa mesa";
     CollectionReference usersRef =
         FirebaseFirestore.instance.collection('chatRoom');
     CollectionReference chatRef =
-        usersRef.doc('$userId' 'orsaIDz' '$senderId').collection('chat');
+        usersRef.doc('$userId' 'orsaIDz' '$senderToId').collection('chat');
 
     chatRef.add({
       'msg': msg,
       'senderId': "$userId",
-      'receiverId': '$senderId',
+      'receiverId': '$senderToId',
       'timeSent': "${DateTime.now()}",
     });
   }
