@@ -13,6 +13,7 @@ class SignUpViewModel extends ChangeNotifier {
   String phoneNum = '';
   String weight = '';
   String height = '';
+  String role = '';
   String age = '';
   String gender = '';
 
@@ -48,6 +49,9 @@ class SignUpViewModel extends ChangeNotifier {
     gender = value;
     securePrint(gender);
   }
+  void setRole(String value) {
+    role = value;
+  }
 
   Future<void> signUp(BuildContext context) async {
     if (dataValidInput()) {
@@ -76,8 +80,9 @@ class SignUpViewModel extends ChangeNotifier {
     securePrint("[signUp] password : $password ");
     securePrint("[signUp] email : $email ");
     securePrint("[signUp] phoneNum : $phoneNum ");
+    securePrint("[signUp] role : $role ");
     securePrint("[signUp] age : $age ");
-    securePrint("[signUp] weight : $weight ");
+    securePrint("[signUp] weight : $weight  ");
     securePrint("[signUp] height : $height ");
 
     fireBaseManger.addUserData(
@@ -89,6 +94,7 @@ class SignUpViewModel extends ChangeNotifier {
       weight: weight,
       height: height,
       gender: gender,
+      role: role,
     );
   }
 
@@ -100,6 +106,7 @@ class SignUpViewModel extends ChangeNotifier {
         username.isNotEmpty &&
         password.isNotEmpty &&
         gender.isNotEmpty &&
+        role.isNotEmpty &&
         height.isNotEmpty;
   }
 

@@ -30,6 +30,7 @@ abstract class FireBaseManger {
     required String weight,
     required String height,
     required String gender,
+    required String role,
   });
 
   Future<List<UserData>> getAllUserData();
@@ -89,6 +90,7 @@ class FireBaseMangerImpl implements FireBaseManger {
     required String weight,
     required String height,
     required String gender,
+    required String role,
   }) async {
     final FirebaseFirestore firebaseStorage = FirebaseFirestore.instance;
     var x = await firebaseStorage.collection("users").add({
@@ -100,6 +102,7 @@ class FireBaseMangerImpl implements FireBaseManger {
       "weight": weight,
       "height": height,
       "gender": gender,
+      "role": role,
     });
     securePrint("[OOBE] $x");
   }

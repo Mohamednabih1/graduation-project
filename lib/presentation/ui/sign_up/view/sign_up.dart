@@ -38,11 +38,13 @@ class _SignUpContentState extends State<SignUpContent> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
 
   int _currentValueAge = 25;
   int _weight = 70;
   int _height = 175;
   String _gender = "male";
+  String _role = "patient";
 
   void _bind(BuildContext context) {
     _signUpViewModel = Provider.of<SignUpViewModel>(context, listen: false);
@@ -70,6 +72,8 @@ class _SignUpContentState extends State<SignUpContent> {
 
     _genderController
         .addListener(() => _signUpViewModel.setGender(_genderController.text));
+    _roleController
+        .addListener(() => _signUpViewModel.setGender(_roleController.text));
   }
 
   @override
@@ -102,10 +106,10 @@ class _SignUpContentState extends State<SignUpContent> {
                   const Text(
                     'Fill Your Profile',
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 32,
                       color: textColor,
                       fontFamily: 'Katibeh',
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(
@@ -117,7 +121,7 @@ class _SignUpContentState extends State<SignUpContent> {
                       Stack(
                         children: [
                           const CircleAvatar(
-                            radius: 64,
+                            radius: 60,
                             backgroundColor: Colors.white,
                             backgroundImage:
                                 AssetImage('assets/images/profile.png'),
@@ -126,7 +130,9 @@ class _SignUpContentState extends State<SignUpContent> {
                             // ignore: sort_child_properties_last
                             child: IconButton(
                               color: buttonColor,
-                              onPressed: () {},
+                              onPressed: () {
+
+                              },
                               icon: const Icon(Icons.add_a_photo),
                             ),
                             bottom: -12,
@@ -137,7 +143,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -149,7 +155,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -162,7 +168,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -175,7 +181,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -195,43 +201,97 @@ class _SignUpContentState extends State<SignUpContent> {
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: ,
                       children: [
                         const Text(
-                          "Please enter your age",
+                          "Gender",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: screenWidth * 0.04),
-                          width: screenWidth * 0.35,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: _gender,
-                            icon: const Icon(Icons.arrow_downward),
-                            elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
-                            underline: Container(
-                              height: 2,
-                              color: Colors.deepPurpleAccent,
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(left: screenWidth * 0.04),
+                            width: screenWidth * 0.35,
+                            child: Center(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                value: _gender,
+                                icon: const Icon(Icons.arrow_downward),
+                                elevation: 16,
+                                style: const TextStyle(color: Colors.deepPurple,),
+                                underline: Center(
+                                  child: Container(
+                                    height: 2,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                ),
+                                onChanged: (String? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    if (value != null) {
+                                      _gender = value;
+                                      _genderController.text = value;
+                                    }
+                                  });
+                                },
+                                items: ["male", "female", "other"]
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                if (value != null) {
-                                  _gender = value;
-                                  _genderController.text = value;
-                                }
-                              });
-                            },
-                            items: ["male", "female", "other"]
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                         )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:  [
+                        const Text("Role", style: TextStyle(fontSize: 20),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Radio(
+                                value: "patient",
+                                groupValue: _role,
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      _role = value;
+                                      _roleController.text = value;
+                                    }
+                                  });
+                                },
+                              ),
+                              const Text('Patient'),
+                              Radio(
+                                value: "Doctor",
+                                groupValue: _role,
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      _role = value;
+                                      _roleController.text = value;
+                                    }
+                                  });
+                                },
+                              ),
+                              const Text('Doctor'),
+                              
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
