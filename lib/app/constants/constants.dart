@@ -17,6 +17,7 @@ List<Training> trainings = [
     category: "Knee Pain",
     exercises: [
       TrainingExercise(
+        exerciseimg: 'assets/images/side_lying_hip_abduction.png',
         haveVideo: false,
         exerciseName: "Long ARC Quads",
         have3DModel: true,
@@ -25,43 +26,13 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Squats",
-        have3DModel: false,
+        exerciseimg: 'assets/images/side_lying_hip_abduction.png',
+        haveVideo: true,
+        exerciseName: "side lying hip abduction",
+        have3DModel: true,
+        modelUrl: 'assets/3dModels/side_lying_hip_abduction.glb',
         description:
-            "Targets thighs, hips, and buttocks by bending knees and lowering hips, then returning to standing.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Lunges",
-        have3DModel: false,
-        description:
-            "Works quadriceps, hamstrings, and glutes by stepping forward, lowering hips until knees bent at 90 degrees, then returning.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Push-ups",
-        have3DModel: false,
-        description:
-            "Engages chest, shoulders, and triceps by lowering body to ground with bent elbows, then pushing back up.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Dumbbell Rows",
-        have3DModel: false,
-        description:
-            "Strengthens upper back muscles like latissimus dorsi and rhomboids by pulling dumbbells towards chest from bent forward position.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Dead lifts",
-        have3DModel: false,
-        description:
-            "Targets lower back, hamstrings, and glutes by lifting barbell or dumbbells from ground to standing position.",
+            "lifting your heel up towards  don't lead your toe and let your hip flexors  feel kind of more posterioly more in the butt than in the front  feel more posteriorly in glute  10 reps / 3 sets",
         exerciseDuration: "1",
       ),
     ],
@@ -71,27 +42,13 @@ List<Training> trainings = [
     category: "Lower Back",
     exercises: [
       TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Stretching",
-        have3DModel: false,
-        description:
-            "Improves flexibility and reduces risk of injury through lengthening and elongating muscles.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Yoga Poses",
-        have3DModel: false,
-        description:
-            "Enhances flexibility, strength, and mental focus through various body positions.",
-        exerciseDuration: "1",
-      ),
-      TrainingExercise(
-        haveVideo: false,
-        exerciseName: "Dynamic Stretches",
-        have3DModel: false,
-        description:
-            "Improves flexibility and prepares body for physical activity through moving muscles in full range of motion.",
+        exerciseimg: 'assets/images/Lumbar_rotation_stretch.png',
+        haveVideo: true,
+        videoUrl: 'https://www.youtube.com/watch?v=1rUFz5RzGmc',
+        exerciseName: "Lumbar rotation stretch",
+        have3DModel: true,
+        modelUrl: "assets/3dModels/Lumbar_rotation_stretch.glb",
+        description: "20 Seconds per side 3 Reps",
         exerciseDuration: "1",
       ),
     ],
@@ -101,47 +58,58 @@ List<Training> trainings = [
       category: "Upper Back",
       exercises: [
         TrainingExercise(
-          haveVideo: false,
-          exerciseName: "Single-leg Stands",
-          have3DModel: false,
-          description:
-              "Improves balance and stability by standing on one leg while keeping other leg lifted.",
+          exerciseimg: 'assets/images/swimmers.png',
+          haveVideo: true,
+          exerciseName: "Swimmers",
+          have3DModel: true,
+          modelUrl: 'assets/3dModels/swimmers.glb',
+          videoUrl:
+              'https://www.youtube.com/watch?v=bAHLexn6Ruk&list=PLT4Yite3Tx5n-rPIsiqWzVgQI78FCmyHR&index=3',
+          description: "10 rep/ s sets",
           exerciseDuration: "1",
         ),
         TrainingExercise(
-          haveVideo: false,
-          exerciseName: "Heel-to-toe Walk",
-          have3DModel: false,
-          description:
-              "Enhances balance and coordination by walking placing heel of one foot directly in front of toes of other foot.",
-          exerciseDuration: "1",
-        ),
-        TrainingExercise(
-          haveVideo: false,
-          exerciseName: "Balance BoardExercises",
-          have3DModel: false,
-          description:
-              "Challenges balance and stability using balance board for exercises like squats and lunges.",
-          exerciseDuration: "1",
-        ),
-        TrainingExercise(
-          haveVideo: false,
-          exerciseName: "Stability BallExercises",
-          have3DModel: false,
-          description:
-              "Strengthens core and improves balance and stability using large inflatable ball for various exercises.",
-          exerciseDuration: "1",
-        ),
-        TrainingExercise(
-          haveVideo: false,
-          exerciseName: "Tai Chi",
-          have3DModel: false,
-          description:
-              "Improves balance, flexibility, and relaxation through slow, flowing movements and deep breathing.",
+          exerciseimg: 'assests/images/Prone_Ts.png',
+          haveVideo: true,
+          exerciseName: "Prone T's",
+          modelUrl: 'assets/3dModels/Prone_Ts.glb',
+          videoUrl:
+              'https://www.youtube.com/watch?v=bAHLexn6Ruk&list=PLT4Yite3Tx5n-rPIsiqWzVgQI78FCmyHR&index=4',
+          have3DModel: true,
+          description: "10 repetitions 3 sets",
           exerciseDuration: "1",
         ),
       ],
       imageUrl: 'assets/images/upper-back.png'),
+  Training(
+    category: "Hip pain",
+    exercises: [
+      TrainingExercise(
+        exerciseimg: 'assets/images/hip_flexor_stretch.png',
+        haveVideo: true,
+        exerciseName: "hip flexor stretch",
+        have3DModel: true,
+        modelUrl: "assets/3dModels/hip_flexor_stretch.glb",
+        description: "20 secs / 3 rep",
+        videoUrl:
+            'https://www.youtube.com/watch?v=FOYaffW5zfA&list=PLT4Yite3Tx5kNj8FZobTBZyT-b2_cuh5P&index=6',
+        exerciseDuration: "1",
+      ),
+      TrainingExercise(
+        exerciseimg: 'assets/images/side_lying_hip_abduction.png',
+        haveVideo: true,
+        exerciseName: "side lying hip abduction",
+        have3DModel: true,
+        modelUrl: 'assets/3dModels/side_lying_hip_abduction.glb',
+        description:
+            "lifting your heel up towards  don't lead your toe and let your hip flexors  feel kind of more posterioly more in the butt than in the front  feel more posteriorly in glute  10 reps / 3 sets",
+        exerciseDuration: "1",
+        videoUrl: 'https://www.youtube.com/watch?v=ikt6NME0k9E',
+      ),
+    ],
+    imageUrl: 'assets/images/hip_pain.png',
+  ),
+
   // Training(
   //     category: "Cardiovascular Training",
   //     exercises: [

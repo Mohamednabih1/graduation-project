@@ -254,13 +254,13 @@ class _HomeContentState extends State<HomeContent> {
                   HeaderIconsFunctions(
                     icon: const Icon(Icons.access_alarm_outlined),
                     iconFunction: () {
-                      securePrint("messageToPrint");
+                      //securePrint("messageToPrint");
                     },
                   ),
                   HeaderIconsFunctions(
                     icon: const Icon(Icons.account_box_rounded),
                     iconFunction: () {
-                      securePrint("orsa");
+                      //securePrint("orsa");
                     },
                   ),
                 ],
