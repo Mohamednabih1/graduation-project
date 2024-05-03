@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
-import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
-import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
 import 'package:gradproject/domain/classes/header/header_function.dart';
+import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
@@ -57,8 +56,8 @@ class _HomeContentState extends State<HomeContent> {
     super.dispose();
   }
 
-  bool orsaIsDoctor = true;
-  BottomNavigationBar bottomNav() {
+  bool orsaIsDoctor = false;
+  Widget bottomNav() {
     void onItemTapped(int index) {
       setState(() {
         selectedIndex = index;
@@ -68,6 +67,8 @@ class _HomeContentState extends State<HomeContent> {
     if (orsaIsDoctor) {
       //_appPreferences.getIsUserPatient()
       return BottomNavigationBar(
+        backgroundColor: navBarColor,
+        // fixedColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -79,48 +80,71 @@ class _HomeContentState extends State<HomeContent> {
           ),
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: const Color(0xFF207790),
+        selectedItemColor: bottomClicked,
         onTap: onItemTapped,
       );
     } else {
-      return BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      return Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart_outlined),
-            label: 'Report',
+          child: BottomNavigationBar(
+            backgroundColor: navBarColor,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart_outlined),
+                label: 'Report',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: bottomClicked,
+            // unselectedItemColor: Color.fromARGB(255, 62, 37, 37),
+            onTap: onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: const Color(0xFF207790),
-        onTap: onItemTapped,
+        ),
       );
     }
   }
 
   List<Widget> getImageSliderImages() {
     return trainings
-        .map((item) => ClipRRect(
+        .map((exercise) => ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               child: InkWell(
                 onTap: () {
-                  securePrint(item.exercises);
-                  context.pushNamed(RoutesName.exercise, extra: item);
+                  securePrint(exercise.exercises);
+                  context.pushNamed(RoutesName.exercise, extra: exercise);
                 },
                 child: Stack(
                   children: [
-                    Image.network(
-                      item.imageUrl,
+                    Image.asset(
                       height: double.infinity,
                       fit: BoxFit.fitHeight,
+                      width: double.infinity,
+                      exercise.imageUrl,
                     ),
+                    // Image.network(
+                    //   exercise.imageUrl,
+                    //   height: double.infinity,
+                    //   fit: BoxFit.fitHeight,
+                    // ),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,
@@ -139,7 +163,7 @@ class _HomeContentState extends State<HomeContent> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
                         child: Text(
-                          item.category,
+                          exercise.category,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
@@ -204,18 +228,18 @@ class _HomeContentState extends State<HomeContent> {
 
   // image_slider.
   Widget getHomeBody(screenWidth, screenHeight) {
-    List<Widget> myList = [];
-    for (var i = 0; i < 5; i++) {
-      myList.add(InkWell(
-        onTap: () {
-          // context.pushNamed(RoutesName.exercise);
-        },
-        child: ImageCard(
-          imageName: 'Image $i',
-          imageUrl: 'assets/images/Start.jpg',
-        ),
-      ));
-    }
+    // List<Widget> myList = [];
+    // for (var i = 0; i < 5; i++) {
+    //   myList.add(InkWell(
+    //     onTap: () {
+    //       // context.pushNamed(RoutesName.exercise);
+    //     },
+    //     child: ImageCard(
+    //       imageName: 'Image $i',
+    //       imageUrl: 'assets/images/Start.jpg',
+    //     ),
+    //   ));
+    // }
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -244,26 +268,11 @@ class _HomeContentState extends State<HomeContent> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.01),
-            height: screenHeight * 0.4,
-            width: double.infinity,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: false,
-                aspectRatio: 1.0,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: true,
-                // autoPlayInterval: const Duration(seconds: 6),
-              ),
-              items: getImageSliderImages(),
-            ),
-          ),
-          Container(
             margin: EdgeInsets.only(
-              top: screenHeight * 0.05,
+              top: screenHeight * 0.00,
               left: screenWidth * 0.05,
               right: screenHeight * 0.03,
-              bottom: screenHeight * 0.02,
+              bottom: screenHeight * 0.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,139 +293,73 @@ class _HomeContentState extends State<HomeContent> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-            child: getExerciseDifficulty(),
+            margin: EdgeInsets.only(top: screenHeight * 0.01),
+            height: screenHeight * 0.4,
+            width: double.infinity,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: false,
+                aspectRatio: 1.0,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                // autoPlayInterval: const Duration(seconds: 6),
+              ),
+              items: getImageSliderImages(),
+            ),
           ),
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+          //   child: getExerciseDifficulty(),
+          // ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            width: screenWidth * 0.85,
-            height: screenHeight * 0.2,
-            child: Stack(
-              // alignment: Alignment.bottomCenter,
-              children: [
-                Image.asset('assets/images/Picture1.jpg'),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  // color: Colors.black.withOpacity(0.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Squat Movement Exercise',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      // Icon(
-                      //   Icons.save,
-                      //   color: Colors.white,
-                      // ),
-                    ],
+            margin: EdgeInsets.only(
+              top: screenHeight * 0.02,
+              left: screenWidth * 0.05,
+              right: screenHeight * 0.03,
+              bottom: screenHeight * 0.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'Recommended',
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            width: screenWidth * 0.85,
-            height: screenHeight * 0.2,
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                Image.asset('assets/images/Picture2.jpg'),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  color: Colors.black.withOpacity(0.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Full Body Stretching',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.save,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+            margin: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                ExerciseCard(
+                  imageName: 'Squat Movement Exercise',
+                  imageUrl: 'assets/images/Picture1.jpg',
+                ),
+                ExerciseCard(
+                  imageName: 'Full Body Stretching',
+                  imageUrl: 'assets/images/Picture2.jpg',
                 ),
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            width: screenWidth * 0.85,
-            height: screenHeight * 0.2,
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                Center(
-                    child: Image.asset('assets/images/Picture3.jpg',
-                        fit: BoxFit.fill)),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  color: Colors.black.withOpacity(0.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Yoga Movement Exercise',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.save,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+            margin: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                ExerciseCard(
+                  imageName: 'Squat Movement Exercise',
+                  imageUrl: 'assets/images/Picture3.jpg',
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            width: screenWidth * 0.85,
-            height: screenHeight * 0.2,
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                Image.asset('assets/images/Picture4.jpg'),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  color: Colors.black.withOpacity(0.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Abdominal Exercise',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.save,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+                ExerciseCard(
+                  imageName: 'Abdominal Exercise',
+                  imageUrl: 'assets/images/Picture4.jpg',
                 ),
               ],
             ),
@@ -451,25 +394,26 @@ class _HomeContentState extends State<HomeContent> {
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
     return Scaffold(
+      backgroundColor: pageBackGroundColor,
       body: getBody(screenWidth, screenHeight),
       bottomNavigationBar: bottomNav(),
     );
   }
 }
 
-int pageNum = 1;
+// int pageNum = 1;
 
-class ImageModel {
-  final String name;
-  final String url;
-  ImageModel({required this.name, required this.url});
-}
+// class ImageModel {
+//   final String name;
+//   final String url;
+//   ImageModel({required this.name, required this.url});
+// }
 
-class ImageCard extends StatelessWidget {
+class ExerciseCard extends StatelessWidget {
   final String imageName;
   final String imageUrl;
 
-  const ImageCard({
+  const ExerciseCard({
     super.key,
     required this.imageName,
     required this.imageUrl,
@@ -477,30 +421,34 @@ class ImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 1),
+      width: screenWidth * 0.45,
+      height: screenHeight * 0.2,
+      // color: Colors.black,
+      child: Stack(
+        alignment: Alignment.bottomLeft,
         children: [
-          Image.asset(
-            imageUrl,
-            fit: BoxFit.cover,
-          ),
+          SizedBox(
+              height: screenHeight * 0.199,
+              width: double.infinity,
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.fill,
+              )),
           Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
+            margin: EdgeInsets.only(left: screenWidth * 0.02),
             child: Text(
               imageName,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
