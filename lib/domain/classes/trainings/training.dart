@@ -12,6 +12,7 @@ class Training {
 class TrainingExercise {
   String exerciseName;
   bool have3DModel;
+  bool haveVideo;
   String? modelUrl;
   String? videoUrl;
   String exerciseDuration;
@@ -20,6 +21,7 @@ class TrainingExercise {
   TrainingExercise({
     required this.exerciseName,
     required this.have3DModel,
+    required this.haveVideo,
     this.modelUrl,
     this.videoUrl,
     required this.exerciseDuration,

@@ -130,9 +130,7 @@ class _SignUpContentState extends State<SignUpContent> {
                             // ignore: sort_child_properties_last
                             child: IconButton(
                               color: buttonColor,
-                              onPressed: () {
-
-                              },
+                              onPressed: () {},
                               icon: const Icon(Icons.add_a_photo),
                             ),
                             bottom: -12,
@@ -218,7 +216,9 @@ class _SignUpContentState extends State<SignUpContent> {
                                 value: _gender,
                                 icon: const Icon(Icons.arrow_downward),
                                 elevation: 16,
-                                style: const TextStyle(color: Colors.deepPurple,),
+                                style: const TextStyle(
+                                  color: Colors.deepPurple,
+                                ),
                                 underline: Center(
                                   child: Container(
                                     height: 2,
@@ -234,8 +234,11 @@ class _SignUpContentState extends State<SignUpContent> {
                                     }
                                   });
                                 },
-                                items: ["male", "female", "other"]
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: [
+                                  "male",
+                                  "female",
+                                  "other"
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -256,8 +259,10 @@ class _SignUpContentState extends State<SignUpContent> {
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
-                        const Text("Role", style: TextStyle(fontSize: 20),
+                      children: [
+                        const Text(
+                          "Role",
+                          style: TextStyle(fontSize: 20),
                         ),
                         Container(
                           child: Row(
@@ -288,7 +293,6 @@ class _SignUpContentState extends State<SignUpContent> {
                                 },
                               ),
                               const Text('Doctor'),
-                              
                             ],
                           ),
                         ),

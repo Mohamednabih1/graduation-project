@@ -81,10 +81,10 @@ class _ExerciseContentState extends State<ExerciseContent> {
             children: [
               SizedBox(
                 child: Image.asset(
-                  height: screenHeight * 0.35,
+                  height: screenHeight * 0.45,
                   fit: BoxFit.fill,
                   width: double.infinity,
-                  'assets/images/armPain1.png',
+                  widget.training.imageUrl,
                 ),
               ),
               const SizedBox(height: 10),
@@ -101,6 +101,10 @@ class _ExerciseContentState extends State<ExerciseContent> {
           ),
         ),
         Container(
+          decoration: const BoxDecoration(
+            color: Colors.black26,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
           margin: EdgeInsets.only(
             top: screenHeight * 0.03,
             left: screenWidth * 0.01,
@@ -123,9 +127,11 @@ class _ExerciseContentState extends State<ExerciseContent> {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return Scaffold(
-      // appBar: appBar,
-      body: getBody(screenWidth, screenHeight),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: appBar,
+        body: getBody(screenWidth, screenHeight),
+      ),
     );
   }
 }

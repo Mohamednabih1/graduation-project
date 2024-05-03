@@ -28,6 +28,7 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
     context.pushNamed(RoutesName.signUp);
   }
 
+
   Future<void> login(BuildContext context) async {
     securePrint("hello");
     if (isValidInput()) {

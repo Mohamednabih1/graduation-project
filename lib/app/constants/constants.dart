@@ -17,6 +17,15 @@ List<Training> trainings = [
     category: "Knee Pain",
     exercises: [
       TrainingExercise(
+        haveVideo: false,
+        exerciseName: "Long ARC Quads",
+        have3DModel: true,
+        modelUrl: "assets/3dModels/squat.glb",
+        description: "15-20 reps , 3 sets",
+        exerciseDuration: "1",
+      ),
+      TrainingExercise(
+        haveVideo: false,
         exerciseName: "Squats",
         have3DModel: false,
         description:
@@ -24,6 +33,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Lunges",
         have3DModel: false,
         description:
@@ -31,6 +41,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Push-ups",
         have3DModel: false,
         description:
@@ -38,6 +49,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Dumbbell Rows",
         have3DModel: false,
         description:
@@ -45,6 +57,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Dead lifts",
         have3DModel: false,
         description:
@@ -58,6 +71,7 @@ List<Training> trainings = [
     category: "Lower Back",
     exercises: [
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Stretching",
         have3DModel: false,
         description:
@@ -65,6 +79,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Yoga Poses",
         have3DModel: false,
         description:
@@ -72,6 +87,7 @@ List<Training> trainings = [
         exerciseDuration: "1",
       ),
       TrainingExercise(
+        haveVideo: false,
         exerciseName: "Dynamic Stretches",
         have3DModel: false,
         description:
@@ -85,6 +101,7 @@ List<Training> trainings = [
       category: "Upper Back",
       exercises: [
         TrainingExercise(
+          haveVideo: false,
           exerciseName: "Single-leg Stands",
           have3DModel: false,
           description:
@@ -92,6 +109,7 @@ List<Training> trainings = [
           exerciseDuration: "1",
         ),
         TrainingExercise(
+          haveVideo: false,
           exerciseName: "Heel-to-toe Walk",
           have3DModel: false,
           description:
@@ -99,6 +117,7 @@ List<Training> trainings = [
           exerciseDuration: "1",
         ),
         TrainingExercise(
+          haveVideo: false,
           exerciseName: "Balance BoardExercises",
           have3DModel: false,
           description:
@@ -106,6 +125,7 @@ List<Training> trainings = [
           exerciseDuration: "1",
         ),
         TrainingExercise(
+          haveVideo: false,
           exerciseName: "Stability BallExercises",
           have3DModel: false,
           description:
@@ -113,6 +133,7 @@ List<Training> trainings = [
           exerciseDuration: "1",
         ),
         TrainingExercise(
+          haveVideo: false,
           exerciseName: "Tai Chi",
           have3DModel: false,
           description:
@@ -124,35 +145,35 @@ List<Training> trainings = [
   // Training(
   //     category: "Cardiovascular Training",
   //     exercises: [
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Walking",
   //         have3DModel: false,
   //         description:
   //             "Boosts cardiovascular health and strengthens muscles with low-impact aerobic exercise.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Jogging",
   //         have3DModel: false,
   //         description:
   //             "Improves cardiovascular fitness and burns calories with moderate to high-impact aerobic exercise.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Cycling",
   //         have3DModel: false,
   //         description:
   //             "Enhances cardiovascular health and leg strength with low-impact aerobic exercise.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Swimming",
   //         have3DModel: false,
   //         description:
   //             "Provides full-body workout, improves cardiovascular health, and increases strength and flexibility with gentle joint impact.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Jumping Jacks",
   //         have3DModel: false,
   //         description:
@@ -165,21 +186,21 @@ List<Training> trainings = [
   // Training(
   //     category: "Functional Training",
   //     exercises: [
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Functional Movements",
   //         have3DModel: false,
   //         description:
   //             "Mimics everyday activities to improve strength, flexibility, and coordination for daily tasks and injury prevention.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Bodyweight Exercises",
   //         have3DModel: false,
   //         description:
   //             "Strengthens muscles using body weight as resistance, including push-ups, squats, and lunges.",
   //         exerciseDuration: "1",
   //       ),
-  //       TrainingExercise(
+  //       TrainingExercise(haveVideo: false,
   //         exerciseName: "Resistance Band Exercises",
   //         have3DModel: false,
   //         description:

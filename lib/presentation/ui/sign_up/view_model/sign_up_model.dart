@@ -49,6 +49,7 @@ class SignUpViewModel extends ChangeNotifier {
     gender = value;
     securePrint(gender);
   }
+
   void setRole(String value) {
     role = value;
   }
@@ -73,6 +74,10 @@ class SignUpViewModel extends ChangeNotifier {
     } else {
       ToastManager.showTextToast("please enter all fields");
     }
+  }
+
+  void gohelpToSignUp(BuildContext context) {
+    context.replaceNamed(RoutesName.login);
   }
 
   Future<void> addUserData(FireBaseManger fireBaseManger) async {

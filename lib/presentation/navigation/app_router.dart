@@ -21,7 +21,7 @@ class AppRouter {
   late final router = GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: RoutesPath.signUp,
+    initialLocation: RoutesPath.splash,
     routes: [
       GoRoute(
         name: RoutesName.splash,
