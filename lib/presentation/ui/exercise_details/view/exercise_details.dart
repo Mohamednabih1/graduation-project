@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/presentation/ui/exercise_details/view_model/exercise_details_model.dart';
 import 'package:provider/provider.dart';
@@ -44,42 +45,27 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
     super.initState();
   }
 
+  Widget getBodyContent() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: const ModelViewer(
+        backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
+        src: 'assets/3dModels/squat.glb',
+        alt: 'A 3D model of an astronaut',
+        ar: true,
+        autoRotate: true,
+        disableZoom: false,
+        autoPlay: true,
+      ),
+    );
+  }
+
   Widget getBody(screenWidth, screenHeight) {
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: const ModelViewer(
-            backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
-            src: 'assets/3dModels/squat.glb',
-            alt: 'A 3D model of an astronaut',
-            ar: true,
-            autoRotate: true,
-            disableZoom: false,
-            autoPlay: true,
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          color: const Color.fromARGB(55, 0, 0, 0),
-          margin: EdgeInsets.only(
-            top: screenHeight * 0.03,
-          ),
-          child: Container(
-            margin: EdgeInsets.only(
-              left: screenWidth * 0.01,
-            ),
-            child: IconButton(
-                alignment: Alignment.centerLeft,
-                onPressed: () {
-                  context.pop();
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                )),
-          ),
-        ),
+        getBodyContent(),
+        getBackButton(
+            ctx: context, screenHeight: screenHeight, screenWidth: screenWidth),
       ],
     );
   }
@@ -90,6 +76,6 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
 
-    return Scaffold(body: getBody(screenWidth, screenHeight));
+    return SafeArea(child: Scaffold(body: getBody(screenWidth, screenHeight)));
   }
 }

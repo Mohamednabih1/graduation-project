@@ -100,24 +100,26 @@ class _ExerciseContentState extends State<ExerciseContent> {
             ],
           ),
         ),
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.black26,
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-          ),
-          margin: EdgeInsets.only(
-            top: screenHeight * 0.03,
-            left: screenWidth * 0.01,
-          ),
-          child: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              )),
-        ),
+        getBackButton(
+            ctx: context, screenHeight: screenHeight, screenWidth: screenWidth),
+        // Container(
+        //   decoration: const BoxDecoration(
+        //     color: Colors.black26,
+        //     borderRadius: BorderRadius.all(Radius.circular(30)),
+        //   ),
+        //   margin: EdgeInsets.only(
+        //     top: screenHeight * 0.03,
+        //     left: screenWidth * 0.01,
+        //   ),
+        //   child: IconButton(
+        //       onPressed: () {
+        //         context.pop();
+        //       },
+        //       icon: const Icon(
+        //         Icons.arrow_back,
+        //         color: Colors.white,
+        //       )),
+        // ),
       ],
     );
   }
