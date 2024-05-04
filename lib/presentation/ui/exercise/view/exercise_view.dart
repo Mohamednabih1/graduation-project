@@ -60,7 +60,7 @@ class _ExerciseContentState extends State<ExerciseContent> {
               child: ListTile(
                 style: ListTileStyle.list,
                 leading: Image.asset(
-                trainingExercise.exerciseimg!,
+                  trainingExercise.exerciseImg,
                 ),
                 title: Text(trainingExercise.exerciseName),
                 subtitle: Text(

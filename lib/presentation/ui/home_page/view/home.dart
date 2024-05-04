@@ -4,6 +4,7 @@ import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/header/header_function.dart';
+import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
@@ -12,6 +13,7 @@ import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:math';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -226,6 +228,48 @@ class _HomeContentState extends State<HomeContent> {
     ]);
   }
 
+  List<Widget> getRecommended(screenWidth, screenHeight) {
+    final random = Random();
+    int randomIndex1 = random.nextInt(trainings[0].exercises.length);
+    int randomIndex2 = random.nextInt(trainings[1].exercises.length);
+    int randomIndex3 = random.nextInt(trainings[2].exercises.length);
+    int randomIndex4 = random.nextInt(trainings[3].exercises.length);
+    securePrint(randomIndex1);
+    securePrint(randomIndex2);
+    securePrint(randomIndex3);
+    securePrint(randomIndex4);
+    return [
+      Container(
+        margin: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ExerciseCard(
+              exerciseTraining: trainings[0].exercises[randomIndex1],
+            ),
+            ExerciseCard(
+              exerciseTraining: trainings[1].exercises[randomIndex2],
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ExerciseCard(
+                exerciseTraining: trainings[2].exercises[randomIndex3]),
+            ExerciseCard(
+                exerciseTraining: trainings[3].exercises[randomIndex4]),
+          ],
+        ),
+      ),
+    ];
+  }
+
   // image_slider.
   Widget getHomeBody(screenWidth, screenHeight) {
     // List<Widget> myList = [];
@@ -330,40 +374,7 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                ExerciseCard(
-                  imageName: 'Squat Movement Exercise',
-                  imageUrl: 'assets/images/Picture1.jpg',
-                ),
-                ExerciseCard(
-                  imageName: 'Full Body Stretching',
-                  imageUrl: 'assets/images/Picture2.jpg',
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                ExerciseCard(
-                  imageName: 'Squat Movement Exercise',
-                  imageUrl: 'assets/images/Picture3.jpg',
-                ),
-                ExerciseCard(
-                  imageName: 'Abdominal Exercise',
-                  imageUrl: 'assets/images/Picture4.jpg',
-                ),
-              ],
-            ),
-          ),
+          ...getRecommended(screenWidth, screenHeight),
         ],
       ),
     );
@@ -410,13 +421,11 @@ class _HomeContentState extends State<HomeContent> {
 // }
 
 class ExerciseCard extends StatelessWidget {
-  final String imageName;
-  final String imageUrl;
+  final TrainingExercise exerciseTraining;
 
   const ExerciseCard({
     super.key,
-    required this.imageName,
-    required this.imageUrl,
+    required this.exerciseTraining,
   });
 
   @override
@@ -424,36 +433,69 @@ class ExerciseCard extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+    return Card(
+      elevation: 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 1),
-      width: screenWidth * 0.45,
-      height: screenHeight * 0.2,
-      // color: Colors.black,
-      child: Stack(
-        alignment: Alignment.bottomLeft,
-        children: [
-          SizedBox(
-              height: screenHeight * 0.199,
-              width: double.infinity,
-              child: Image.asset(
-                imageUrl,
-                fit: BoxFit.fill,
-              )),
-          Container(
-            margin: EdgeInsets.only(left: screenWidth * 0.02),
-            child: Text(
-              imageName,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 255, 255),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 1),
+        width: screenWidth * 0.45,
+        height: screenHeight * 0.2,
+        // color: Colors.black,
+        child: InkWell(
+          onTap: () {
+            context.pushNamed(RoutesName.exerciseDetails,
+                extra: exerciseTraining);
+          },
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SizedBox(
+                  height: screenHeight * 0.199,
+                  width: double.infinity,
+                  child: Image.asset(
+                    exerciseTraining.exerciseImg,
+                    fit: BoxFit.fill,
+                  )),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.044,
+                // margin: EdgeInsets.only(bottom: screenWidth * 0.01),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(200, 0, 0, 0),
+                      Color.fromARGB(0, 0, 0, 0)
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Center(
+                  child: Text(
+                    exerciseTraining.exerciseName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

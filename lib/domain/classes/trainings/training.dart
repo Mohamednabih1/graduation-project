@@ -10,7 +10,7 @@ class Training {
 }
 
 class TrainingExercise {
-  String? exerciseimg;
+  String exerciseImg;
   String exerciseName;
   bool have3DModel;
   bool haveVideo;
@@ -20,7 +20,7 @@ class TrainingExercise {
   String description;
 
   TrainingExercise({
-    required this.exerciseimg,
+    required this.exerciseImg,
     required this.exerciseName,
     required this.have3DModel,
     required this.haveVideo,
