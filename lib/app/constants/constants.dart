@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
-//Colors//
 
+//Colors//
 const backgroundColor = Color(0xff27374D); //#176b87 with 100% opacity
 const textColor = Color.fromARGB(255, 32, 56, 50);
-//startPage//
 const backGroundPhoto = Color(0xff176b87);
 const buttonColor = Color(0xD9FA9A85);
 const buttonTextColor = Colors.white;
@@ -21,7 +22,7 @@ List<Training> trainings = [
         haveVideo: false,
         exerciseName: "Long ARC Quads",
         have3DModel: true,
-        modelUrl: "assets/3dModels/squat.glb",
+        modelUrl: "assets/3dModels/Long_ARC_Quads_try5.glb",
         description: "15-20 reps , 3 sets",
         exerciseDuration: "1 min",
       ),
@@ -102,80 +103,139 @@ List<Training> trainings = [
         have3DModel: true,
         modelUrl: 'assets/3dModels/side_lying_hip_abduction.glb',
         description:
-            "lifting your heel up towards  don't lead your toe and let your hip flexors  feel kind of more posterioly more in the butt than in the front  feel more posteriorly in glute  10 reps / 3 sets",
+            "lifting your heel up towards  don't lead your toe and let your hip flexors  feel kind of more posteri oly more in the butt than in the front  feel more posteriorly in glute  10 reps / 3 sets",
         exerciseDuration: "1 min",
         videoUrl: 'https://www.youtube.com/watch?v=ikt6NME0k9E',
       ),
     ],
     imageUrl: 'assets/images/hip_pain.png',
   ),
-
-  // Training(
-  //     category: "Cardiovascular Training",
-  //     exercises: [
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Walking",
-  //         have3DModel: false,
-  //         description:
-  //             "Boosts cardiovascular health and strengthens muscles with low-impact aerobic exercise.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Jogging",
-  //         have3DModel: false,
-  //         description:
-  //             "Improves cardiovascular fitness and burns calories with moderate to high-impact aerobic exercise.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Cycling",
-  //         have3DModel: false,
-  //         description:
-  //             "Enhances cardiovascular health and leg strength with low-impact aerobic exercise.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Swimming",
-  //         have3DModel: false,
-  //         description:
-  //             "Provides full-body workout, improves cardiovascular health, and increases strength and flexibility with gentle joint impact.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Jumping Jacks",
-  //         have3DModel: false,
-  //         description:
-  //             "Improves cardiovascular fitness and coordination with plyometric exercise involving jumping and arm and leg movement.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //     ],
-  //     imageUrl:
-  //         'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80'),
-  // Training(
-  //     category: "Functional Training",
-  //     exercises: [
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Functional Movements",
-  //         have3DModel: false,
-  //         description:
-  //             "Mimics everyday activities to improve strength, flexibility, and coordination for daily tasks and injury prevention.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Bodyweight Exercises",
-  //         have3DModel: false,
-  //         description:
-  //             "Strengthens muscles using body weight as resistance, including push-ups, squats, and lunges.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //       TrainingExercise(haveVideo: false,
-  //         exerciseName: "Resistance Band Exercises",
-  //         have3DModel: false,
-  //         description:
-  //             "Targets muscles using elastic bands for resistance training, versatile and portable.",
-  //         exerciseDuration: "1 min",
-  //       ),
-  //     ],
-  //     imageUrl:
-  //         'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'),
 ];
+
+class ExerciseCard extends StatelessWidget {
+  final TrainingExercise exerciseTraining;
+
+  const ExerciseCard({
+    super.key,
+    required this.exerciseTraining,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return Card(
+      elevation: 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 255, 255),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 1),
+        width: screenWidth * 0.45,
+        height: screenHeight * 0.2,
+        // color: Colors.black,
+        child: InkWell(
+          onTap: () {
+            context.pushNamed(RoutesName.exerciseDetails,
+                extra: exerciseTraining);
+          },
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SizedBox(
+                  height: screenHeight * 0.199,
+                  width: double.infinity,
+                  child: Image.asset(
+                    exerciseTraining.exerciseImg,
+                    fit: BoxFit.fill,
+                  )),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.044,
+                // margin: EdgeInsets.only(bottom: screenWidth * 0.01),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(200, 0, 0, 0),
+                      Color.fromARGB(0, 0, 0, 0)
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Center(
+                  child: Text(
+                    exerciseTraining.exerciseName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget getExerciseDifficulty() {
+  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF93469F)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: const Text(
+        'Beginner',
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.black,
+        ),
+      ),
+    ),
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      decoration: BoxDecoration(
+        color: const Color(0xFF93469F),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: const Text(
+        'Intermediate',
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF93469F)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: const Text(
+        'Advanced',
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.black,
+        ),
+      ),
+    ),
+  ]);
+}

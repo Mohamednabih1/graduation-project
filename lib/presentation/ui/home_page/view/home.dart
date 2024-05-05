@@ -9,6 +9,7 @@ import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
+import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
@@ -67,23 +68,42 @@ class _HomeContentState extends State<HomeContent> {
     }
 
     if (orsaIsDoctor) {
-      //_appPreferences.getIsUserPatient()
-      return BottomNavigationBar(
-        backgroundColor: navBarColor,
-        // fixedColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      return Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+          child: BottomNavigationBar(
+            backgroundColor: navBarColor,
+            unselectedItemColor: const Color.fromARGB(255, 57, 57, 57),
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Chat',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: bottomClicked,
+            // unselectedItemColor: Color.fromARGB(255, 62, 37, 37),
+            onTap: onItemTapped,
           ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: bottomClicked,
-        onTap: onItemTapped,
+        ),
       );
     } else {
       return Container(
@@ -100,11 +120,17 @@ class _HomeContentState extends State<HomeContent> {
             topRight: Radius.circular(30.0),
           ),
           child: BottomNavigationBar(
+            unselectedItemColor: const Color.fromARGB(255, 57, 57, 57),
+            showUnselectedLabels: true,
             backgroundColor: navBarColor,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Chat',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart_outlined),
@@ -181,63 +207,12 @@ class _HomeContentState extends State<HomeContent> {
         .toList();
   }
 
-  Widget getExerciseDifficulty() {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF93469F)),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Text(
-          'Beginner',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        decoration: BoxDecoration(
-          color: const Color(0xFF93469F),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Text(
-          'Intermediate',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF93469F)),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Text(
-          'Advanced',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    ]);
-  }
-
   List<Widget> getRecommended(screenWidth, screenHeight) {
     final random = Random();
     int randomIndex1 = random.nextInt(trainings[0].exercises.length);
     int randomIndex2 = random.nextInt(trainings[1].exercises.length);
     int randomIndex3 = random.nextInt(trainings[2].exercises.length);
     int randomIndex4 = random.nextInt(trainings[3].exercises.length);
-    securePrint(randomIndex1);
-    securePrint(randomIndex2);
-    securePrint(randomIndex3);
-    securePrint(randomIndex4);
     return [
       Container(
         margin: EdgeInsets.symmetric(
@@ -270,20 +245,7 @@ class _HomeContentState extends State<HomeContent> {
     ];
   }
 
-  // image_slider.
   Widget getHomeBody(screenWidth, screenHeight) {
-    // List<Widget> myList = [];
-    // for (var i = 0; i < 5; i++) {
-    //   myList.add(InkWell(
-    //     onTap: () {
-    //       // context.pushNamed(RoutesName.exercise);
-    //     },
-    //     child: ImageCard(
-    //       imageName: 'Image $i',
-    //       imageUrl: 'assets/images/Start.jpg',
-    //     ),
-    //   ));
-    // }
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -294,20 +256,20 @@ class _HomeContentState extends State<HomeContent> {
               margin: EdgeInsets.only(top: screenHeight * 0.05),
               child: Header(
                 name: "Morning, ${_homeViewModel.username}",
-                myIconsList: [
-                  HeaderIconsFunctions(
-                    icon: const Icon(Icons.access_alarm_outlined),
-                    iconFunction: () {
-                      //securePrint("messageToPrint");
-                    },
-                  ),
-                  HeaderIconsFunctions(
-                    icon: const Icon(Icons.account_box_rounded),
-                    iconFunction: () {
-                      //securePrint("orsa");
-                    },
-                  ),
-                ],
+                // myIconsList: [
+                //   HeaderIconsFunctions(
+                //     icon: const Icon(Icons.access_alarm_outlined),
+                //     iconFunction: () {
+                //       //securePrint("messageToPrint");
+                //     },
+                //   ),
+                //   HeaderIconsFunctions(
+                //     icon: const Icon(Icons.account_box_rounded),
+                //     iconFunction: () {
+                //       //securePrint("orsa");
+                //     },
+                //   ),
+                // ],
               ),
             ),
           ),
@@ -382,19 +344,26 @@ class _HomeContentState extends State<HomeContent> {
 
   Widget getBody(screenWidth, screenHeight) {
     if (orsaIsDoctor) {
-      //_appPreferences.getIsUserPatient()
-      if (selectedIndex == 0) {
-        return const DrHomePage();
-      } else {
-        return const Profile();
+      switch (selectedIndex) {
+        case 0:
+          return const DrHomePage();
+        case 2:
+          return const Profile();
+        default:
+          return const DrHomePage();
       }
     } else {
-      if (selectedIndex == 0) {
-        return getHomeBody(screenWidth, screenHeight);
-      } else if (selectedIndex == 1) {
-        return const Report();
-      } else {
-        return const Profile();
+      switch (selectedIndex) {
+        case 0:
+          return getHomeBody(screenWidth, screenHeight);
+        case 1:
+          return const DrHomePage();
+        case 2:
+          return const Report();
+        case 3:
+          return const Profile();
+        default:
+          return getHomeBody(screenWidth, screenHeight);
       }
     }
   }
@@ -420,83 +389,3 @@ class _HomeContentState extends State<HomeContent> {
 //   ImageModel({required this.name, required this.url});
 // }
 
-class ExerciseCard extends StatelessWidget {
-  final TrainingExercise exerciseTraining;
-
-  const ExerciseCard({
-    super.key,
-    required this.exerciseTraining,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double screenWidth = screenSize.width;
-    double screenHeight = screenSize.height;
-    return Card(
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 255, 255),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        margin: const EdgeInsets.symmetric(vertical: 1),
-        width: screenWidth * 0.45,
-        height: screenHeight * 0.2,
-        // color: Colors.black,
-        child: InkWell(
-          onTap: () {
-            context.pushNamed(RoutesName.exerciseDetails,
-                extra: exerciseTraining);
-          },
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              SizedBox(
-                  height: screenHeight * 0.199,
-                  width: double.infinity,
-                  child: Image.asset(
-                    exerciseTraining.exerciseImg,
-                    fit: BoxFit.fill,
-                  )),
-              Container(
-                width: double.infinity,
-                height: screenHeight * 0.044,
-                // margin: EdgeInsets.only(bottom: screenWidth * 0.01),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(200, 0, 0, 0),
-                      Color.fromARGB(0, 0, 0, 0)
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                ),
-                child: Center(
-                  child: Text(
-                    exerciseTraining.exerciseName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
