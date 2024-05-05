@@ -31,14 +31,14 @@ class ExerciseDetailsContent extends StatefulWidget {
 }
 
 class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
-  late final ExerciseDetailsViewModel exerciseDetailsViewModel;
-  final int _duration = 10;
-  final CountDownController _controller = CountDownController();
+  CountDownController countDownController = CountDownController();
   void _bind(BuildContext context) {
     exerciseDetailsViewModel =
         Provider.of<ExerciseDetailsViewModel>(context, listen: false);
     exerciseDetailsViewModel.start();
   }
+
+  late final ExerciseDetailsViewModel exerciseDetailsViewModel;
 
   @override
   void initState() {
@@ -76,9 +76,85 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
             ),
           ),
           getExerciseDetails(),
-
-          // const CountdownTimer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              countDownController.isStarted
+                  ? countDownController.isPaused
+                      ? IconButton(
+                          onPressed: () {
+                            countDownController.resume();
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.play_arrow))
+                      : IconButton(
+                          onPressed: () {
+                            countDownController.pause();
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.pause_sharp))
+                  : IconButton(
+                      onPressed: () {
+                        countDownController.start();
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.play_arrow)),
+              circleTimer(countDownController),
+              IconButton(
+                  onPressed: () {
+                    bool countDownControllerIsPaused =
+                        countDownController.isPaused;
+                    countDownController.restart(duration: 30);
+                    if (countDownControllerIsPaused) {
+                      countDownController.pause();
+                    }
+                  },
+                  icon: const Icon(Icons.restart_alt)),
+            ],
+          )
         ],
+      ),
+    );
+  }
+
+  Widget circleTimer(CountDownController countDownController) {
+    int duration = 30;
+
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: CircularCountDownTimer(
+        duration: duration,
+        initialDuration: 0,
+        controller: countDownController,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 5,
+        ringColor: Colors.grey,
+        ringGradient: null,
+        fillColor: Colors.blue,
+        fillGradient: null,
+        backgroundColor: Colors.transparent,
+        backgroundGradient: null,
+        strokeWidth: 10.0,
+        strokeCap: StrokeCap.round,
+        textStyle: const TextStyle(
+          fontSize: 32.0,
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
+        textFormat: CountdownTextFormat.S,
+        isReverse: true,
+        isReverseAnimation: false,
+        isTimerTextShown: true,
+        autoStart: false,
+        onStart: () {
+          // Callback function when the timer starts
+          securePrint('Countdown started');
+        },
+        onComplete: () {
+          // Callback function when the timer completes
+          securePrint('Countdown completed');
+          // add user data
+        },
       ),
     );
   }
@@ -94,71 +170,38 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ### Exercise Name
-            const Text(
-              'Push-ups',
-              style: TextStyle(
+            Text(
+              widget.trainingExercise.exerciseName,
+              style: const TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             // ### Timer
             Row(
               children: [
-                Icon(Icons.timer, size: 18.0),
-                SizedBox(width: 4.0),
+                Icon(Icons.access_time, size: 18.0),
+                const SizedBox(width: 4.0),
                 Text(
-                  '1:30',
-                  style: TextStyle(
+                  widget.trainingExercise.exerciseDuration,
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             // ### Description
             Text(
-              'Perform 3 sets of 10 push-ups with 30 seconds rest between sets.',
-              style: TextStyle(
+              widget.trainingExercise.description,
+              style: const TextStyle(
                 fontSize: 16.0,
               ),
             ),
-            SizedBox(height: 8.0),
-            // ### Duration
-            Row(
-              children: [
-                Icon(Icons.access_time, size: 18.0),
-                SizedBox(width: 4.0),
-                Text(
-                  '5 minutes',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            const SizedBox(height: 8.0),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _button({required String title, VoidCallback? onPressed}) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30),
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.purple),
-          ),
-          onPressed: onPressed,
-          child: Text(
-            title,
-            style: const TextStyle(color: Colors.white),
-          ),
         ),
       ),
     );
@@ -180,81 +223,86 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
 
-    return SafeArea(child: Scaffold(body: getBody(screenWidth, screenHeight)));
+    return SafeArea(
+      child: Scaffold(
+        body: getBody(screenWidth, screenHeight),
+      ),
+    );
   }
 }
 
-    //  SizedBox(
-    //         width: double.infinity,
-    //         height: screenHeight * 0.3,
-    //         child: Stack(
-    //           children: [
-    //             Center(
-    //               child: CircularCountDownTimer(
-    //                 duration: _duration,
-    //                 initialDuration: 0,
-    //                 controller: _controller,
-    //                 width: MediaQuery.of(context).size.width / 3,
-    //                 height: MediaQuery.of(context).size.height / 3,
-    //                 ringColor: Colors.grey[300]!,
-    //                 fillColor: Colors.purpleAccent[100]!,
-    //                 backgroundColor: Colors.purple[500],
-    //                 strokeWidth: 20.0,
-    //                 strokeCap: StrokeCap.round,
-    //                 textStyle: const TextStyle(
-    //                   fontSize: 33.0,
-    //                   color: Colors.white,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //                 isTimerTextShown: true,
-    //                 autoStart: false,
-    //                 onChange: (String timeStamp) {
-    //                   securePrint('Countdown Changed $timeStamp');
-    //                 },
-    //                 timeFormatterFunction:
-    //                     (defaultFormatterFunction, duration) {
-    //                   if (duration.inSeconds == 0) {
-    //                     // only format for '0'
-    //                     return "Start";
-    //                   } else {
-    //                     // other durations by it's default format
-    //                     return Function.apply(
-    //                         defaultFormatterFunction, [duration]);
-    //                   }
-    //                 },
-    //               ),
-    //             ),
-    //             Column(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Row(
-    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                   children: [
-    //                     _button(
-    //                       title: "Start",
-    //                       onPressed: () => _controller.start(),
-    //                     ),
-    //                     _button(
-    //                       title: "Pause",
-    //                       onPressed: () => _controller.pause(),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 Row(
-    //                   children: [
-    //                     _button(
-    //                       title: "Restart",
-    //                       onPressed: () =>
-    //                           _controller.restart(duration: _duration),
-    //                     ),
-    //                     _button(
-    //                       title: "Resume",
-    //                       onPressed: () => _controller.resume(),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ),
+//  SizedBox(
+//         width: double.infinity,
+//         height: screenHeight * 0.3,
+//         child: Stack(
+//           children: [
+//             Center(
+//               child: CircularCountDownTimer(
+//                 duration: _duration,
+//                 initialDuration: 0,
+//                 controller: _controller,
+//                 width: MediaQuery.of(context).size.width / 3,
+//                 height: MediaQuery.of(context).size.height / 3,
+//                 ringColor: Colors.grey[300]!,
+//                 fillColor: Colors.purpleAccent[100]!,
+//                 backgroundColor: Colors.purple[500],
+//                 strokeWidth: 20.0,
+//                 strokeCap: StrokeCap.round,
+//                 textStyle: const TextStyle(
+//                   fontSize: 33.0,
+//                   color: Colors.white,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//                 isTimerTextShown: true,
+//                 autoStart: false,
+//                 onChange: (String timeStamp) {
+//                   securePrint('Countdown Changed $timeStamp');
+//                 },
+//                 timeFormatterFunction:
+//                     (defaultFormatterFunction, duration) {
+//                   if (duration.inSeconds == 0) {
+//                     // only format for '0'
+//                     return "Start";
+//                   } else {
+//                     // other durations by it's default format
+//                     return Function.apply(
+//                         defaultFormatterFunction, [duration]);
+//                   }
+//                 },
+//               ),
+//             ),
+//             Column(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     _button(
+//                       title: "Start",
+//                       onPressed: () => _controller.start(),
+//                     ),
+//                     _button(
+//                       title: "Pause",
+//                       onPressed: () => _controller.pause(),
+//                     ),
+//                   ],
+//                 ),
+//                 Row(
+//                   children: [
+//                     _button(
+//                       title: "Restart",
+//                       onPressed: () =>
+//                           _controller.restart(duration: _duration),
+//                     ),
+//                     _button(
+//                       title: "Resume",
+//                       onPressed: () => _controller.resume(),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+

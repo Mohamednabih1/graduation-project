@@ -63,6 +63,8 @@ dependencies:
   flutter_circular_chart: ^0.1.0
   pie_chart: ^5.4.0
   fl_chart: ^0.62.0
+  flutter_countdown_timer: ^4.1.0
+  circular_countdown_timer: ^0.2.3
 
 dev_dependencies:
   flutter_test:
