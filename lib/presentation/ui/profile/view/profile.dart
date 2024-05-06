@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
 import 'package:gradproject/domain/classes/header/header_function.dart';
-
+import 'package:go_router/go_router.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/common/resources/font_manager.dart';
 import 'package:provider/provider.dart';
@@ -269,8 +268,11 @@ class _ProfileContentState extends State<ProfileContent> {
                   HeaderIconsFunctions(
                     icon: const Icon(Icons.logout),
                     iconFunction: () {
-                      _appPreferences.setIsUserLoggedIn(false);
+                      profileViewModel.logOut();
                       context.pushReplacementNamed(RoutesName.splash);
+
+                      // _appPreferences.setIsUserLoggedIn(false);
+                      // context.pushReplacementNamed(RoutesName.splash);
                     },
                   )
                 ],

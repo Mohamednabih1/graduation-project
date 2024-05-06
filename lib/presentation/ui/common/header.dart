@@ -36,7 +36,7 @@ class Header extends StatelessWidget {
             children: [
               Image.asset("assets/images/logoSmall.png"),
               Container(
-                margin: const EdgeInsets.only(left: 5),
+                margin: const EdgeInsets.only(left: 5), 
                 child: Text(
                   name,
                   style: const TextStyle(

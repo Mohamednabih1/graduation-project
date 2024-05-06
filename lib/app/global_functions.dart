@@ -8,15 +8,21 @@ void securePrint(messageToPrint) {
   }
 }
 
-Widget getBackButton(
-    {required BuildContext ctx, required screenHeight, required screenWidth}) {
+Widget getBackButton({
+  required BuildContext ctx,
+  required screenHeight,
+  required screenWidth,
+  bool? useMargin,
+}) {
   return Container(
     decoration: const BoxDecoration(
       color: Colors.black26,
       borderRadius: BorderRadius.all(Radius.circular(30)),
     ),
     margin: EdgeInsets.only(
-      top: screenHeight * 0.03,
+      top: useMargin != null && useMargin
+          ? screenHeight * 0.03
+          : screenHeight * 0.0,
       left: screenWidth * 0.01,
     ),
     child: IconButton(
@@ -28,4 +34,12 @@ Widget getBackButton(
           color: Colors.white,
         )),
   );
+}
+
+String sortID(String id1, String id2) {
+  String originalString = id1 + id2;
+  List<String> chars = originalString.split('');
+  chars.sort();
+  String sortedString = chars.join();
+  return sortedString;
 }

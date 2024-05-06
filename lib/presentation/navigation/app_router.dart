@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
+import 'package:gradproject/domain/classes/user.dart';
 import 'package:gradproject/presentation/ui/exercise/view/exercise_view.dart';
 import 'package:gradproject/presentation/ui/exercise_details/view/exercise_details.dart';
 import 'package:gradproject/presentation/ui/getStarted/view/getStart.dart';
@@ -72,8 +73,8 @@ class AppRouter {
           name: RoutesName.rtc,
           path: RoutesPath.rtc,
           builder: (context, state) {
-            String userId = state.extra as String;
-            return RTC(userId: userId);
+            UserData userData = state.extra as UserData;
+            return RTC(user: userData);
           }),
       GoRoute(
           name: RoutesName.exercise,

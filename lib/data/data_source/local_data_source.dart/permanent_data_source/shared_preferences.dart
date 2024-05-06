@@ -20,8 +20,8 @@ class AppCache {
   final SharedPreferences _sharedPreferences;
   AppCache(this._sharedPreferences);
 
-  Future<void> setUserId(int userID) async =>
-      await _sharedPreferences.setInt(AppCacheKeys.userID, userID);
+  Future<void> setUserId(String userID) async =>
+      await _sharedPreferences.setString(AppCacheKeys.userID, userID);
 
   Future<void> setUserName(String userName) async =>
       await _sharedPreferences.setString(AppCacheKeys.userName, userName);
@@ -59,7 +59,8 @@ class AppCache {
   void setUserGender(String value) =>
       _sharedPreferences.setString(AppCacheKeys.userGender, value);
 // end of set
-  int get getUserId => _sharedPreferences.getInt(AppCacheKeys.userID) ?? -1;
+  String get getUserId =>
+      _sharedPreferences.getString(AppCacheKeys.userID) ?? "";
 
   bool get getDarkMode =>
       _sharedPreferences.getBool(AppCacheKeys.darkMode) ?? false;
@@ -98,7 +99,7 @@ class AppCache {
       _sharedPreferences.getBool(AppCacheKeys.isUserPatient) ?? false;
 
   setUserData({
-    required int userID,
+    required String userID,
     required String username,
     required String password,
     required String email,

@@ -62,59 +62,61 @@ class _SplashPageState extends State<SplashPage> {
   Widget getBody(screenWidth, screenHeight) {
     return Stack(
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            // SizedBox(
-            //   height: screenHeight * 0.3,
-            //   child: Image.asset('assets/images/logoSmall.png'),
-            // ),
-            Container(
-              margin: EdgeInsets.only(top: screenHeight * 0.2),
-              height: screenHeight * 0.5,
-              width: double.infinity,
-              child: Image.asset(
-                'assets/gif/loading.gif',
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              // SizedBox(
+              //   height: screenHeight * 0.3,
+              //   child: Image.asset('assets/images/logoSmall.png'),
+              // ),
+              Container(
+                margin: EdgeInsets.only(top: screenHeight * 0.2),
+                height: screenHeight * 0.5,
                 width: double.infinity,
+                child: Image.asset(
+                  'assets/gif/loading.gif',
+                  width: double.infinity,
+                ),
               ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const Text(
-                    'Be',
-                    style: TextStyle(fontSize: 25.0),
-                  ),
-                  SizedBox(
-                    width: screenWidth * 0.34,
-                    height: screenHeight * 0.1,
-                    child: DefaultTextStyle(
-                      style: const TextStyle(
-                        fontSize: 25.0,
-                        // fontFamily: 'Horizon',
-                        color: Colors.black,
-                      ),
-                      child: AnimatedTextKit(
-                        repeatForever: true,
-                        animatedTexts: [
-                          RotateAnimatedText('AWESOME'),
-                          RotateAnimatedText('PowerFull'),
-                          RotateAnimatedText('DIFFERENT'),
-                        ],
+              SizedBox(
+                height: screenHeight * 0.2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const Text(
+                      'Be',
+                      style: TextStyle(fontSize: 25.0),
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.34,
+                      height: screenHeight * 0.1,
+                      child: DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 25.0,
+                          // fontFamily: 'Horizon',
+                          color: Colors.black,
+                        ),
+                        child: AnimatedTextKit(
+                          repeatForever: true,
+                          animatedTexts: [
+                            RotateAnimatedText('AWESOME'),
+                            RotateAnimatedText('PowerFull'),
+                            RotateAnimatedText('DIFFERENT'),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Text(
-                    'with Salamtk',
-                    style: TextStyle(fontSize: 25.0),
-                  ),
-                ],
+                    const Text(
+                      'with Salamtk',
+                      style: TextStyle(fontSize: 25.0),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         Container(
             margin: EdgeInsets.only(

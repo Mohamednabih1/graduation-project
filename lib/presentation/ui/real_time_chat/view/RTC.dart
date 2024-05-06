@@ -1,23 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproject/app/constants/constants.dart';
+import 'package:gradproject/app/global_functions.dart';
+import 'package:gradproject/domain/classes/user.dart';
+import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/real_time_chat/view_model/RTC_model.dart';
 import 'package:provider/provider.dart';
 
 class RTC extends StatelessWidget {
-  const RTC({super.key, required this.userId});
-  final String userId;
+  const RTC({super.key, required this.user});
+  final UserData user;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RTCViewModel>(
-      create: (context) => RTCViewModel(userId),
+      create: (context) => RTCViewModel(user),
       builder: (context, child) {
-        return const RTCContent();
+        return RTCContent(user: user);
       },
     );
   }
 }
 
 class RTCContent extends StatefulWidget {
-  const RTCContent({super.key});
+  const RTCContent({super.key, required this.user});
+  final UserData user;
 
   @override
   State<RTCContent> createState() => _RTCContentState();
@@ -31,10 +37,6 @@ class _RTCContentState extends State<RTCContent> {
     rTCViewModel.start();
   }
 
-  AppBar get appBar {
-    return AppBar(title: const Text("RTC"));
-  }
-
   @override
   void initState() {
     _bind(context);
@@ -45,54 +47,103 @@ class _RTCContentState extends State<RTCContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mohamed Nabih'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16.0),
-              reverse: true,
-              children: <Widget>[...rTCViewModel.msgList],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: msgCtr,
-                    decoration: const InputDecoration(
-                      hintText: 'Type your message...',
-                      border: OutlineInputBorder(),
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: <Widget>[
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                    // bottom: BorderSide(width: 1.5, color: backgroundColor),
                     ),
+                // borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  getBackButton(
+                    ctx: context,
+                    screenHeight: screenHeight,
+                    screenWidth: screenWidth,
+                    useMargin: false,
                   ),
+                  Container(
+                    margin: EdgeInsets.only(left: screenWidth * 0.02),
+                    child: Header(name: widget.user.username),
+                    // margin: EdgeInsets.only(top: screenHeight * 0.01),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 224, 224, 221),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () {
-                    String msg = msgCtr.text;
-                    rTCViewModel.sendMessage(msg);
-                    msgCtr.text = "";
+                child: Consumer<RTCViewModel>(
+                  builder: (context, rTCViewModelConsumer, child) {
+                    return ListView(
+                      padding: const EdgeInsets.all(16.0),
+                      reverse: true,
+                      children: <Widget>[...rTCViewModelConsumer.msgList],
+                    );
                   },
                 ),
-                // IconButton(
-                //   icon: const Icon(Icons.ac_unit_outlined),
-                //   onPressed: () {},
-                // ),
-                // IconButton(
-                //   icon: const Icon(Icons.read_more),
-                //   onPressed: () {
-                //     rTCViewModel.createNewChat();
-                //   },
-                // ),
-              ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 224, 224, 221),
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        // color: Colors.white,
+                        child: TextField(
+                          controller: msgCtr,
+                          decoration: const InputDecoration(
+                            hintText: 'Type your message...',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.send,
+                      ),
+                      onPressed: () {
+                        String msg = msgCtr.text;
+                        rTCViewModel.sendMessage(msg);
+                        msgCtr.text = "";
+                      },
+                    ),
+                    // IconButton(
+                    //   icon:
+                    //       const Icon(Icons.sentiment_very_dissatisfied_rounded),
+                    //   onPressed: () {
+                    //     String msg = msgCtr.text;
+                    //     rTCViewModel.sendMessageFromOtherSide(msg);
+                    //     msgCtr.text = "";
+                    //   },
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

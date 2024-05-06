@@ -28,7 +28,6 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
     context.pushNamed(RoutesName.signUp);
   }
 
-
   Future<void> login(BuildContext context) async {
     securePrint("hello");
     if (isValidInput()) {
@@ -47,7 +46,7 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
         UserData? loginUserData = findByEmail(users, email);
         if (loginUserData != null) {
           _appPreferences.setUserData(
-            userID: 1,
+            userID: loginUserData.id,
             username: loginUserData.username,
             password: loginUserData.password,
             email: loginUserData.email,

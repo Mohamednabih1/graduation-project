@@ -63,7 +63,7 @@ class _DoctorHomeState extends State<DoctorHome> {
         height: 120.0,
         onTap: () {
           securePrint(user);
-          context.pushNamed(RoutesName.rtc, extra: user.id);
+          context.pushNamed(RoutesName.rtc, extra: user);
         },
       ));
     }
