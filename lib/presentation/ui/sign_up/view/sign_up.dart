@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
+import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/presentation/ui/common/text_input_field.dart';
 import 'package:gradproject/presentation/ui/sign_up/view_model/sign_up_model.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -73,7 +74,7 @@ class _SignUpContentState extends State<SignUpContent> {
     _genderController
         .addListener(() => _signUpViewModel.setGender(_genderController.text));
     _roleController
-        .addListener(() => _signUpViewModel.setGender(_roleController.text));
+        .addListener(() => _signUpViewModel.setRole(_roleController.text));
   }
 
   @override
@@ -264,37 +265,38 @@ class _SignUpContentState extends State<SignUpContent> {
                           "Role",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                value: "patient",
-                                groupValue: _role,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _role = value;
-                                      _roleController.text = value;
-                                    }
-                                  });
-                                },
-                              ),
-                              const Text('Patient'),
-                              Radio(
-                                value: "Doctor",
-                                groupValue: _role,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _role = value;
-                                      _roleController.text = value;
-                                    }
-                                  });
-                                },
-                              ),
-                              const Text('Doctor'),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            Radio(
+                              value: "patient",
+                              groupValue: _role,
+                              onChanged: (value) {
+                                securePrint("[Radio value] $value");
+                                setState(() {
+                                  if (value != null) {
+                                    _role = value;
+                                    _roleController.text = value;
+                                  }
+                                });
+                              },
+                            ),
+                            const Text('Patient'),
+                            Radio(
+                              value: "Doctor",
+                              groupValue: _role,
+                              onChanged: (value) {
+                                securePrint("[Radio value] $value");
+
+                                setState(() {
+                                  if (value != null) {
+                                    _role = value;
+                                    _roleController.text = value;
+                                  }
+                                });
+                              },
+                            ),
+                            const Text('Doctor'),
+                          ],
                         ),
                       ],
                     ),

@@ -46,6 +46,7 @@ class SignUpViewModel extends ChangeNotifier {
   }
 
   void setGender(String value) {
+    securePrint("[setGender] $value");
     gender = value;
     securePrint(gender);
   }
@@ -104,6 +105,15 @@ class SignUpViewModel extends ChangeNotifier {
   }
 
   bool dataValidInput() {
+    securePrint("[signUp] username : $username ");
+    securePrint("[signUp] password : $password ");
+    securePrint("[signUp] email : $email ");
+    securePrint("[signUp] phoneNum : $phoneNum ");
+    securePrint("[signUp] role : $role ");
+    securePrint("[signUp] age : $age ");
+    securePrint("[signUp] weight : $weight  ");
+    securePrint("[signUp] height : $height ");
+
     return email.isNotEmpty &&
         phoneNum.isNotEmpty &&
         age.isNotEmpty &&
