@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';

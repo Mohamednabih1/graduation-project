@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, deprecated_member_use
+
 import 'package:dio/dio.dart';
 import 'package:gradproject/app/constants/network_constants.dart';
 import 'package:gradproject/app/di.dart';

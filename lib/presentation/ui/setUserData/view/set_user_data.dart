@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_field, prefer_final_fields, prefer_const_constructors, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
@@ -72,6 +74,7 @@ class _SetUserDataContentState extends State<SetUserDataContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ignore: prefer_const_constructors
       body: SingleChildScrollView(child: Text("")),
     );
   }
