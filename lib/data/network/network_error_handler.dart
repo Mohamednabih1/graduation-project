@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, constant_identifier_names
+
 import 'package:dio/dio.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/data/network/failure.dart';

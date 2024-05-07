@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:gradproject/presentation/ui/common/resources/assets_manager.dart';
 import 'package:gradproject/presentation/ui/common/resources/color_manager.dart';
@@ -131,7 +133,7 @@ class StateRenderer extends StatelessWidget {
     return SizedBox(
         height: height ?? AppSizeConstants.s40,
         width: width ?? AppSizeConstants.s40,
-        child: Text("data"));
+        child: const Text("data"));
   }
 
   Widget _getRetryButton(String buttonTitle, BuildContext context) {

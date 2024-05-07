@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unused_import, empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gradproject/app/di.dart';

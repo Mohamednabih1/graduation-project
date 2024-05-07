@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
