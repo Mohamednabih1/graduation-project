@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gradproject/app/constants/constants.dart';
+import 'package:gradproject/app/constants/video.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
+import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/exercise_details/view_model/exercise_details_model.dart';
 import 'package:provider/provider.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -57,25 +60,34 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
           ),
           Container(
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 232, 226, 224),
-                border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(20)),
-            // margin: const EdgeInsets.symmetric(0),
+              color: Colors.transparent, //fromARGB(255, 188, 208, 241),
+              border: Border.all(color: const Color.fromARGB(0, 77, 77, 77)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: SizedBox(
-              height: screenHeight * 0.5,
-              child: ModelViewer(
-                backgroundColor: Colors.transparent,
-                src: "${widget.trainingExercise.modelUrl}",
-                alt: widget.trainingExercise.exerciseName,
-                ar: true,
-                autoRotate: true,
-                disableZoom: false,
-                autoPlay: true,
-                animationName: widget.trainingExercise.exerciseName,
-              ),
+              height: widget.trainingExercise.have3DModel
+                  ? screenHeight * 0.5
+                  : screenHeight * 0.37,
+              child: widget.trainingExercise.have3DModel
+                  ? ModelViewer(
+                      backgroundColor: Colors.transparent,
+                      src: "${widget.trainingExercise.modelUrl}",
+                      alt: widget.trainingExercise.exerciseName,
+                      ar: true,
+                      autoRotate: false,
+                      disableZoom: false,
+                      autoPlay: true,
+                      animationName: widget.trainingExercise.exerciseName,
+                    )
+                  : const ButterFlyAssetVideo(),
             ),
           ),
           getExerciseDetails(),
+          widget.trainingExercise.have3DModel
+              ? const SizedBox.shrink()
+              : SizedBox(
+                  height: screenHeight * 0.1,
+                ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -130,7 +142,7 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
         height: MediaQuery.of(context).size.height / 5,
         ringColor: Colors.grey,
         ringGradient: null,
-        fillColor: Colors.blue,
+        fillColor: const Color.fromARGB(255, 38, 87, 154),
         fillGradient: null,
         backgroundColor: Colors.transparent,
         backgroundGradient: null,
@@ -181,7 +193,7 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
             // ### Timer
             Row(
               children: [
-                Icon(Icons.access_time, size: 18.0),
+                const Icon(Icons.access_time, size: 18.0),
                 const SizedBox(width: 4.0),
                 Text(
                   widget.trainingExercise.exerciseDuration,
@@ -225,6 +237,7 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: pageBackGroundColor,
         body: getBody(screenWidth, screenHeight),
       ),
     );

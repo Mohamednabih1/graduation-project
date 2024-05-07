@@ -3,18 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/global_functions.dart';
-import 'package:gradproject/domain/classes/header/header_function.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
-import 'package:gradproject/presentation/ui/real_time_chat/view/RTC.dart';
 import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'dart:math';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -208,39 +205,104 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   List<Widget> getRecommended(screenWidth, screenHeight) {
-    final random = Random();
-    int randomIndex1 = random.nextInt(trainings[0].exercises.length);
-    int randomIndex2 = random.nextInt(trainings[1].exercises.length);
-    int randomIndex3 = random.nextInt(trainings[2].exercises.length);
-    int randomIndex4 = random.nextInt(trainings[3].exercises.length);
+    TrainingExercise pieceFullThoughts = TrainingExercise(
+        exerciseImg: "assets/images/piecefull_thoughts.jpg",
+        exerciseName: "Piecefull thoughts",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "30",
+        description: "");
+    TrainingExercise selfConfidence = TrainingExercise(
+        exerciseImg: "assets/images/self_confidence.jpg",
+        exerciseName: "Self Confidence",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "30",
+        description: "");
+    TrainingExercise relaxing = TrainingExercise(
+        exerciseImg: "assets/images/relaxing.jpg",
+        exerciseName: "relaxing",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "30",
+        description: "");
+    TrainingExercise calmDay = TrainingExercise(
+        exerciseImg: "assets/images/calm_day.jpg",
+        exerciseName: "Calm day",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "30",
+        description: "");
+    TrainingExercise happiness = TrainingExercise(
+        exerciseImg: "assets/images/happiness.jpg",
+        exerciseName: "happiness",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "30",
+        description: "");
+
     return [
-      Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ExerciseCard(
-              exerciseTraining: trainings[0].exercises[randomIndex1],
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: screenWidth * 0.5,
+            height: screenHeight * 0.6,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ExerciseCard(
+                  exerciseTraining: pieceFullThoughts,
+                  cardHight: screenHeight * 0.19,
+                  cardWidth: screenWidth * 0.43,
+                  imageUrl: "assets/images/piecefull_thoughts.jpg",
+                  text: "Piecefull thoughts",
+                ),
+                ExerciseCard(
+                  exerciseTraining: selfConfidence,
+                  cardHight: screenHeight * 0.19,
+                  cardWidth: screenWidth * 0.43,
+                  imageUrl: "assets/images/self_confidence.jpg",
+                  text: "Self Confidence",
+                ),
+                ExerciseCard(
+                  exerciseTraining: relaxing,
+                  cardHight: screenHeight * 0.19,
+                  cardWidth: screenWidth * 0.43,
+                  imageUrl: "assets/images/relaxing.jpeg",
+                  text: "relaxing",
+                ),
+              ],
             ),
-            ExerciseCard(
-              exerciseTraining: trainings[1].exercises[randomIndex2],
+          ),
+          SizedBox(
+            width: screenWidth * 0.5,
+            height: screenHeight * 0.6,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: ExerciseCard(
+                    exerciseTraining: calmDay,
+                    cardHight: screenHeight * 0.27,
+                    cardWidth: screenWidth * 0.43,
+                    imageUrl: "assets/images/calm_day.jpg",
+                    text: "Calm day",
+                  ),
+                ),
+                ExerciseCard(
+                  exerciseTraining: happiness,
+                  cardHight: screenHeight * 0.31,
+                  cardWidth: screenWidth * 0.43,
+                  imageUrl: "assets/images/happiness.jpg",
+                  text: "Happiness",
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.03, vertical: screenHeight * 0.01),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ExerciseCard(
-                exerciseTraining: trainings[2].exercises[randomIndex3]),
-            ExerciseCard(
-                exerciseTraining: trainings[3].exercises[randomIndex4]),
-          ],
-        ),
+          ),
+        ],
       ),
     ];
   }
@@ -254,23 +316,7 @@ class _HomeContentState extends State<HomeContent> {
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Container(
               margin: EdgeInsets.only(top: screenHeight * 0.05),
-              child: Header(
-                name: "Morning, ${_homeViewModel.username}",
-                // myIconsList: [
-                //   HeaderIconsFunctions(
-                //     icon: const Icon(Icons.access_alarm_outlined),
-                //     iconFunction: () {
-                //       //securePrint("messageToPrint");
-                //     },
-                //   ),
-                //   HeaderIconsFunctions(
-                //     icon: const Icon(Icons.account_box_rounded),
-                //     iconFunction: () {
-                //       //securePrint("orsa");
-                //     },
-                //   ),
-                // ],
-              ),
+              child: Header(name: "Morning, ${_homeViewModel.username}"),
             ),
           ),
           Container(
@@ -308,15 +354,10 @@ class _HomeContentState extends State<HomeContent> {
                 aspectRatio: 1.0,
                 enlargeCenterPage: true,
                 enableInfiniteScroll: true,
-                // autoPlayInterval: const Duration(seconds: 6),
               ),
               items: getImageSliderImages(),
             ),
           ),
-          // Container(
-          //   margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-          //   child: getExerciseDifficulty(),
-          // ),
           Container(
             margin: EdgeInsets.only(
               top: screenHeight * 0.02,
@@ -324,19 +365,25 @@ class _HomeContentState extends State<HomeContent> {
               right: screenHeight * 0.03,
               bottom: screenHeight * 0.0,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'Recommended',
-                  style: TextStyle(
-                    fontSize: 20,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    'Recommended',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           ...getRecommended(screenWidth, screenHeight),
+          const SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
@@ -380,12 +427,3 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 }
-
-// int pageNum = 1;
-
-// class ImageModel {
-//   final String name;
-//   final String url;
-//   ImageModel({required this.name, required this.url});
-// }
-

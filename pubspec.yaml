@@ -65,6 +65,7 @@ dependencies:
   fl_chart: ^0.62.0
   flutter_countdown_timer: ^4.1.0
   circular_countdown_timer: ^0.2.3
+  video_player: ^2.7.0
 
 dev_dependencies:
   flutter_test:

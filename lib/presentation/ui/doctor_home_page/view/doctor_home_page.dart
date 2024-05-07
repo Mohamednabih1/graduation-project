@@ -51,6 +51,17 @@ class _DoctorHomeState extends State<DoctorHome> {
       return myUsers;
     }
     for (var user in users) {
+      String userId;
+      try {
+        var x = appPreferences.getUserId;
+        userId = x;
+      } catch (e) {
+        securePrint(e);
+        return [];
+      }
+      if (user.id == userId) {
+        continue;
+      }
       myUsers.add(UserCard(
         drHPageViewModel: drHPageViewModel,
         profilePicture: user.gender == "male"
