@@ -249,24 +249,26 @@ Widget getExerciseDifficulty() {
 }
 
 class OpenYouTubeVideo extends StatelessWidget {
-  final String _videoUrl = 'https://youtu.be/9dPH9v6gmzw';
+  final String videoUrl;
 
-  const OpenYouTubeVideo({super.key});
+  const OpenYouTubeVideo({super.key, required this.videoUrl});
 
   Future<void> _launchURL(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
+    if (!await launchUrl(Uri.parse(url),
+        mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          _launchURL(_videoUrl);
-        },
-        child: const Text('Open Video'),
+    return IconButton(
+      onPressed: () {
+        _launchURL(videoUrl);
+      },
+      icon: const Icon(
+        Icons.image_search,
+        color: Colors.white,
       ),
     );
   }

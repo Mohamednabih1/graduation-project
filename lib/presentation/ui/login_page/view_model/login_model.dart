@@ -59,11 +59,7 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
             height: loginUserData.height,
             role: loginUserData.role,
           );
-          if (loginUserData.role == "patient") {
-            context.pushReplacementNamed(RoutesName.home);
-          } else {
-            context.pushReplacementNamed(RoutesName.rtc);
-          }
+          context.pushReplacementNamed(RoutesName.home);
         }
       } else {
         ToastManager.showTextToast("wrong username or password");

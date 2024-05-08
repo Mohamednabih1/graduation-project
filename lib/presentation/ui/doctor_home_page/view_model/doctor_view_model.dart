@@ -17,12 +17,40 @@ class DrHPageViewModel extends BaseViewModel with ChangeNotifier {
   late final String weight;
   late final String phoneNum;
   late final String age;
-  late final Future<List<UserData>> users;
+  List<UserData> users = [];
+  List<UserData> originalList = [];
+  List<UserData> patientList = [];
+  List<UserData> doctorList = [];
   late final FireBaseManger fireBaseManger;
 
   void logOut(BuildContext ctx) {
     _sharedPreferences.setIsUserLoggedIn(false);
     ctx.pushReplacementNamed(RoutesName.splash);
+  }
+
+  void sortList(String type) {
+    switch (type) {
+      case "Patient":
+        users = patientList;
+        notifyListeners();
+        break;
+      case "Doctor":
+        users = doctorList;
+        notifyListeners();
+        break;
+      case "All":
+        users = originalList;
+        notifyListeners();
+        break;
+      default:
+    }
+  }
+
+  void getUsers() async {
+    originalList = users = await fireBaseManger.getAllUserData();
+    doctorList = users.where((user) => user.role == 'Doctor').toList();
+    patientList = users.where((user) => user.role == 'patient').toList();
+    notifyListeners();
   }
 
   @override
@@ -37,63 +65,6 @@ class DrHPageViewModel extends BaseViewModel with ChangeNotifier {
     phoneNum = _sharedPreferences.getUserPhoneNum();
     age = _sharedPreferences.getUserAge();
     fireBaseManger = DI.getItInstance<FireBaseManger>();
-    users = fireBaseManger.getAllUserData();
-    //  users = [
-    //   UserData(
-    //       username: "orsa1",
-    //       id: "1",
-    //       email: "orsa.so@salamtk.com",
-    //       password: "123password",
-    //       gender: "male",
-    //       height: "180",
-    //       weight: "180",
-    //       phoneNum: "0123",
-    //       age: "20",
-    //       role: "doctor"),
-    //   UserData(
-    //       username: "orsa2",
-    //       id: "2",
-    //       email: "orsa.so@salamtk.com",
-    //       password: "123password",
-    //       gender: "female",
-    //       height: "180",
-    //       weight: "180",
-    //       phoneNum: "0123",
-    //       age: "20",
-    //       role: "doctor"),
-    //   UserData(
-    //       username: "orsa3",
-    //       id: "3",
-    //       email: "orsa.so@salamtk.com",
-    //       password: "123password",
-    //       gender: "male",
-    //       height: "180",
-    //       weight: "180",
-    //       phoneNum: "0123",
-    //       age: "20",
-    //       role: "doctor"),
-    //   UserData(
-    //       username: "orsa4",
-    //       id: "4",
-    //       email: "orsa.so@salamtk.com",
-    //       password: "123password",
-    //       gender: "female",
-    //       height: "180",
-    //       weight: "180",
-    //       phoneNum: "0123",
-    //       age: "20",
-    //       role: "doctor"),
-    //   UserData(
-    //       username: "orsa5",
-    //       id: "5",
-    //       email: "orsa.so@salamtk.com",
-    //       password: "123password",
-    //       gender: "male",
-    //       height: "180",
-    //       weight: "180",
-    //       phoneNum: "0123",
-    //       age: "20",
-    //       role: "doctor"),
-    // ];
+    getUsers();
   }
 }

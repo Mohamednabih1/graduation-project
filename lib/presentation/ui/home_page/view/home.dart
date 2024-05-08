@@ -14,6 +14,7 @@ import 'package:gradproject/presentation/ui/report/view/report.dart';
 import 'package:provider/provider.dart';
 import 'package:gradproject/presentation/ui/home_page/view_model/home_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -58,7 +59,6 @@ class _HomeContentState extends State<HomeContent> {
     super.dispose();
   }
 
-  bool orsaIsDoctor = false;
   Widget bottomNav() {
     void onItemTapped(int index) {
       setState(() {
@@ -66,7 +66,7 @@ class _HomeContentState extends State<HomeContent> {
       });
     }
 
-    if (orsaIsDoctor) {
+    if (!_homeViewModel.isUserPatient) {
       return Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -87,10 +87,6 @@ class _HomeContentState extends State<HomeContent> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Chat',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
@@ -310,6 +306,8 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget getHomeBody(screenWidth, screenHeight) {
+    // Permission.storage.request();
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -392,11 +390,11 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget getBody(screenWidth, screenHeight) {
-    if (orsaIsDoctor) {
+    if (!_homeViewModel.isUserPatient) {
       switch (selectedIndex) {
         case 0:
           return const DrHomePage();
-        case 2:
+        case 1:
           return const Profile();
         default:
           return const DrHomePage();

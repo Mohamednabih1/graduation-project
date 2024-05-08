@@ -1,13 +1,16 @@
 // ignore_for_file: file_names
 
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/user.dart';
 import 'package:gradproject/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class FireBaseManger {
   void start();
@@ -36,6 +39,7 @@ abstract class FireBaseManger {
   });
 
   Future<List<UserData>> getAllUserData();
+  Future<String> uploadVideo(XFile pickedFile);
 }
 
 class FireBaseMangerImpl implements FireBaseManger {
@@ -106,7 +110,7 @@ class FireBaseMangerImpl implements FireBaseManger {
       "gender": gender,
       "role": role,
     });
-    securePrint("[OOBE] $x");
+    securePrint("[firebaseStorage] $x");
   }
 
   @override
@@ -119,7 +123,7 @@ class FireBaseMangerImpl implements FireBaseManger {
       return snapshot.docs.map((doc) => UserData.fromSnapshot(doc)).toList();
     } catch (error) {
       securePrint(error.toString());
-      return []; // Handle error or return an empty list
+      return [];
     }
   }
 
@@ -136,6 +140,23 @@ class FireBaseMangerImpl implements FireBaseManger {
     } catch (error) {
       securePrint(error.toString());
       return null; // Handle error or return null
+    }
+  }
+
+  @override
+  Future<String> uploadVideo(XFile pickedFile) async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('videos/${DateTime.now().millisecondsSinceEpoch}.mp4');
+
+    try {
+      await storageRef.putFile(File(pickedFile.path));
+      final downloadUrl = await storageRef.getDownloadURL();
+      securePrint('Video uploaded successfully. Download URL: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      securePrint('Error uploading video: $e');
+      return "";
     }
   }
 

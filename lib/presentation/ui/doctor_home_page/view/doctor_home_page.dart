@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
@@ -33,6 +34,7 @@ class DoctorHome extends StatefulWidget {
 class _DoctorHomeState extends State<DoctorHome> {
   late final DrHPageViewModel drHPageViewModel;
   final AppCache appPreferences = DI.getItInstance<AppCache>();
+  String _selectedType = 'All';
 
   void _bind(BuildContext context) {
     drHPageViewModel = Provider.of<DrHPageViewModel>(context, listen: false);
@@ -82,6 +84,33 @@ class _DoctorHomeState extends State<DoctorHome> {
     return myUsers;
   }
 
+  void _setSelectedType(String type) {
+    setState(() {
+      _selectedType = type;
+      drHPageViewModel.sortList(type);
+    });
+  }
+
+  Widget _buildSortButton(String type) {
+    return ElevatedButton(
+      onPressed: () => _setSelectedType(type),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(
+          _selectedType == type
+              ? backgroundColor
+              : const Color.fromARGB(255, 197, 197, 197),
+        ),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                30.0), // Adjust the radius to make it more or less circular
+          ),
+        ),
+      ),
+      child: Text(type),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -98,44 +127,78 @@ class _DoctorHomeState extends State<DoctorHome> {
                 name: "home",
               ),
             ),
-            FutureBuilder<List<UserData>>(
-              future: drHPageViewModel.users,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<UserData>> snapshot) {
-                List<Widget> children;
-                if (snapshot.hasData) {
-                  children = getUsers(snapshot.data);
-                } else if (snapshot.hasError) {
-                  children = <Widget>[
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 60,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text('Error: ${snapshot.error}'),
-                    ),
-                  ];
-                } else {
-                  children = const <Widget>[
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: CircularProgressIndicator(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Awaiting result...'),
-                    ),
-                  ];
-                }
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: children,
-                );
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildSortButton('All'),
+                  _buildSortButton('Patient'),
+                  _buildSortButton('Doctor'),
+                ],
+              ),
+            ),
+            Consumer<DrHPageViewModel>(
+              builder: (context, drHPageViewModelConsumer, child) {
+                return  drHPageViewModelConsumer.users.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                            SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: CircularProgressIndicator(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Awaiting result...'),
+                            )
+                          ])
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            ...getUsers(drHPageViewModelConsumer.users)
+                          ]);
               },
             ),
+            // FutureBuilder<List<UserData>>(
+            //   future: drHPageViewModel.users,
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<List<UserData>> snapshot) {
+            //     List<Widget> children;
+            //     if (snapshot.hasData) {
+            //       children = getUsers(snapshot.data);
+            //     } else if (snapshot.hasError) {
+            //       children = <Widget>[
+            //         const Icon(
+            //           Icons.error_outline,
+            //           color: Colors.red,
+            //           size: 60,
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(top: 16),
+            //           child: Text('Error: ${snapshot.error}'),
+            //         ),
+            //       ];
+            //     } else {
+            //       children = const <Widget>[
+            //         SizedBox(
+            //           width: 60,
+            //           height: 60,
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //         Padding(
+            //           padding: EdgeInsets.only(top: 16),
+            //           child: Text('Awaiting result...'),
+            //         ),
+            //       ];
+            //     }
+            //     return Column(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: children,
+            //     );
+            //   },
+            // ),
             // ...getUsers()
             // UserCard(
             //   drHPageViewModel: drHPageViewModel,

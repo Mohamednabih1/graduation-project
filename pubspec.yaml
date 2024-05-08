@@ -66,6 +66,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   circular_countdown_timer: ^0.2.3
   video_player: ^2.7.0
+  image_picker: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +95,7 @@ flutter:
     - assets/images/
     - assets/3dModels/
     - assets/gif/
+    - assets/videos/
 
   #   - images/a_dot_ham.jpeg
 

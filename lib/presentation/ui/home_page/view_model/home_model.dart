@@ -6,7 +6,7 @@ import 'package:gradproject/data/data_source/local_data_source.dart/permanent_da
 import 'package:gradproject/presentation/ui/common/base/base_view_model.dart';
 
 class HomeViewModel extends BaseViewModel with ChangeNotifier {
-  late final AppCache _sharedPreferences;
+  late final AppCache sharedPreferences;
   late final String username;
   late final String email;
   late final String password;
@@ -18,7 +18,7 @@ class HomeViewModel extends BaseViewModel with ChangeNotifier {
   late final bool isUserPatient;
 
   void logOut(BuildContext ctx) {
-    _sharedPreferences.setIsUserLoggedIn(false);
+    sharedPreferences.setIsUserLoggedIn(false);
     ctx.pushReplacementNamed(RoutesName.splash);
   }
 
@@ -30,16 +30,16 @@ class HomeViewModel extends BaseViewModel with ChangeNotifier {
 
   @override
   void start() {
-    _sharedPreferences = DI.getItInstance<AppCache>();
+    sharedPreferences = DI.getItInstance<AppCache>();
 
-    username = _sharedPreferences.getUsername();
-    email = _sharedPreferences.getUserEmail();
-    password = _sharedPreferences.getPassword();
-    gender = _sharedPreferences.getUserGender();
-    height = _sharedPreferences.getUserHeight();
-    weight = _sharedPreferences.getUserWeight();
-    phoneNum = _sharedPreferences.getUserPhoneNum();
-    age = _sharedPreferences.getUserAge();
-    isUserPatient = _sharedPreferences.getIsUserPatient();
+    username = sharedPreferences.getUsername();
+    email = sharedPreferences.getUserEmail();
+    password = sharedPreferences.getPassword();
+    gender = sharedPreferences.getUserGender();
+    height = sharedPreferences.getUserHeight();
+    weight = sharedPreferences.getUserWeight();
+    phoneNum = sharedPreferences.getUserPhoneNum();
+    age = sharedPreferences.getUserAge();
+    isUserPatient = sharedPreferences.getIsUserPatient();
   }
 }
