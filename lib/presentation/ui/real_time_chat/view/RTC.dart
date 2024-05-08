@@ -185,12 +185,10 @@ class _RTCContentState extends State<RTCContent> {
                 child: Header(name: widget.user.username),
                 // margin: EdgeInsets.only(top: screenHeight * 0.01),
               ),
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
             ],
           ),
         ),
+        const Center(child: CircularProgressIndicator()),
       ],
     );
   }
