@@ -10,6 +10,7 @@ class RoutesPath {
   static const exerciseDetails = "/exerciseDetails";
   static const rtc = "/rtc";
   static const doctorHome = "/doctorHome";
+  static const dash = "/dash";
 }
 
 class RoutesName {
@@ -24,4 +25,5 @@ class RoutesName {
   static const exerciseDetails = "exerciseDetails";
   static const rtc = "rtc";
   static const doctorHome = "/doctorHome";
+  static const dash = "/dash";
 }

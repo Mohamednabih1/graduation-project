@@ -8,6 +8,7 @@ import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/presentation/ui/common/colors.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
+import 'package:gradproject/presentation/ui/dashboard_page/view/dash.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
 import 'package:gradproject/presentation/ui/profile/view/profile.dart';
 import 'package:gradproject/presentation/ui/report/view/report.dart';
@@ -419,7 +420,7 @@ class _HomeContentState extends State<HomeContent> {
         case 1:
           return const DrHomePage();
         case 2:
-          return const Report();
+          return const Dash();
         case 3:
           return const Profile();
         default:

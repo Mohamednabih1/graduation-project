@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/domain/classes/user.dart';
+import 'package:gradproject/presentation/ui/dashboard_page/view/dash.dart';
 import 'package:gradproject/presentation/ui/exercise/view/exercise_view.dart';
 import 'package:gradproject/presentation/ui/exercise_details/view/exercise_details.dart';
 import 'package:gradproject/presentation/ui/getStarted/view/getStart.dart';
@@ -14,6 +15,7 @@ import 'package:gradproject/presentation/ui/setUserData/view/set_user_data.dart'
 import 'package:gradproject/presentation/ui/sign_up/view/sign_up.dart';
 import 'package:gradproject/presentation/ui/splash_page/view/splash_page.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view/doctor_home_page.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -28,6 +30,11 @@ class AppRouter {
         name: RoutesName.splash,
         path: RoutesPath.splash,
         builder: (context, state) => const SplashPage(),
+      ),
+      GoRoute(
+        name: RoutesName.dash,
+        path: RoutesPath.dash,
+        builder: (context, state) => const Dash(),
       ),
       GoRoute(
         name: RoutesName.login,
