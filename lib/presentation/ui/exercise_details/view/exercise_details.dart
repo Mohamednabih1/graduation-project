@@ -51,6 +51,7 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
   }
 
   Widget getBodyContent(screenWidth, screenHeight) {
+    securePrint("orsa ${widget.trainingExercise.description}");
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +81,8 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
                       autoPlay: true,
                       animationName: widget.trainingExercise.exerciseName,
                     )
-                  : const ButterFlyAssetVideo(),
+                  : ButterFlyAssetVideo(
+                      videoName: widget.trainingExercise.exerciseDuration),
             ),
           ),
           getExerciseDetails(),
@@ -192,19 +194,21 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
             ),
             const SizedBox(height: 8.0),
             // ### Timer
-            Row(
-              children: [
-                const Icon(Icons.access_time, size: 18.0),
-                const SizedBox(width: 4.0),
-                Text(
-                  widget.trainingExercise.exerciseDuration,
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            widget.trainingExercise.have3DModel
+                ? Row(
+                    children: [
+                      const Icon(Icons.access_time, size: 18.0),
+                      const SizedBox(width: 4.0),
+                      Text(
+                        widget.trainingExercise.exerciseDuration,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
             const SizedBox(height: 8.0),
             // ### Description
             Text(

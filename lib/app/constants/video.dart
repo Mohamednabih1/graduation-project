@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gradproject/app/global_functions.dart';
 import 'package:video_player/video_player.dart';
 
 class ButterFlyAssetVideo extends StatefulWidget {
-  const ButterFlyAssetVideo({super.key});
-
+  const ButterFlyAssetVideo({super.key, required this.videoName});
+  final String videoName;
   @override
   ButterFlyAssetVideoState createState() => ButterFlyAssetVideoState();
 }
@@ -14,7 +15,9 @@ class ButterFlyAssetVideoState extends State<ButterFlyAssetVideo> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/videos/video.mp4');
+    securePrint("[oras] assets/videos/${widget.videoName}");
+    _controller =
+        VideoPlayerController.asset('assets/videos/${widget.videoName}');
 
     _controller.addListener(() {
       setState(() {});

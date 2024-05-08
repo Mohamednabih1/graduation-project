@@ -65,7 +65,7 @@ class _LoginContentState extends State<LoginContent> {
                   'Login',
                   style: TextStyle(
                     fontSize: 35,
-                    color: textColor,
+                    color: backgroundColor,
                     fontFamily: 'Katibeh',
                     fontWeight: FontWeight.w900,
                   ),
@@ -100,7 +100,7 @@ class _LoginContentState extends State<LoginContent> {
                 width: MediaQuery.of(context).size.width - 85,
                 height: 57,
                 decoration: const BoxDecoration(
-                  color: buttonColor,
+                  color: Color.fromARGB(255, 51, 68, 92),
                   borderRadius: BorderRadius.all(
                     Radius.circular(
                       50,
@@ -115,6 +115,7 @@ class _LoginContentState extends State<LoginContent> {
                     child: Text(
                       'Login',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
@@ -128,14 +129,29 @@ class _LoginContentState extends State<LoginContent> {
                 },
                 child: Container(
                   decoration: const BoxDecoration(
-                      color: Color.fromARGB(24, 0, 0, 0),
+                      color: Color.fromARGB(255, 204, 202, 202),
                       borderRadius: BorderRadius.all(
                         Radius.circular(5),
                       )),
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(10),
+                  margin: EdgeInsets.only(top: screenHeight * 0.02),
+                  child: const Text(
+                    "sign up",
+                    style: TextStyle(
+                        fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _loginViewModel.dummyLogin(context);
+                },
+                child: Container(
                   margin: EdgeInsets.only(top: screenHeight * 0.01),
                   child: const Text(
-                    "don't have account sign up",
+                    "skip login",
+                    style: TextStyle(
+                        fontSize: 14, color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
               ),

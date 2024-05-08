@@ -42,6 +42,11 @@ class _DoctorHomeState extends State<DoctorHome> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   void initState() {
     _bind(context);
     super.initState();
@@ -65,6 +70,7 @@ class _DoctorHomeState extends State<DoctorHome> {
         continue;
       }
       myUsers.add(UserCard(
+        eMail: user.email,
         drHPageViewModel: drHPageViewModel,
         profilePicture: user.gender == "male"
             ? 'assets/images/man.png'
@@ -140,7 +146,7 @@ class _DoctorHomeState extends State<DoctorHome> {
             ),
             Consumer<DrHPageViewModel>(
               builder: (context, drHPageViewModelConsumer, child) {
-                return  drHPageViewModelConsumer.users.isEmpty
+                return drHPageViewModelConsumer.users.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -270,6 +276,7 @@ class UserCard extends StatelessWidget {
   final String gender;
   final double weight;
   final double height;
+  final String eMail;
   final Function()? onTap;
 
   const UserCard({
@@ -280,75 +287,79 @@ class UserCard extends StatelessWidget {
     required this.gender,
     required this.weight,
     required this.height,
+    required this.eMail,
+    // required this.role,
     required this.drHPageViewModel,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = screenSize.width;
+    double screenHeight = screenSize.height;
+    return InkWell(
       onTap: onTap,
-      child: SizedBox(
-        height: height,
-        width: double.infinity,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      minRadius: 100,
-                      maxRadius: 100,
-                      child: Image.asset(
-                        profilePicture,
-                        scale: 0.2,
-                      )),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Container(
+        margin: EdgeInsets.only(bottom: screenHeight * 0.025),
+        child: Stack(
+          children: [
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+              color: const Color.fromARGB(230, 241, 239, 239),
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: screenHeight * 0.12,
+                    width: screenWidth * 0.1,
+                  ),
+                  Column(
+                    // mainAxisSize: MainAxisSize.max,
+                    // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Container(
-                          padding: const EdgeInsets.only(bottom: 5),
+                      Container(
+                          padding: EdgeInsets.only(bottom: screenHeight * 0.02),
+                          margin: EdgeInsets.only(
+                            left: screenWidth * 0.05,
+                          ),
                           child: Text(
                             username,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: const [
-                                //Text('user Age: $age'),
-                                //Text('Gender: $gender'),
-                              ],
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(left: screenWidth * 0.05),
+                          child: Text(
+                            eMail,
+                            style: const TextStyle(
+                              fontSize: 15,
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: const [
-                                //Text('Weight: $weight kg'),
-                                //Text('Height: $height cm'),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                          )),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(width: 7, color: Colors.white),
+                  borderRadius: BorderRadius.circular(50)),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                minRadius: screenWidth * 0.09,
+                maxRadius: screenWidth * 0.09,
+                child: Image.asset(
+                  profilePicture,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

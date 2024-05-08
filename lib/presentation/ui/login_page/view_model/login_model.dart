@@ -69,6 +69,23 @@ class LoginViewModel extends BaseViewModel with ChangeNotifier {
     }
   }
 
+  void dummyLogin(BuildContext context) {
+    _appPreferences.setIsUserLoggedIn(true);
+    _appPreferences.setUserData(
+      userID: "I6CM81kUu5KQjw96D0Wz",
+      username: "Orsa",
+      password: "123456",
+      email: "orsa@salamtk.com",
+      phoneNum: "01120883080",
+      age: "21",
+      weight: "80",
+      gender: "male",
+      height: "180",
+      role: "patient",
+    );
+    context.pushReplacementNamed(RoutesName.home);
+  }
+
   bool isValidInput() {
     return email.isNotEmpty && password.isNotEmpty;
   }

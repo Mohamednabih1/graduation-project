@@ -115,34 +115,34 @@ class _SignUpContentState extends State<SignUpContent> {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        children: [
-                          const CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.white,
-                            backgroundImage:
-                                AssetImage('assets/images/profile.png'),
-                          ),
-                          Positioned(
-                            // ignore: sort_child_properties_last
-                            child: IconButton(
-                              color: buttonColor,
-                              onPressed: () {},
-                              icon: const Icon(Icons.add_a_photo),
-                            ),
-                            bottom: -12,
-                            left: 82,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  // Stack(
+                  //   children: [
+                  //     const CircleAvatar(
+                  //       radius: 60,
+                  //       backgroundColor: Colors.white,
+                  //       backgroundImage:
+                  //           AssetImage('assets/images/profile.png'),
+                  //     ),
+                  //     Positioned(
+                  //       // ignore: sort_child_properties_last
+                  //       child: IconButton(
+                  //         color: buttonColor,
+                  //         onPressed: () {},
+                  //         icon: const Icon(Icons.add_a_photo),
+                  //       ),
+                  //       bottom: -12,
+                  //       left: 82,
+                  //     )
+                  //   ],
+                  // ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -202,7 +202,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       // crossAxisAlignment: ,
                       children: [
                         const Text(
@@ -220,12 +220,12 @@ class _SignUpContentState extends State<SignUpContent> {
                                 icon: const Icon(Icons.arrow_downward),
                                 elevation: 16,
                                 style: const TextStyle(
-                                  color: Colors.deepPurple,
+                                  color: backgroundColor,
                                 ),
                                 underline: Center(
                                   child: Container(
                                     height: 2,
-                                    color: Colors.deepPurpleAccent,
+                                    color: backgroundColor,
                                   ),
                                 ),
                                 onChanged: (String? value) {
@@ -261,7 +261,7 @@ class _SignUpContentState extends State<SignUpContent> {
                     margin: const EdgeInsets.symmetric(horizontal: 25),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           "Role",
@@ -305,8 +305,8 @@ class _SignUpContentState extends State<SignUpContent> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "How old are you ?  $_currentValueAge",
-                    style: const TextStyle(fontSize: 20),
+                    "Age :$_currentValueAge",
+                    style: const TextStyle(fontSize: 25),
                   ),
                   const SizedBox(height: 10),
                   Stack(
@@ -317,7 +317,7 @@ class _SignUpContentState extends State<SignUpContent> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: textColor,
+                            color: backgroundColor,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
@@ -331,7 +331,7 @@ class _SignUpContentState extends State<SignUpContent> {
                           selectedTextStyle: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w600,
-                            color: buttonColor,
+                            color: Colors.white,
                           ),
                           itemCount: 5,
                           axis: Axis.horizontal,
@@ -352,8 +352,8 @@ class _SignUpContentState extends State<SignUpContent> {
                     height: 20,
                   ),
                   Text(
-                    "your Weight in Kg  $_weight",
-                    style: const TextStyle(fontSize: 20),
+                    "Weight(Kg) $_weight",
+                    style: const TextStyle(fontSize: 25),
                   ),
                   const SizedBox(
                     height: 10,
@@ -365,7 +365,7 @@ class _SignUpContentState extends State<SignUpContent> {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: textColor,
+                          color: backgroundColor,
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
@@ -378,7 +378,7 @@ class _SignUpContentState extends State<SignUpContent> {
                           selectedTextStyle: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w600,
-                            color: buttonColor,
+                            color: Colors.white,
                           ),
                           itemCount: 5,
                           axis: Axis.horizontal,
@@ -399,8 +399,8 @@ class _SignUpContentState extends State<SignUpContent> {
                     height: 20,
                   ),
                   Text(
-                    "your height in cm $_height",
-                    style: const TextStyle(fontSize: 20),
+                    "height(cm) $_height",
+                    style: const TextStyle(fontSize: 25),
                   ),
                   const SizedBox(height: 10),
                   Stack(
@@ -411,7 +411,7 @@ class _SignUpContentState extends State<SignUpContent> {
                           width: 60,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: textColor,
+                            color: backgroundColor,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
@@ -425,7 +425,7 @@ class _SignUpContentState extends State<SignUpContent> {
                           selectedTextStyle: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w500,
-                            color: buttonColor,
+                            color: Colors.white,
                           ),
                           itemCount: 5,
                           axis: Axis.horizontal,
@@ -454,12 +454,12 @@ class _SignUpContentState extends State<SignUpContent> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        backgroundColor: buttonColor,
+                        backgroundColor: backgroundColor,
                       ),
                       child: const Text(
-                        'Create',
+                        'Sign up',
                         style: TextStyle(
-                            color: textColor,
+                            color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),

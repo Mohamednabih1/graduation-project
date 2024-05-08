@@ -67,4 +67,5 @@ class DrHPageViewModel extends BaseViewModel with ChangeNotifier {
     fireBaseManger = DI.getItInstance<FireBaseManger>();
     getUsers();
   }
+
 }

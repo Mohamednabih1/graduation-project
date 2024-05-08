@@ -203,46 +203,58 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   List<Widget> getRecommended(screenWidth, screenHeight) {
-    TrainingExercise pieceFullThoughts = TrainingExercise(
+    //  done
+    TrainingExercise breathing = TrainingExercise(
         exerciseImg: "assets/images/piecefull_thoughts.jpg",
-        exerciseName: "Piecefull thoughts",
+        exerciseName: "Mindful Breathing Exercise",
         have3DModel: false,
         haveVideo: true,
-        exerciseDuration: "30",
-        description: "");
-    TrainingExercise selfConfidence = TrainingExercise(
-        exerciseImg: "assets/images/self_confidence.jpg",
-        exerciseName: "Self Confidence",
-        have3DModel: false,
-        haveVideo: true,
-        exerciseDuration: "30",
-        description: "");
+        exerciseDuration: "breathing.mp4",
+        description:
+            "Take a deep breath in and a long exhale out feels good, doesn't it? Try our mindful breathing exercise video to help you feel more calm and present.");
+    //  done
     TrainingExercise relaxing = TrainingExercise(
         exerciseImg: "assets/images/relaxing.jpg",
-        exerciseName: "relaxing",
+        exerciseName: "Relaxing",
         have3DModel: false,
         haveVideo: true,
-        exerciseDuration: "30",
-        description: "");
-    TrainingExercise calmDay = TrainingExercise(
-        exerciseImg: "assets/images/calm_day.jpg",
-        exerciseName: "Calm day",
+        exerciseDuration: "relaxing.mp4",
+        description:
+            "This is a gentle 6 minute yoga for stress and anxiety relief. The stretches in this yoga class are focusing on the hips to help release tension within the lower body.Being super calm and restorative, this class can be done anytime of the day but i think it makes a great bedtime yoga routine");
+
+//  done
+    TrainingExercise cardio = TrainingExercise(
+        exerciseImg: "assets/images/cardio.jpg",
+        exerciseName: "Cardio",
         have3DModel: false,
         haveVideo: true,
-        exerciseDuration: "30",
-        description: "");
-    TrainingExercise happiness = TrainingExercise(
-        exerciseImg: "assets/images/happiness.jpg",
-        exerciseName: "happiness",
+        exerciseDuration: "cardio.mp4",
+        description:
+            "This workout is for beginners and great for families that want to burn calories with a home workout. Complete up to four times for a full workout or once for a quick way to get your heart rate and metabolism going.");
+//right colum
+//  done
+    TrainingExercise stretch = TrainingExercise(
+        exerciseImg: "assets/images/stretch_long.jpg",
+        exerciseName: "Morning Stretches",
         have3DModel: false,
         haveVideo: true,
-        exerciseDuration: "30",
-        description: "");
+        exerciseDuration: "stretch_video.mp4",
+        description:
+            "Welcome to your Yoga inspired 5 Minute Morning Stretch for Beginner. This is a great way to start your day and create a mindful, but active morning routine.Get your daily dose of flexibility & mobility and have an amazing start into the day!");
+    TrainingExercise strength = TrainingExercise(
+        exerciseImg: "assets/images/strength.mp4.jpg",
+        exerciseName: "Strength",
+        have3DModel: false,
+        haveVideo: true,
+        exerciseDuration: "strength.mp4",
+        description:
+            "A strength training exercise routine doesn't require weights or a gym membership. In this video, MD Anderson wellness specialist Evan Thoman demonstrates simple strength training exercises you can do at home. Do these exercises twice a week to help lower your cancer risk.");
 
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          //left colum
           SizedBox(
             width: screenWidth * 0.5,
             height: screenHeight * 0.6,
@@ -250,29 +262,30 @@ class _HomeContentState extends State<HomeContent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ExerciseCard(
-                  exerciseTraining: pieceFullThoughts,
+                  exerciseTraining: breathing,
                   cardHight: screenHeight * 0.19,
                   cardWidth: screenWidth * 0.43,
-                  imageUrl: "assets/images/piecefull_thoughts.jpg",
-                  text: "Piecefull thoughts",
-                ),
-                ExerciseCard(
-                  exerciseTraining: selfConfidence,
-                  cardHight: screenHeight * 0.19,
-                  cardWidth: screenWidth * 0.43,
-                  imageUrl: "assets/images/self_confidence.jpg",
-                  text: "Self Confidence",
+                  imageUrl: "assets/images/breath.jpg",
+                  text: "Mindful Breathing",
                 ),
                 ExerciseCard(
                   exerciseTraining: relaxing,
                   cardHight: screenHeight * 0.19,
                   cardWidth: screenWidth * 0.43,
-                  imageUrl: "assets/images/relaxing.jpeg",
-                  text: "relaxing",
+                  imageUrl: "assets/images/relaxing.jpg",
+                  text: "Relaxing",
+                ),
+                ExerciseCard(
+                  exerciseTraining: cardio,
+                  cardHight: screenHeight * 0.19,
+                  cardWidth: screenWidth * 0.43,
+                  imageUrl: "assets/images/cardio.jpg",
+                  text: "Cardio",
                 ),
               ],
             ),
           ),
+          //right colum
           SizedBox(
             width: screenWidth * 0.5,
             height: screenHeight * 0.6,
@@ -283,19 +296,19 @@ class _HomeContentState extends State<HomeContent> {
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: ExerciseCard(
-                    exerciseTraining: calmDay,
+                    exerciseTraining: stretch,
                     cardHight: screenHeight * 0.27,
                     cardWidth: screenWidth * 0.43,
-                    imageUrl: "assets/images/calm_day.jpg",
-                    text: "Calm day",
+                    imageUrl: "assets/images/stretch_long.jpg",
+                    text: "stretch",
                   ),
                 ),
                 ExerciseCard(
-                  exerciseTraining: happiness,
+                  exerciseTraining: strength,
                   cardHight: screenHeight * 0.31,
                   cardWidth: screenWidth * 0.43,
-                  imageUrl: "assets/images/happiness.jpg",
-                  text: "Happiness",
+                  imageUrl: "assets/images/strength.jpg",
+                  text: "Strength",
                 ),
               ],
             ),
@@ -335,12 +348,12 @@ class _HomeContentState extends State<HomeContent> {
                     fontSize: 20,
                   ),
                 ),
-                Text(
-                  "See all",
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
-                )
+                // Text(
+                //   "See all",
+                //   style: TextStyle(
+                //     fontSize: 17,
+                //   ),
+                // )
               ],
             ),
           ),
@@ -371,7 +384,7 @@ class _HomeContentState extends State<HomeContent> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Text(
-                    'Recommended',
+                    'Extra service',
                     style: TextStyle(
                       fontSize: 20,
                     ),

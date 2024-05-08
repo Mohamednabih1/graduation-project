@@ -39,6 +39,24 @@ List<Training> trainings = [
             "lifting your heel up towards  don't lead your toe and let your hip flexors  feel kind of more posterioly more in the butt than in the front  feel more posteriorly in glute  10 reps / 3 sets",
         exerciseDuration: "1 min",
       ),
+      TrainingExercise(
+        exerciseImg: 'assets/images/Short_ARC_Quads.png',
+        haveVideo: true,
+        exerciseName: "Short ARC Quads",
+        have3DModel: true,
+        modelUrl: 'assets/3dModels/Short_ARC_Quads.glb',
+        description: "15-20 reps ,3 set",
+        exerciseDuration: "1 min",
+      ),
+      TrainingExercise(
+        exerciseImg: 'assets/images/Short_ARC_Quads.png',
+        haveVideo: true,
+        exerciseName: "Straight Leg Raise",
+        have3DModel: true,
+        modelUrl: 'assets/3dModels/Straight_Leg_Raise.glb',
+        description: "10-15 reps , 3 sets",
+        exerciseDuration: "1 min",
+      ),
     ],
     imageUrl: 'assets/images/Knee.png',
   ),
@@ -138,6 +156,7 @@ class ExerciseCard extends StatelessWidget {
       height: cardHight,
       child: InkWell(
         onTap: () {
+          securePrint("[orsa1] ${exerciseTraining.description}");
           context.pushNamed(RoutesName.exerciseDetails,
               extra: exerciseTraining);
         },

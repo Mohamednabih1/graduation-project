@@ -83,89 +83,91 @@ class _Body extends State<Body> {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.04),
-            child: CarouselSlider(
-              items: images
-                  .map((e) => ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.asset(
-                              e,
-                              width: 318,
-                              fit: BoxFit.cover,
-                            ),
-                          ],
-                        ),
-                      ))
-                  .toList(),
-              options: CarouselOptions(
-                autoPlay: true,
-                enableInfiniteScroll: false,
-                enlargeCenterPage: true,
-                height: 508,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.05),
-            width: 237,
-            height: screenHeight * 0.07,
-            child: ElevatedButton(
-              onPressed: () {
-                context.pushNamed(RoutesName.signUp);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: backGroundPhoto,
-                textStyle: const TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.04),
+              child: CarouselSlider(
+                items: images
+                    .map((e) => ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.asset(
+                                e,
+                                width: 318,
+                                fit: BoxFit.cover,
+                              ),
+                            ],
+                          ),
+                        ))
+                    .toList(),
+                options: CarouselOptions(
+                  autoPlay: true,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  height: 508,
                 ),
               ),
-              child: const Text(
-                "Get Started",
-                style: TextStyle(color: Colors.white),
-              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.02),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Already have an account? ",
-                  style: TextStyle(
-                      color: textColor,
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.05),
+              width: 237,
+              height: screenHeight * 0.07,
+              child: ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(RoutesName.signUp);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: backGroundPhoto,
+                  textStyle: const TextStyle(
                       fontFamily: 'Lato',
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal),
-                ),
-                TextButton(
-                  onPressed: () {
-                    context.pushReplacementNamed(RoutesName.login);
-                  },
-                  child: const Text(
-                    " Log in",
-                    style: TextStyle(
-                        color: backGroundPhoto,
-                        fontFamily: 'Lato',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 22,
+                      fontWeight: FontWeight.w400),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-              ],
+                child: const Text(
+                  "Get Started",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
-          ),
-        ],
+            Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.02),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Already have an account? ",
+                    style: TextStyle(
+                        color: textColor,
+                        fontFamily: 'Lato',
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.pushReplacementNamed(RoutesName.login);
+                    },
+                    child: const Text(
+                      " Log in",
+                      style: TextStyle(
+                          color: backGroundPhoto,
+                          fontFamily: 'Lato',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
