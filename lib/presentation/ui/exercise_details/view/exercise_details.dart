@@ -78,6 +78,8 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
                       ar: true,
                       autoRotate: false,
                       disableZoom: false,
+                     
+                      scale: "0.2 0.2 0.2",
                       autoPlay: true,
                       animationName: widget.trainingExercise.exerciseName,
                     )

@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
-import '../../../../data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import '../../../../data/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

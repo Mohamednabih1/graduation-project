@@ -131,6 +131,23 @@ List<Training> trainings = [
     ],
     imageUrl: 'assets/images/hip_pain.png',
   ),
+  Training(
+    category: "orsa pain",
+    exercises: [
+      TrainingExercise(
+        exerciseImg: 'assets/images/hip_flexor_stretch.png',
+        haveVideo: true,
+        exerciseName: "orsa new exercise",
+        have3DModel: true,
+        modelUrl: "assets/3dModels/orsaTry.glb",
+        description: "30 secs / 3 rep",
+        videoUrl:
+            'https://www.youtube.com/watch?v=FOYaffW5zfA&list=PLT4Yite3Tx5kNj8FZobTBZyT-b2_cuh5P&index=6',
+        exerciseDuration: "30 sec",
+      ),
+    ],
+    imageUrl: 'assets/images/hip_pain.png',
+  ),
 ];
 
 class ExerciseCard extends StatelessWidget {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
-import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import 'package:gradproject/data/shared_preferences.dart';
 import 'package:gradproject/domain/classes/user.dart';
 import 'package:gradproject/domain/managers/fireBase/fireBase.dart';
 import 'package:gradproject/presentation/ui/common/base/base_view_model.dart';

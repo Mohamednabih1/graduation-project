@@ -4,7 +4,7 @@ import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
 import 'package:gradproject/app/global_functions.dart';
-import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import 'package:gradproject/data/shared_preferences.dart';
 import 'package:gradproject/domain/classes/user.dart';
 import 'package:gradproject/presentation/ui/common/header.dart';
 import 'package:gradproject/presentation/ui/doctor_home_page/view_model/doctor_view_model.dart';

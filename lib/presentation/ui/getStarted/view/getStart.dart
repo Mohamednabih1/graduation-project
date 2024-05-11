@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/routes_constants.dart';
 import 'package:gradproject/app/di.dart';
-import 'package:gradproject/data/data_source/local_data_source.dart/permanent_data_source/shared_preferences.dart';
+import 'package:gradproject/data/shared_preferences.dart';
 import 'package:gradproject/presentation/ui/getStarted/view_model/getStart_model.dart';
 import 'package:provider/provider.dart';
 
