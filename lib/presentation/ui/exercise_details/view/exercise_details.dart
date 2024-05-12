@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproject/app/constants/constants.dart';
 import 'package:gradproject/app/constants/video.dart';
 import 'package:gradproject/app/global_functions.dart';
 import 'package:gradproject/domain/classes/trainings/training.dart';
 import 'package:gradproject/presentation/ui/common/colors.dart';
+import 'package:gradproject/presentation/ui/common/reused_button_container.dart';
 import 'package:gradproject/presentation/ui/exercise_details/view_model/exercise_details_model.dart';
 import 'package:provider/provider.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -91,7 +93,65 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
           widget.trainingExercise.have3DModel
               ? const SizedBox.shrink()
               : SizedBox(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.05,
+                ),
+              Container(
+                 // margin: EdgeInsets.only(left: screenWidth * 0.15),
+                  width: double.infinity,
+                child: Center(
+                  child: buttonContainer(
+                    btnColor: backgroundColor,
+                  onPressed: () {
+                    // add user data
+                    showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Exercise Referance',
+                              style: TextStyle(
+                                  fontSize: 26, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                      content:  Text(widget.trainingExercise.videoUrl!,
+                      style: TextStyle(decoration: TextDecoration.none ,
+                      ),
+                      ),
+                      actions: [
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                _launchURL();
+                              }, 
+                              child: const Text('Go to video'),
+                              ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Close'),
+                            ),
+                          ],
+                        ),
+                      ],
+                      actionsAlignment: MainAxisAlignment.center,
+                    );
+                  },
+                );
+                  }, 
+                  title: "Referance", 
+                  screenWidth: screenWidth ,
+                  ),
+                ),
+              ),
+                SizedBox(
+                  height: screenHeight * 0.01,
                 ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -249,6 +309,12 @@ class _ExerciseDetailsContentState extends State<ExerciseDetailsContent> {
       ),
     );
   }
+  _launchURL() async {
+   final Uri url = Uri.parse(widget.trainingExercise.videoUrl!);
+   if (!await launchUrl(url)) {
+        throw Exception('Could not launch');
+    }
+}
 }
 
 //  SizedBox(
