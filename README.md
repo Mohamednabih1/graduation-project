@@ -34,20 +34,20 @@ flutter pub get
 
 **[Mohamed Nabih](https://github.com/Mohamednabih1)**
 
-- [LinkedIn](https://www.linkedin.com/in//)
-
-**[Ahmed Essam](https://github.com/)**
-
-- [LinkedIn](https://www.linkedin.com/in//)
-
-**[Ayat Ashraf](https://github.com/AyatAmin)**
-
-- [LinkedIn](https://www.linkedin.com/in//)
+- [LinkedIn](https://www.linkedin.com/in/mohamed-nabih-mn03/)
 
 **[Roaa Ayman](https://github.com/roaaayman21)**
 
 - [LinkedIn](https://www.linkedin.com/in/roaa-ayman-a9195022a/)
 
+**[Ayat Ashraf](https://github.com/AyatAmin)** 
+
+- [LinkedIn](https://www.linkedin.com/in//)
+
+**[Ahmed Essam](https://github.com/)**
+
+- [LinkedIn](https://www.linkedin.com/in//)
+ 
 ## Thanks
 
 Thank Allah, for guiding us through our project and helping us learn along the way, we express our heartfelt gratitude to Professor [Alaa Zaghloul](https://www.linkedin.com/in/alaa-zaghloul-mahmoud-kietkat-baa663218/) for his invaluable guidance and support throughout our project. We are thankful for the opportunity to work under his supervision and benefit from his profound knowledge and expertise.
