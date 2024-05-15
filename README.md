@@ -102,6 +102,7 @@ The app is continuously updated with new exercises, features, and improvements b
 ## Screenshots
 
  ![](assets/screensshots/Picture7.png)  ![](assets/screensshots/Picture2.png) 
+ 
  ![](assets/screensshots/Picture5.png)  ![](assets/screensshots/Picture6.png) 
 
 
