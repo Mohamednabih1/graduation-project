@@ -7,7 +7,6 @@ Salamtk is a flutter Augmented Reality application for our graduation.
 
 - [Quick start](#quick-start)
 - [What's included](#whats-included)
-- [Bugs and feature requests](#bugs-and-feature-requests)
 - [Screenshots](#screenshots)
 - [Creators](#creators)
 - [Thanks](#thanks)
