@@ -42,11 +42,11 @@ flutter pub get
 
 **[Ayat Ashraf](https://github.com/AyatAmin)** 
 
-- [LinkedIn](https://www.linkedin.com/in//)
+- [LinkedIn]()
 
 **[Ahmed Essam](https://github.com/)**
 
-- [LinkedIn](https://www.linkedin.com/in//)
+- [LinkedIn]()
  
 ## Thanks
 

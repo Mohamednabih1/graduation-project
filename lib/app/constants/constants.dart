@@ -132,12 +132,12 @@ List<Training> trainings = [
     imageUrl: 'assets/images/hip_pain.png',
   ),
   Training(
-    category: "orsa pain",
+    category: "VR Meta",
     exercises: [
       TrainingExercise(
         exerciseImg: 'assets/images/hip_flexor_stretch.png',
         haveVideo: true,
-        exerciseName: "orsa new exercise",
+        exerciseName: "VR trial",
         have3DModel: true,
         modelUrl: "assets/3dModels/orsaTry.glb",
         description: "30 secs / 3 rep",
@@ -146,7 +146,7 @@ List<Training> trainings = [
         exerciseDuration: "30 sec",
       ),
     ],
-    imageUrl: 'assets/images/hip_pain.png',
+    imageUrl: 'assets/images/vr.jpg',
   ),
 ];
 
